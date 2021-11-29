@@ -1,4 +1,4 @@
-NAME		= array
+NAME		= mycontainer
 SRCDIR		= ./src
 SRCS		= $(shell find $(SRCDIR) -name "*.cpp" -type f | xargs)
 OBJS		= $(SRCS:.cpp=.o)
