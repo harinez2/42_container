@@ -27,5 +27,5 @@ fclean: clean
 re: fclean all
 
 .PHONY: debug
-debug: CXXFLAGS += -g -fsanitize=integer -fsanitize=address -fsanitize=leak
+debug: CXXFLAGS += -g -fsanitize=integer -fsanitize=address -fsanitize=leak -fsanitize=undefined
 debug: re
