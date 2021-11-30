@@ -8,6 +8,11 @@ namespace ft {
 template <typename T, typename Allocator = std::allocator<T> >
 class vector {
  public:
+  typedef T* iterator;
+  typedef const T* const_iterator;
+  typedef std::reverse_iterator<iterator> reverse_iterator; //TODO
+  typedef std::reverse_iterator<const_iterator> const_reverse_iterator; //TODO
+
   vector() {
     first_ = alc.allocate(default_size_);
     last_ = first_;
@@ -42,8 +47,8 @@ class vector {
     return first_[idx];
   }
 
-  // typename T::iterator begin() { return first_; }
-  // typename T::iterator end() { return first_ + last_; }
+  iterator begin() { return first_; }
+  iterator end() { return last_; }
   std::size_t size() const { return last_ - first_; }
 
  private:

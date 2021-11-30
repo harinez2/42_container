@@ -25,8 +25,8 @@ void test_reference_sample() {
   // assert(p[0] == 1);
   // assert(size == 5u);
 
-  // for (std::vector<int>::iterator it = v.begin(); it != v.end(); ++it)
-  //   std::cout << *it << std::endl;
+  for (ft::vector<int>::iterator it = v.begin(); it != v.end(); ++it)
+    std::cout << *it << std::endl;
 }
 
 int main() {
