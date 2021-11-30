@@ -31,6 +31,5 @@ void test_reference_sample() {
 
 int main() {
   test_reference_sample();
-  // ft::vector<int> a;
   return 0;
 }
