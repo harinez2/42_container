@@ -5,12 +5,13 @@
 
 namespace ft {
 
-template <typename T, typename allocator = std::allocator<T> >
+template <typename T, typename Allocator = std::allocator<T> >
 class vector {
  public:
   vector() : size_(default_size_), end_(0) {
-    alc = allocator();
+    // alc = Allocator();
     data_ = alc.allocate(default_size_);
+    size_ = default_size_;
   }
 
   vector(const vector& rhs) { *this = rhs; }
@@ -22,16 +23,33 @@ class vector {
   }
 
   ~vector() {
-    for (std::size_t i = 0; i != 8; ++i)
+    for (std::size_t i = 0; i != end_; ++i)
       alc.destroy(data_ + i);
-    alc.deallocate(data_, 8);
+    alc.deallocate(data_, size_);
   }
+
+  void push_back(const T& var) {
+    if (end_ == size_) {
+      //reallocate
+    }
+    alc.construct(data_ + end_++, var);
+  }
+
+  T& operator[](std::size_t idx) const {
+    if (idx < 0 || size_ <= idx)
+      throw std::exception();
+    return data_[idx];
+  }
+
+  // typename T::iterator begin() { return data_; }
+  // typename T::iterator end() { return data_ + end_; }
+  std::size_t size() { return end_; }
 
  private:
   static const int default_size_ = 8;
-  allocator alc;
-  int size_;
-  int end_;
+  Allocator alc;
+  std::size_t size_;
+  std::size_t end_;
   T* data_;
 };
 
