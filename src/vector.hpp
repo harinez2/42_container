@@ -49,6 +49,13 @@ class vector {
 
   iterator begin() { return first_; }
   iterator end() { return last_; }
+  const_iterator begin() const { return first_; }
+  const_iterator end() const { return last_; }
+  reverse_iterator rbegin() { return last_; }
+  reverse_iterator rend() { return first_; }
+  const_reverse_iterator rbegin() const { return last_; }
+  const_reverse_iterator rend() const { return first_; }
+
   std::size_t size() const { return last_ - first_; }
 
  private:
