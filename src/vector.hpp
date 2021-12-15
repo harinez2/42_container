@@ -16,8 +16,8 @@ class vector {
   typedef std::ptrdiff_t difference_type;
   typedef T value_type;
   typedef Allocator allocator_type;
-  typedef Allocator::pointer pointer;
-  typedef Allocator::const_pointer const_pointer;
+  typedef typename Allocator::pointer pointer;
+  typedef typename Allocator::const_pointer const_pointer;
   typedef std::reverse_iterator<iterator> reverse_iterator; //TODO
   typedef std::reverse_iterator<const_iterator> const_reverse_iterator; // TODO
 
@@ -53,18 +53,22 @@ class vector {
   size_type size() const { return std::distance(first_, last_); }
   size_type max_size() const {}
   void resize(size_type sz, T c = T()) {}
-  size_type capacity() const { return std::distance(last_, reserved_last_); }
+  size_type capacity() const { return std::distance(first_, reserved_last_); }
   bool empty() const { return first_ == last_ }
   void reserve(size_type n) {}
 
-  T& operator[](size_type n) {
+  T& operator[](size_type n)             { return first_[n]; }
+  const T& operator[](size_type n) const { return first_[n]; }
+  T&       at(size_type n) {
     if (n < 0 || size() <= n)
       throw std::exception();
     return first_[n];
   }
-  const T& operator[](size_type n) const {}
-  T&       at(size_type n)       {}
-  const T& at(size_type n) const {}
+  const T& at(size_type n) const {
+    if (n < 0 || size() <= n)
+      throw std::exception();
+    return first_[n];
+  }
   T&       front()       { return first_; }
   const T& front() const { return first_; }
   T&       back()       { T* end = last_; --end; return end; }
@@ -80,7 +84,11 @@ class vector {
     alc.construct(first_ + size(), x);
     ++last_;
   }
-  void pop_back() {}
+  void pop_back() {
+    if (empty() == true)
+      return;
+    --last_;
+  }
   iterator insert(iterator position, const T& x) {}
   void insert(iterator position, size_type n, const T& x) {}
   template <class InputIterator>
@@ -100,14 +108,14 @@ class vector {
   T* reserved_last_;
 };
 
-ft::vector& std::operator==(const ft::vector& lhs, const ft::vector& rhs) {};
-ft::vector& std::operator!=(const ft::vector& lhs, const ft::vector& rhs) {};
-ft::vector& std::operator<(const ft::vector& lhs, const ft::vector& rhs) {};
-ft::vector& std::operator<=(const ft::vector& lhs, const ft::vector& rhs) {};
-ft::vector& std::operator>(const ft::vector& lhs, const ft::vector& rhs) {};
-ft::vector& std::operator>=(const ft::vector& lhs, const ft::vector& rhs) {};
+// ft::vector& std::operator==(const ft::vector& lhs, const ft::vector& rhs) {};
+// ft::vector& std::operator!=(const ft::vector& lhs, const ft::vector& rhs) {};
+// ft::vector& std::operator<(const ft::vector& lhs, const ft::vector& rhs) {};
+// ft::vector& std::operator<=(const ft::vector& lhs, const ft::vector& rhs) {};
+// ft::vector& std::operator>(const ft::vector& lhs, const ft::vector& rhs) {};
+// ft::vector& std::operator>=(const ft::vector& lhs, const ft::vector& rhs) {};
 
-swap();
+// swap();
 
 } // namespace ft
 
