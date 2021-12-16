@@ -78,9 +78,40 @@ void test_erase() {
   std::cout << std::endl;
 }
 
+void test_erase_range() {
+  std::cout << "<<<test_erase_range>>>" << std::endl;
+  // std::vector<int> v;
+  ft::vector<int> v;
+  v.push_back(1);
+  v.push_back(2);
+  v.push_back(3);
+  v.push_back(4);
+  v.push_back(5);
+  v.push_back(6);
+  print_vec(v);
+
+  ft::vector<int>::iterator it = v.begin();
+  ft::vector<int>::iterator it_end = v.begin();
+  ++it_end;
+  std::cout << "deleting 0-1..." << *(v.erase(it, it_end)) << std::endl;
+  print_vec(v);
+
+  it = v.begin();
+  ++it;
+  ++it;
+  it_end = it;
+  ++it_end;
+  ++it_end;
+  std::cout << "deleting 2-4..." << *(v.erase(it, it_end)) << std::endl;
+  print_vec(v);
+
+  std::cout << std::endl;
+}
+
 int main() {
   // test_reference_sample();
-  test_reserve();
-  test_erase();
+  // test_reserve();
+  // test_erase();
+  test_erase_range();
   return 0;
 }

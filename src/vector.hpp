@@ -110,28 +110,37 @@ class vector {
   // template <class InputIterator>
   // void insert(iterator position, InputIterator first, InputIterator last) {}
   iterator erase(iterator position) {
+    return erase(position, position);
+  }
+  iterator erase(iterator first, iterator last) {
     bool flg_found = false;
     iterator it_prev;
     iterator it_ret = end();
-    for (iterator it = begin(); it != end(); ++it) {
-      if (it == position) {
+    for (iterator it = begin(); it != end(); ) {
+      if (it == first) {
         flg_found = true;
-        it_prev = it;
         it_ret = it;
-        continue;
-      }
-      if (flg_found == true) {
-        *it_prev = *it;
         it_prev = it;
+        while (it != last && it != end())
+          ++it;
+        if (it == end())
+          continue;
       }
+      else if (flg_found == true) {
+        *it_prev = *it;
+        ++it_prev;
+      }
+      ++it;
     }
     if (flg_found == true) {
-      alc.destroy(++it_prev);
-      --last_;
+      T* new_last_ = it_prev;
+      while (it_prev != end()) {
+        alc.destroy(it_prev++);
+      }
+      last_ = new_last_;
     }
     return it_ret;
   }
-  // iterator erase(iterator first, iterator last) {}
   // void swap(vector& x) {}
   // void clear() {}
 
