@@ -109,7 +109,28 @@ class vector {
   // void insert(iterator position, size_type n, const T& x) {}
   // template <class InputIterator>
   // void insert(iterator position, InputIterator first, InputIterator last) {}
-  // iterator erase(iterator position) {}
+  iterator erase(iterator position) {
+    bool flg_found = false;
+    iterator it_prev;
+    iterator it_ret = end();
+    for (iterator it = begin(); it != end(); ++it) {
+      if (it == position) {
+        flg_found = true;
+        it_prev = it;
+        it_ret = it;
+        continue;
+      }
+      if (flg_found == true) {
+        *it_prev = *it;
+        it_prev = it;
+      }
+    }
+    if (flg_found == true) {
+      alc.destroy(++it_prev);
+      --last_;
+    }
+    return it_ret;
+  }
   // iterator erase(iterator first, iterator last) {}
   // void swap(vector& x) {}
   // void clear() {}

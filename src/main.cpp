@@ -4,7 +4,16 @@
 #include <iostream>
 // #include <cassert>
 
+template <typename T>
+void print_vec(const T& vec) {
+  for (typename T::const_iterator it = vec.begin(); it != vec.end(); ++it)
+    std::cout << *it << " ";
+  std::cout << std::endl;
+}
+
 void test_reference_sample() {
+  std::cout << "<<<test_reference_sample>>>" << std::endl;
+
   // std::vector<int> v;
   ft::vector<int> v;
   v.push_back(1);
@@ -27,9 +36,12 @@ void test_reference_sample() {
 
   for (ft::vector<int>::iterator it = v.begin(); it != v.end(); ++it)
     std::cout << *it << std::endl;
+  std::cout << std::endl;
 }
 
 void test_reserve() {
+  std::cout << "<<<test_reserve>>>" << std::endl;
+
   // std::vector<int> v;
   ft::vector<int> v;
 
@@ -38,10 +50,37 @@ void test_reserve() {
   std::cout << "capacity(): " << v.capacity() << std::endl;
   v.reserve(20);
   std::cout << "capacity(): " << v.capacity() << std::endl;
+  std::cout << std::endl;
+}
+
+void test_erase() {
+  std::cout << "<<<test_erase>>>" << std::endl;
+  // std::vector<int> v;
+  ft::vector<int> v;
+  v.push_back(1);
+  v.push_back(2);
+  v.push_back(3);
+  v.push_back(4);
+  v.push_back(5);
+  v.push_back(6);
+  print_vec(v);
+
+  ft::vector<int>::iterator it = v.begin();
+  std::cout << "deleting 0..." << *(v.erase(it)) << std::endl;
+  print_vec(v);
+
+  it = v.begin();
+  ++it;
+  ++it;
+  std::cout << "deleting 2..." << *(v.erase(it)) << std::endl;
+  print_vec(v);
+
+  std::cout << std::endl;
 }
 
 int main() {
   // test_reference_sample();
   test_reserve();
+  test_erase();
   return 0;
 }
