@@ -29,7 +29,19 @@ void test_reference_sample() {
     std::cout << *it << std::endl;
 }
 
+void test_reserve() {
+  // std::vector<int> v;
+  ft::vector<int> v;
+
+  std::cout << "capacity(): " << v.capacity() << std::endl;
+  v.push_back(1);
+  std::cout << "capacity(): " << v.capacity() << std::endl;
+  v.reserve(20);
+  std::cout << "capacity(): " << v.capacity() << std::endl;
+}
+
 int main() {
-  test_reference_sample();
+  // test_reference_sample();
+  test_reserve();
   return 0;
 }

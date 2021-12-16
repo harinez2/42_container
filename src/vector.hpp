@@ -2,6 +2,7 @@
 #define VECTOR_HPP
 
 #include <memory>
+#include <stdexcept>
 
 namespace ft {
 
@@ -51,11 +52,26 @@ class vector {
   const_reverse_iterator rend() const { return first_; }
 
   size_type size() const { return std::distance(first_, last_); }
-  size_type max_size() const {}
-  void resize(size_type sz, T c = T()) {}
+  size_type max_size() const { return alc.max_size(); }
+  // void resize(size_type sz, T c = T()) {}
   size_type capacity() const { return std::distance(first_, reserved_last_); }
-  bool empty() const { return first_ == last_ }
-  void reserve(size_type n) {}
+  bool empty() const { return first_ == last_; }
+  void reserve(size_type n) {
+    if (n > max_size())
+      std::length_error("reserve() failed : the specified size is bigger than max_size().");
+    if (n <= capacity())
+      return;
+    T* tmp_first_ = alc.allocate(n);
+    size_type data_size = size();
+    for (size_type i = 0; i < data_size; ++i) {
+      alc.construct(tmp_first_ + i, first_[i]);
+      alc.destroy(first_ + i);
+    }
+    alc.deallocate(first_, data_size);
+    first_ = tmp_first_;
+    last_ = first_ + data_size;
+    reserved_last_ = first_ + n;
+  }
 
   T& operator[](size_type n)             { return first_[n]; }
   const T& operator[](size_type n) const { return first_[n]; }
@@ -74,9 +90,9 @@ class vector {
   T&       back()       { T* end = last_; --end; return end; }
   const T& back() const { T* end = last_; --end; return end; }
 
-  template <class InputIterator>
-  void assign(InputIterator first, InputIterator last) {}
-  void assign(size_type n, const T& u) {}
+  // template <class InputIterator>
+  // void assign(InputIterator first, InputIterator last) {}
+  // void assign(size_type n, const T& u) {}
   void push_back(const T& x) {
     if (last_ == reserved_last_) {
       //reallocate
@@ -89,14 +105,14 @@ class vector {
       return;
     --last_;
   }
-  iterator insert(iterator position, const T& x) {}
-  void insert(iterator position, size_type n, const T& x) {}
-  template <class InputIterator>
-  void insert(iterator position, InputIterator first, InputIterator last) {}
-  iterator erase(iterator position) {}
-  iterator erase(iterator first, iterator last) {}
-  void swap(vector& x) {}
-  void clear() {}
+  // iterator insert(iterator position, const T& x) {}
+  // void insert(iterator position, size_type n, const T& x) {}
+  // template <class InputIterator>
+  // void insert(iterator position, InputIterator first, InputIterator last) {}
+  // iterator erase(iterator position) {}
+  // iterator erase(iterator first, iterator last) {}
+  // void swap(vector& x) {}
+  // void clear() {}
 
   allocator_type get_allocator() const {}
 
