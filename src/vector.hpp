@@ -59,7 +59,7 @@ class vector {
     else if (sz > size()) {
       reserve(sz);
       for (T* it = last_; it != end(); ++it)
-        *it = 0;
+        *it = c;
     }
   }
   size_type capacity() const { return std::distance(first_, reserved_last_); }
