@@ -98,9 +98,16 @@ class vector {
   T&       back()       { T* end = last_; --end; return end; }
   const T& back() const { T* end = last_; --end; return end; }
 
-  // template <class InputIterator>
-  // void assign(InputIterator first, InputIterator last) {}
-  // void assign(size_type n, const T& u) {}
+  template <class InputIterator>
+  void assign(InputIterator first, InputIterator last) {
+    for (iterator it = first_; first != last; ++it, ++first)
+      *it = *first;
+  }
+  void assign(size_type n, const T& u) {
+    iterator it = first_;
+    for (size_type i = 0; i < n; ++i, ++it)
+      *it = u;
+  }
   void push_back(const T& x) {
     if (last_ == reserved_last_)
       reserve(size() * 2);
