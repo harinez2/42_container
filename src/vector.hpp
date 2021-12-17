@@ -102,9 +102,8 @@ class vector {
   // void assign(InputIterator first, InputIterator last) {}
   // void assign(size_type n, const T& u) {}
   void push_back(const T& x) {
-    if (last_ == reserved_last_) {
-      //reallocate
-    }
+    if (last_ == reserved_last_)
+      reserve(size() * 2);
     alc.construct(first_ + size(), x);
     ++last_;
   }
