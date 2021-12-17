@@ -119,10 +119,41 @@ class vector {
       return;
     --last_;
   }
-  // iterator insert(iterator position, const T& x) {}
-  // void insert(iterator position, size_type n, const T& x) {}
-  // template <class InputIterator>
-  // void insert(iterator position, InputIterator first, InputIterator last) {}
+  iterator insert(iterator position, const T& x) {
+    insert(position, 1, x);
+    return position;
+  }
+  void insert(iterator position, size_type n, const T& x) {
+    reserve(n);
+    iterator it_from = end() - 1;
+    iterator it_to = position + n;
+    for (; it_from != position; --it_from) {
+      *it_to = *it_from;
+      --it_to;
+    }
+    *it_to = *it_from;
+    for (int i = 0; i < n; ++i) {
+      *(position + i) = x;
+    }
+    last_ += n;
+  }
+  template <class InputIterator>
+  void insert(iterator position, InputIterator first, InputIterator last) {
+    int n = std::distance(first, last);
+    reserve(n);
+    iterator it_from = end() - 1;
+    iterator it_to = position + n;
+    for (; it_from != position; --it_from) {
+      *it_to = *it_from;
+      --it_to;
+    }
+    *it_to = *it_from;
+    for (int i = 0; i < n; ++i) {
+      *(position + i) = *first;
+      ++first;
+    }
+    last_ += n;
+  }
   iterator erase(iterator position) {
     return erase(position, position);
   }
