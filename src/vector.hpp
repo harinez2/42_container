@@ -132,14 +132,14 @@ class vector {
       --it_to;
     }
     *it_to = *it_from;
-    for (int i = 0; i < n; ++i) {
+    for (size_type i = 0; i < n; ++i) {
       *(position + i) = x;
     }
     last_ += n;
   }
   template <class InputIterator>
   void insert(iterator position, InputIterator first, InputIterator last) {
-    int n = std::distance(first, last);
+    size_type n = std::distance(first, last);
     reserve(n);
     iterator it_from = end() - 1;
     iterator it_to = position + n;
@@ -148,7 +148,7 @@ class vector {
       --it_to;
     }
     *it_to = *it_from;
-    for (int i = 0; i < n; ++i) {
+    for (size_type i = 0; i < n; ++i) {
       *(position + i) = *first;
       ++first;
     }
@@ -186,10 +186,67 @@ class vector {
     }
     return it_ret;
   }
-  // void swap(vector& x) {}
+  void swap(vector& x) {
+    if (capacity() < x.size())
+      reserve(x.size());
+    if (x.capacity() < size())
+      x.reserve(size());
+    int flg_end = 0;
+    iterator it = begin();
+    iterator it_rhs = x.begin();
+    while (true) {
+      if (it != end() && it_rhs != end()) {
+        T tmp = *it;
+        *it = *it_rhs;
+        *it_rhs = tmp;
+        ++it;
+        ++it_rhs;
+      } else if (it != end()) {
+        *it_rhs = *it;
+        if (flg_end == 0) {
+          flg_end = 1;
+          last_ = it;
+        }
+      } else if (it_rhs != end()) {
+        *it = *it_rhs;
+        if (flg_end == 0) {
+          flg_end = 2;
+          x.last_ = it_rhs;
+        }
+      } else
+        break;
+    }
+    if (flg_end == 1)
+      x.last_ = it_rhs;
+    else if (flg_end == 2)
+      last_ = it;
+  }
   void clear() { erase(first_, last_); }
 
   allocator_type get_allocator() const {}
+
+  bool operator==(const T& rhs) {
+    iterator it_lhs = begin();
+    iterator it_rhs = rhs.begin();
+    for (; it_lhs != end() && it_rhs != rhs.end(); ++it_lhs, ++it_rhs) {
+      if (*this == *rhs)
+        continue;
+      else
+        return false;
+    }
+    if (it_lhs == end() && it_rhs == rhs.end())
+      return true;
+    else
+      return true;
+  }
+  bool operator!=(const T& rhs) {
+    return !(this == rhs); 
+  }
+// ft::vector& std::operator<(const ft::vector& lhs, const ft::vector& rhs) {}
+// ft::vector& std::operator<=(const ft::vector& lhs, const ft::vector& rhs) {}
+// ft::vector& std::operator>(const ft::vector& lhs, const ft::vector& rhs) {}
+// ft::vector& std::operator>=(const ft::vector& lhs, const ft::vector& rhs) {}
+
 
  private:
   static const int default_size_ = 8;
@@ -198,13 +255,6 @@ class vector {
   T* last_;
   T* reserved_last_;
 };
-
-// ft::vector& std::operator==(const ft::vector& lhs, const ft::vector& rhs) {};
-// ft::vector& std::operator!=(const ft::vector& lhs, const ft::vector& rhs) {};
-// ft::vector& std::operator<(const ft::vector& lhs, const ft::vector& rhs) {};
-// ft::vector& std::operator<=(const ft::vector& lhs, const ft::vector& rhs) {};
-// ft::vector& std::operator>(const ft::vector& lhs, const ft::vector& rhs) {};
-// ft::vector& std::operator>=(const ft::vector& lhs, const ft::vector& rhs) {};
 
 // swap();
 
