@@ -53,7 +53,15 @@ class vector {
 
   size_type size() const { return std::distance(first_, last_); }
   size_type max_size() const { return alc.max_size(); }
-  // void resize(size_type sz, T c = T()) {}
+  void resize(size_type sz, T c = T()) {
+    if (sz < size())
+      erase(begin() + sz, end());
+    else if (sz > size()) {
+      reserve(sz);
+      for (T* it = last_; it != end(); ++it)
+        *it = 0;
+    }
+  }
   size_type capacity() const { return std::distance(first_, reserved_last_); }
   bool empty() const { return first_ == last_; }
   void reserve(size_type n) {
@@ -142,7 +150,7 @@ class vector {
     return it_ret;
   }
   // void swap(vector& x) {}
-  // void clear() {}
+  void clear() { erase(first_, last_); }
 
   allocator_type get_allocator() const {}
 
