@@ -254,9 +254,9 @@ class vector {
     else
       return false;
   }
-  bool std::operator<=(const vector& rhs) { return this < rhs || this == rhs; }
-  bool std::operator>(const vector& rhs)  { return !(this <= rhs); }
-  bool std::operator>=(const vector& rhs) { return this > rhs || this == rhs; }
+  bool operator<=(const vector& rhs) { return this < rhs || this == rhs; }
+  bool operator>(const vector& rhs)  { return !(this <= rhs); }
+  bool operator>=(const vector& rhs) { return this > rhs || this == rhs; }
 
  private:
   static const int default_size_ = 8;
