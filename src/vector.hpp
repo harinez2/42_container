@@ -237,16 +237,26 @@ class vector {
     if (it_lhs == end() && it_rhs == rhs.end())
       return true;
     else
+      return false;
+  }
+  bool operator!=(const T& rhs) { return !(this == rhs); }
+  bool operator<(const vector& rhs) {
+    iterator it_lhs = begin();
+    iterator it_rhs = rhs.begin();
+    for (; it_lhs != end() && it_rhs != rhs.end(); ++it_lhs, ++it_rhs) {
+      if (*this < *rhs)
+        continue;
+      else
+        return false;
+    }
+    if (it_lhs == end() && it_rhs == rhs.end())
       return true;
+    else
+      return false;
   }
-  bool operator!=(const T& rhs) {
-    return !(this == rhs); 
-  }
-// ft::vector& std::operator<(const ft::vector& lhs, const ft::vector& rhs) {}
-// ft::vector& std::operator<=(const ft::vector& lhs, const ft::vector& rhs) {}
-// ft::vector& std::operator>(const ft::vector& lhs, const ft::vector& rhs) {}
-// ft::vector& std::operator>=(const ft::vector& lhs, const ft::vector& rhs) {}
-
+  bool std::operator<=(const vector& rhs) { return this < rhs || this == rhs; }
+  bool std::operator>(const vector& rhs)  { return !(this <= rhs); }
+  bool std::operator>=(const vector& rhs) { return this > rhs || this == rhs; }
 
  private:
   static const int default_size_ = 8;
