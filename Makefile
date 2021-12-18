@@ -30,13 +30,12 @@ re: fclean all
 debug: CXXFLAGS += -g -fsanitize=integer -fsanitize=address -fsanitize=leak -fsanitize=undefined
 debug: re
 
-gtestdir    =   ../test
-gtest       =   $(gtestdir)/gtest $(gtestdir)/googletest-release-1.11.0
-
-testdir = ./src
+gtestdir	= ./gtest
+gtest		= $(gtestdir)/gtest $(gtestdir)/googletest-release-1.11.0
+testdir		= ./src
 
 $(gtest):
-	mkdir -p $(dir ../test)
+	mkdir -p $(gtestdir)
 	curl -OL https://github.com/google/googletest/archive/refs/tags/release-1.11.0.tar.gz
 	tar -xvzf release-1.11.0.tar.gz googletest-release-1.11.0
 	rm -rf release-1.11.0.tar.gz
@@ -44,10 +43,10 @@ $(gtest):
 	mv googletest-release-1.11.0 $(gtestdir)
 
 test: $(gtest) 
-	clang++ -std=c++11 $(testdir)/gtest.cpp \
+	clang++ -std=c++11 $(testdir)/test_gtest.cpp \
 		$(gtestdir)/googletest-release-1.11.0/googletest/src/gtest_main.cc \
 		$(gtestdir)/gtest/gtest-all.cc \
-		-DDEBUG -g -fsanitize=integer -fsanitize=address \
-		-I$(gtestdir) -I$(includes) -lpthread $(srcs_test) -o tester
+		-D DEBUG -g -fsanitize=integer -fsanitize=address \
+		-I$(gtestdir) -I$(includes) -lpthread -o tester
 	./tester
 	rm tester
