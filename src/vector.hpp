@@ -9,17 +9,17 @@ namespace ft {
 template <typename T, typename Allocator = std::allocator<T> >
 class vector {
  public:
-  typedef T& reference;
-  typedef const T& const_reference;
-  typedef T* iterator; //TODO
-  typedef const T* const_iterator; //TODO
-  typedef std::size_t size_type;
-  typedef std::ptrdiff_t difference_type;
-  typedef T value_type;
-  typedef Allocator allocator_type;
-  typedef typename Allocator::pointer pointer;
-  typedef typename Allocator::const_pointer const_pointer;
-  typedef std::reverse_iterator<iterator> reverse_iterator; //TODO
+  typedef T&                                    reference;
+  typedef const T&                              const_reference;
+  typedef T*                                    iterator; //TODO
+  typedef const T*                              const_iterator; //TODO
+  typedef std::size_t                           size_type;
+  typedef std::ptrdiff_t                        difference_type;
+  typedef T                                     value_type;
+  typedef Allocator                             allocator_type;
+  typedef typename Allocator::pointer           pointer;
+  typedef typename Allocator::const_pointer     const_pointer;
+  typedef std::reverse_iterator<iterator>       reverse_iterator; //TODO
   typedef std::reverse_iterator<const_iterator> const_reverse_iterator; // TODO
 
   vector() {
@@ -78,6 +78,7 @@ class vector {
       std::length_error("reserve() failed : the specified size is bigger than max_size().");
     if (n <= capacity())
       return;
+
     T* tmp_first_ = alc.allocate(n);
     size_type data_size = size();
     for (size_type i = 0; i < data_size; ++i) {
@@ -90,9 +91,9 @@ class vector {
     reserved_last_ = first_ + n;
   }
 
-  T& operator[](size_type n)             { return first_[n]; }
+  T&       operator[](size_type n)       { return first_[n]; }
   const T& operator[](size_type n) const { return first_[n]; }
-  T&       at(size_type n) {
+  T& at(size_type n) {
     if (n < 0 || size() <= n)
       throw std::exception();
     return first_[n];
