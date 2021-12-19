@@ -3,22 +3,25 @@
 class VectorTest : public ::testing::Test {
     protected:
     VectorTest() {
-        // v_ = new ft::vector<int>();
+        v_.push_back(42);
+        v_.push_back(1);
+        v_.push_back(0);
+        v_.push_back(-42);
+        v_.push_back(4242);
     }
     ~VectorTest() {
-        // delete v_;
     }
     ft::vector<int> v_;
 };
 
-TEST_F(VectorTest, test_vector_fixturetest)
+TEST_F(VectorTest, constructor_basic)
 {
     v_.push_back(42);
     EXPECT_EQ(v_[0], 42);
     EXPECT_EQ(v_.size(), 1);
 }
 
-TEST(vector, test_vector_constructor)
+TEST_F(VectorTest, test_vector_constructor)
 {
     ft::vector<int> v;
     v.push_back(42);
@@ -29,7 +32,7 @@ TEST(vector, test_vector_constructor)
     EXPECT_FALSE(false);
 }
 
-TEST(vector, test_vector_basic)
+TEST_F(VectorTest, test_vector_basic)
 {
     ft::vector<int> v;
     v.push_back(42);
@@ -39,7 +42,7 @@ TEST(vector, test_vector_basic)
     EXPECT_EQ(v.size(), 2);
 }
 
-TEST(vector, test_vector_basic_compare)
+TEST_F(VectorTest, test_vector_basic_compare)
 {
     std::vector<int> vstd;
     ft::vector<int> vft;
