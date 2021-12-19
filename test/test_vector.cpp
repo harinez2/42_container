@@ -29,7 +29,7 @@ class VectorTest : public ::testing::Test {
 //------------------------------------------------------
 // constructor (int)
 
-TEST_F(VectorTest, constructor_empty_int) {
+TEST_F(VectorTest, int_constructor_empty) {
   ft::vector<int> vft;
   std::vector<int> vstd;
 
@@ -38,7 +38,7 @@ TEST_F(VectorTest, constructor_empty_int) {
   compare_with_std_vector(vft, vstd);
 }
 
-TEST_F(VectorTest, constructor_init_four_array_int) {
+TEST_F(VectorTest, int_constructor_init_four_array) {
   ft::vector<int> vft(4);
   std::vector<int> vstd(4);
 
@@ -47,7 +47,7 @@ TEST_F(VectorTest, constructor_init_four_array_int) {
   compare_with_std_vector(vft, vstd);
 }
 
-TEST_F(VectorTest, constructor_init_err_bordermin_int) {
+TEST_F(VectorTest, int_constructor_init_err_bordermin) {
   ft::vector<int> vft(0);
   std::vector<int> vstd(0);
 
@@ -56,7 +56,7 @@ TEST_F(VectorTest, constructor_init_err_bordermin_int) {
   compare_with_std_vector(vft, vstd);
 }
 
-TEST_F(VectorTest, constructor_init_err_bordermax_int) {
+TEST_F(VectorTest, int_constructor_init_err_bordermax) {
   ft::vector<int> vft(65535);
   std::vector<int> vstd(65535);
 
@@ -89,7 +89,7 @@ TEST_F(VectorTest, constructor_init_err_bordermax_int) {
 //------------------------------------------------------
 // basic (int)
 
-TEST_F(VectorTest, basic) {
+TEST_F(VectorTest, int_basic) {
   ft::vector<int> vft;
   std::vector<int> vstd;
   vft.push_back(42);
