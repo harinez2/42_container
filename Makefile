@@ -32,7 +32,7 @@ debug: re
 
 gtestdir	= ./gtest
 gtest		= $(gtestdir)/gtest $(gtestdir)/googletest-release-1.11.0
-testdir		= ./src
+testdir		= ./test
 
 $(gtest):
 	mkdir -p $(gtestdir)
@@ -43,10 +43,10 @@ $(gtest):
 	mv googletest-release-1.11.0 $(gtestdir)
 
 test: $(gtest) 
-	clang++ -std=c++11 $(testdir)/test_gtest.cpp \
+	clang++ -std=c++11 $(testdir)/gtest.cpp \
 		$(gtestdir)/googletest-release-1.11.0/googletest/src/gtest_main.cc \
 		$(gtestdir)/gtest/gtest-all.cc \
-		-D DEBUG -g -fsanitize=integer -fsanitize=address \
+		-D DEBUG -g -fsanitize=integer -fsanitize=address -fsanitize=leak -fsanitize=undefined \
 		-I$(gtestdir) -I$(includes) -lpthread -o tester
 	./tester
 	rm tester
