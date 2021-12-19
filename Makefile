@@ -44,6 +44,7 @@ $(gtest):
 	python3 googletest-release-1.11.0/googletest/scripts/fuse_gtest_files.py $(gtestdir)
 	mv googletest-release-1.11.0 $(gtestdir)
 
+.PHONY: test
 test: $(gtest) 
 	clang++ -std=c++11 $(testdir)/gtest.cpp \
 		$(gtestdir)/googletest-release-1.11.0/googletest/src/gtest_main.cc \
