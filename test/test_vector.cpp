@@ -1,4 +1,4 @@
-#include "vector.hpp"
+#include "../src/vector.hpp"
 
 class VectorTest : public ::testing::Test {
     protected:
