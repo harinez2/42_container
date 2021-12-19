@@ -22,13 +22,7 @@ class vector {
   typedef std::reverse_iterator<iterator>       reverse_iterator; //TODO
   typedef std::reverse_iterator<const_iterator> const_reverse_iterator; // TODO
 
-  vector() {
-    first_ = alc.allocate(default_size_);
-    last_ = first_;
-    reserved_last_ = first_ + default_size_;
-  }
-
-  vector(size_type n) {
+  vector(size_type n = 0) {
     first_ = alc.allocate(n);
     last_ = first_ + n;
     reserved_last_ = first_ + n;
@@ -48,7 +42,7 @@ class vector {
   ~vector() {
     for (std::size_t i = 0; i != size(); ++i)
       alc.destroy(first_ + i);
-    alc.deallocate(first_, reserved_last_ - first_);
+    alc.deallocate(first_, capacity());
   }
 
   iterator begin() { return first_; }
@@ -119,8 +113,12 @@ class vector {
       *it = u;
   }
   void push_back(const T& x) {
-    if (last_ == reserved_last_)
-      reserve(size() * 2);
+    if (last_ == reserved_last_) {
+      if (size() == 0)
+        reserve(default_size_);
+      else
+        reserve(size() * 2);
+    }
     alc.construct(first_ + size(), x);
     ++last_;
   }
