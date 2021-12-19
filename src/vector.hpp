@@ -22,6 +22,8 @@ class vector {
   typedef std::reverse_iterator<iterator>       reverse_iterator; //TODO
   typedef std::reverse_iterator<const_iterator> const_reverse_iterator; // TODO
 
+
+  // vector( std::size_t n = 0, Allocator a = Allocator() ) ;
   vector(size_type n = 0) {
     first_ = alc.allocate(n);
     last_ = first_ + n;
@@ -62,10 +64,10 @@ class vector {
   iterator end()   { return last_;  }
   const_iterator begin() const { return first_; }
   const_iterator end()   const { return last_;  }
-  reverse_iterator rbegin() { return last_;  }
-  reverse_iterator rend()   { return first_; }
-  const_reverse_iterator rbegin() const { return last_;  }
-  const_reverse_iterator rend()   const { return first_; }
+  reverse_iterator rbegin() { return reverse_iterator{ last_  }; }
+  reverse_iterator rend()   { return reverse_iterator{ first_ }; }
+  const_reverse_iterator rbegin() const { return const_reverse_iterator{ last_  }; }
+  const_reverse_iterator rend()   const { return const_reverse_iterator{ first_ }; }
 
   size_type size() const { return std::distance(first_, last_); }
   size_type max_size() const { return alc.max_size(); }
