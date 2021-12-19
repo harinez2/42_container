@@ -17,11 +17,13 @@ $(NAME): $(OBJS)
 
 .PHONY: clean
 clean:
-	rm -f $(OBJS) $(DEPENDS)
+	$(RM) $(OBJS) $(DEPENDS)
 
 .PHONY: fclean
 fclean: clean
-	rm -f $(NAME)
+	$(RM) $(NAME)
+	$(RM) tester
+	$(RM) -r $(gtestdir)
 
 .PHONY: re
 re: fclean all
@@ -49,4 +51,4 @@ test: $(gtest)
 		-D DEBUG -g -fsanitize=integer -fsanitize=address -fsanitize=leak -fsanitize=undefined \
 		-I$(gtestdir) -I$(includes) -lpthread -o tester
 	./tester
-	rm tester
+	$(RM) tester
