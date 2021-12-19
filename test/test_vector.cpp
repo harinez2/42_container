@@ -112,7 +112,12 @@ TEST_F(VectorTest, int_constructor_init_err_bordermax) {
 //------------------------------------------------------
 // constructor with iterator (int)
 
+// ezoe
 // TEST_F(VectorTest, int_constructor_iterator) {
+  // std::vector<int> v = {1,2,3,4,5} ;
+
+  // auto i = v.begin();
+  // *i ; // 1
 
 // }
 
