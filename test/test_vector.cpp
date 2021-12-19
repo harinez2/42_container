@@ -94,6 +94,10 @@ TEST_F(VectorTest, basic) {
   std::vector<int> vstd;
   vft.push_back(42);
   vstd.push_back(42);
+
+  EXPECT_EQ(vft[0], 42);
+  compare_with_std_vector(vft, vstd);
+  
   vft.push_back(21);
   vstd.push_back(21);
 

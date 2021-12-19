@@ -261,7 +261,7 @@ class vector {
   bool operator>=(const vector& rhs) { return this > rhs || this == rhs; }
 
  private:
-  static const int default_size_ = 8;
+  static const int default_size_ = 1;
   Allocator alc;
   T* first_;
   T* last_;
