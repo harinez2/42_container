@@ -47,7 +47,7 @@ TEST_F(VectorTest, int_constructor_empty) {
 //   compare_with_std_vector(vft, vstd);
 // }
 
-TEST_F(VectorTest, int_constructor_init_four_array) {
+TEST_F(VectorTest, int_constructor_init_with_value) {
   ft::vector<int> vft(4);
   std::vector<int> vstd(4);
 
@@ -55,6 +55,27 @@ TEST_F(VectorTest, int_constructor_init_four_array) {
   EXPECT_FALSE(vft.empty());
   compare_with_std_vector(vft, vstd);
 }
+
+// TEST_F(VectorTest, int_constructor_init_with_value_two) {
+//   ft::vector<int> vft(4, 2);
+//   std::vector<int> vstd(4, 2);
+
+//   EXPECT_EQ(vft.size(), 4);
+//   EXPECT_FALSE(vft.empty());
+//   compare_with_std_vector(vft, vstd);
+// }
+
+// TEST_F(VectorTest, int_constructor_init_with_value_two_with_allocator) {
+//   ft::vector<int> vft(4, 2, std::allocator<int>);
+//   std::vector<int> vstd(4, 2, std::allocator<int>);
+
+//   EXPECT_EQ(vft.size(), 0);
+//   EXPECT_TRUE(vft.empty());
+//   compare_with_std_vector(vft, vstd);
+// }
+
+//------------------------------------------------------
+// constructor (int) border
 
 TEST_F(VectorTest, int_constructor_init_err_bordermin) {
   ft::vector<int> vft(0);
@@ -73,6 +94,28 @@ TEST_F(VectorTest, int_constructor_init_err_bordermax) {
   EXPECT_FALSE(vft.empty());
   compare_with_std_vector(vft, vstd);
 }
+
+//------------------------------------------------------
+// copy constructor (int)
+
+// TEST_F(VectorTest, int_constructor_copy) {
+//   ft::vector<int> vft(4);
+//   ft::vector<int> vft2(vft);
+//   std::vector<int> vstd(4);
+//   std::vector<int> vstd2(vstd);
+
+//   EXPECT_EQ(vft2.size(), 4);
+//   EXPECT_FALSE(vft2.empty());
+//   compare_with_std_vector(vft2, vstd2);
+// }
+
+//------------------------------------------------------
+// constructor with iterator (int)
+
+// TEST_F(VectorTest, int_constructor_iterator) {
+
+// }
+
 //------------------------------------------------------
 // constructor (string)
 
@@ -115,3 +158,16 @@ TEST_F(VectorTest, int_basic) {
   compare_with_std_vector(vft, vstd);
 }
 
+//https://programming-place.net/ppp/contents/cpp/library/005.html
+// TEST_F(VectorTest, int_swap) {
+
+//   std::vector<int> v;
+//   v.reserve(10000);
+//   v.push_back(0);
+
+//   EXPECT_EQ(v.capacity(), 10000);
+
+//   std::vector<int>(v).swap(v);
+
+//   EXPECT_EQ(v.capacity(), 1);
+// }
