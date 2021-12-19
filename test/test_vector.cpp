@@ -27,9 +27,8 @@ class VectorTest : public ::testing::Test {
 };
 
 //------------------------------------------------------
-// constructor
+// constructor (int)
 
-// int
 TEST_F(VectorTest, constructor_empty_int) {
   ft::vector<int> vft;
   std::vector<int> vstd;
@@ -48,7 +47,20 @@ TEST_F(VectorTest, constructor_init_four_array_int) {
   compare_with_std_vector(vft, vstd);
 }
 
-// string
+TEST_F(VectorTest, constructor_init_err_border_int) {
+  ft::vector<int> vft(0);
+  std::vector<int> vstd(0);
+  ft::vector<int> vft2(-1);
+  std::vector<int> vstd2(-1);
+
+  EXPECT_EQ(vft.size(), 4);
+  EXPECT_FALSE(vft.empty());
+  compare_with_std_vector(vft, vstd);
+}
+
+//------------------------------------------------------
+// constructor (string)
+
 TEST_F(VectorTest, constructor_empty_string) {
   ft::vector<std::string> vft;
   std::vector<std::string> vstd;
@@ -69,7 +81,7 @@ TEST_F(VectorTest, constructor_empty_string) {
 // }
 
 //------------------------------------------------------
-// basic
+// basic (int)
 
 TEST_F(VectorTest, basic) {
   ft::vector<int> vft;
@@ -79,8 +91,8 @@ TEST_F(VectorTest, basic) {
   vft.push_back(21);
   vstd.push_back(21);
 
-  EXPECT_EQ(vstd[0], vft[0]);
-  EXPECT_EQ(vstd[1], vft[1]);
-  EXPECT_EQ(vft.size(), vstd.size());
+  EXPECT_EQ(vft[0], 42);
+  EXPECT_EQ(vft[1], 21);
+  compare_with_std_vector(vft, vstd);
 }
 
