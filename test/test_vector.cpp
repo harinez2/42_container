@@ -47,28 +47,34 @@ TEST_F(VectorTest, constructor_init_four_array_int) {
   compare_with_std_vector(vft, vstd);
 }
 
-TEST_F(VectorTest, constructor_init_err_border_int) {
+TEST_F(VectorTest, constructor_init_err_bordermin_int) {
   ft::vector<int> vft(0);
   std::vector<int> vstd(0);
-  ft::vector<int> vft2(-1);
-  std::vector<int> vstd2(-1);
-
-  EXPECT_EQ(vft.size(), 4);
-  EXPECT_FALSE(vft.empty());
-  compare_with_std_vector(vft, vstd);
-}
-
-//------------------------------------------------------
-// constructor (string)
-
-TEST_F(VectorTest, constructor_empty_string) {
-  ft::vector<std::string> vft;
-  std::vector<std::string> vstd;
 
   EXPECT_EQ(vft.size(), 0);
   EXPECT_TRUE(vft.empty());
   compare_with_std_vector(vft, vstd);
 }
+
+TEST_F(VectorTest, constructor_init_err_bordermax_int) {
+  ft::vector<int> vft(65535);
+  std::vector<int> vstd(65535);
+
+  EXPECT_EQ(vft.size(), 65535);
+  EXPECT_FALSE(vft.empty());
+  compare_with_std_vector(vft, vstd);
+}
+//------------------------------------------------------
+// constructor (string)
+
+// TEST_F(VectorTest, constructor_empty_string) {
+//   ft::vector<std::string> vft;
+//   std::vector<std::string> vstd;
+
+//   EXPECT_EQ(vft.size(), 0);
+//   EXPECT_TRUE(vft.empty());
+//   compare_with_std_vector(vft, vstd);
+// }
 
 // TEST_F(VectorTest, constructor_init_with_same_value_int) {
 //   ft::vector<std::string> vft("hello", 100);
