@@ -28,6 +28,15 @@ class vector {
     reserved_last_ = first_ + default_size_;
   }
 
+  vector(size_type n) {
+    first_ = alc.allocate(n);
+    last_ = first_ + n;
+    reserved_last_ = first_ + n;
+    for (size_type i = 0; i < n; ++i) {
+      alc.construct(first_ + i, 0);
+    }
+  }
+
   vector(const vector& rhs) { *this = rhs; }
 
   vector& operator=(const vector& rhs) {
@@ -234,10 +243,7 @@ class vector {
       else
         return false;
     }
-    if (it_lhs == end() && it_rhs == rhs.end())
-      return true;
-    else
-      return false;
+    return (it_lhs == end() && it_rhs == rhs.end()) ? true : false;
   }
   bool operator!=(const T& rhs) { return !(this == rhs); }
   bool operator<(const vector& rhs) {
@@ -249,10 +255,7 @@ class vector {
       else
         return false;
     }
-    if (it_lhs == end() && it_rhs == rhs.end())
-      return true;
-    else
-      return false;
+    return (it_lhs == end() && it_rhs == rhs.end()) ? true : false;
   }
   bool operator<=(const vector& rhs) { return this < rhs || this == rhs; }
   bool operator>(const vector& rhs)  { return !(this <= rhs); }
