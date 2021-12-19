@@ -31,6 +31,19 @@ class vector {
     }
   }
 
+  // vector(const Allocator& a = Allocator())  {
+  //   typename Allocator = a;
+  //   first_ = alc.allocate(0);
+  //   last_ = first_;
+  //   reserved_last_ = first_;
+  // }
+
+  // vector(size_type n, const T& value = T(), const Allocator& a = Allocator()) {
+  // }
+
+  // template <class InputIter>
+  // vector(InputIter first, InputIter last, const Allocator& a = Allocator());
+
   vector(const vector& rhs) { *this = rhs; }
 
   vector& operator=(const vector& rhs) {
