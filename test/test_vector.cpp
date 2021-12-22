@@ -105,12 +105,12 @@ TEST_F(VectorTest, int_constructor_init_err_bordermax) {
 // copy constructor (int)
 
 // TEST_F(VectorTest, int_constructor_copy) {
-//   ft::vector<int> vft(4);
+//   ft::vector<int> vft(65535);
 //   ft::vector<int> vft2(vft);
-//   std::vector<int> vstd(4);
+//   std::vector<int> vstd(65535);
 //   std::vector<int> vstd2(vstd);
 
-//   EXPECT_EQ(vft2.size(), 4);
+//   EXPECT_EQ(vft2.size(), 65535);
 //   EXPECT_FALSE(vft2.empty());
 //   compare_with_std_vector(vft2, vstd2);
 // }
@@ -130,24 +130,25 @@ TEST_F(VectorTest, int_constructor_init_err_bordermax) {
 //------------------------------------------------------
 // constructor (string)
 
-// TEST_F(VectorTest, constructor_empty_string) {
-//   ft::vector<std::string> vft;
-//   std::vector<std::string> vstd;
+TEST_F(VectorTest, constructor_empty_string) {
+  ft::vector<std::string> vft;
+  std::vector<std::string> vstd;
 
-//   EXPECT_EQ(vft.size(), 0);
-//   EXPECT_TRUE(vft.empty());
-//   compare_with_std_vector(vft, vstd);
-// }
+  EXPECT_EQ(vft.size(), 0);
+  EXPECT_TRUE(vft.empty());
+  compare_with_std_vector(vft, vstd);
+}
 
-// TEST_F(VectorTest, constructor_init_with_same_value_int) {
-//   ft::vector<std::string> vft("hello", 100);
-//   std::vector<std::string> vstd("hello", 100);
+TEST_F(VectorTest, constructor_init_with_same_value_int) {
+  ft::vector<std::string> vft(100, "hello");
+  std::vector<std::string> vstd(100, "hello");
 
-//   EXPECT_EQ(vft.size(), 100);
-//   EXPECT_EQ(vft[0], "hello");
-//   EXPECT_FALSE(vft.empty());
-//   compare_with_std_vector(vft, vstd);
-// }
+  EXPECT_EQ(vft.size(), 100);
+  EXPECT_EQ(vft[0], "hello");
+  EXPECT_EQ(vft[99], "hello");
+  EXPECT_FALSE(vft.empty());
+  compare_with_std_vector(vft, vstd);
+}
 
 //------------------------------------------------------
 // basic (int)
