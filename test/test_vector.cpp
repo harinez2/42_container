@@ -38,14 +38,15 @@ TEST_F(VectorTest, int_constructor_empty) {
   compare_with_std_vector(vft, vstd);
 }
 
-// TEST_F(VectorTest, int_constructor_with_allocator) {
-//   ft::vector<int> vft(std::allocator<int>);
-//   std::vector<int> vstd(std::allocator<int>);
+TEST_F(VectorTest, int_constructor_with_allocator) {
+  std::allocator<int> alc;
+  ft::vector<int> vft(alc);
+  std::vector<int> vstd(alc);
 
-//   EXPECT_EQ(vft.size(), 0);
-//   EXPECT_TRUE(vft.empty());
-//   compare_with_std_vector(vft, vstd);
-// }
+  EXPECT_EQ(vft.size(), 0);
+  EXPECT_TRUE(vft.empty());
+  compare_with_std_vector(vft, vstd);
+}
 
 TEST_F(VectorTest, int_constructor_init_with_value) {
   ft::vector<int> vft(4);

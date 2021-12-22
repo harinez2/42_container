@@ -23,28 +23,22 @@ class vector {
   typedef std::reverse_iterator<const_iterator> const_reverse_iterator; // TODO
 
 
-  // vector( std::size_t n = 0, Allocator a = Allocator() ) ;
-  vector(size_type n = 0) {
+  vector(const allocator_type& a = allocator_type())
+      : alc(a), first_(NULL), last_(NULL), reserved_last_(NULL) {}
+
+  vector(size_type n, const T& v = T(), const allocator_type& a = allocator_type())
+      : alc(a) {
     first_ = alc.allocate(n);
     last_ = first_ + n;
     reserved_last_ = first_ + n;
     for (size_type i = 0; i < n; ++i) {
-      alc.construct(first_ + i, 0);
+      alc.construct(first_ + i, v);
     }
   }
 
-  // vector(const Allocator& a = Allocator())  {
-  //   typename Allocator = a;
-  //   first_ = alc.allocate(0);
-  //   last_ = first_;
-  //   reserved_last_ = first_;
-  // }
-
-  // vector(size_type n, const T& value = T(), const Allocator& a = Allocator()) {
-  // }
-
   // template <class InputIter>
-  // vector(InputIter first, InputIter last, const Allocator& a = Allocator());
+  // vector(InputIter first, InputIter last, const Allocator& a = Allocator()) {
+  // }
 
   vector(const vector& rhs) { *this = rhs; }
 
