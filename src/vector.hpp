@@ -94,14 +94,11 @@ class vector {
   }
   bool empty() const { return first_ == last_; }
   void reserve(size_type n) {
-std::cerr << "try reserving: n=" << n << ", size()" << size() << 
-  ", max_size:" << max_size() << ", capacity" << capacity() << std::endl;
     if (n > max_size())
       std::length_error("reserve() failed : the specified size is bigger than max_size().");
     if (n <= capacity())
       return;
 
-std::cerr << "  reserving: n=" << n << ", size()" << size() << std::endl;
     T* tmp_first_ = alc.allocate(n);
     size_type data_size = size();
     for (size_type i = 0; i < data_size; ++i) {
