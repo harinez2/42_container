@@ -1,3 +1,6 @@
+#ifndef TEST_VECTOR_HPP
+#define TEST_VECTOR_HPP
+
 #include "../src/vector.hpp"
 
 #include <vector>
@@ -11,3 +14,5 @@ void compare_with_std_vector(ft::vector<T>& vft, std::vector<T>& vstd) {
   for (size_t i = 0; i < vstd.size(); ++i)
     EXPECT_EQ(vft[i], vstd[i]);
 }
+
+#endif

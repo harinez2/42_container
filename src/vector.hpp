@@ -26,8 +26,8 @@ class vector {
   vector(const allocator_type& a = allocator_type())
       : alc(a), first_(NULL), last_(NULL), reserved_last_(NULL) {}
 
-  vector(size_type n, const T& v = T(), const allocator_type& a = allocator_type())
-      : alc(a) {
+  vector(value_type n, const T& v = T(), const allocator_type& a = allocator_type())
+      : vector(a) {
     first_ = alc.allocate(n);
     last_ = first_ + n;
     reserved_last_ = first_ + n;
@@ -36,21 +36,33 @@ class vector {
     }
   }
 
-  // template <class InputIter>
-  // vector(InputIter first, InputIter last, const Allocator& a = Allocator()) {
-  // }
+  template <class InputIter>
+  vector(InputIter first, InputIter last, const Allocator& a = Allocator())
+      : vector(a) {
+    reserve(std::distance(first, last));
+    for (InputIter it = first; it != last; ++it)
+      push_back(*it);
+  }
 
   vector(const vector& rhs) { *this = rhs; }
 
   vector& operator=(const vector& rhs) {
     if (this != &rhs) {
+      clear();
+      std::cerr << "size: " << std::distance(rhs.first_, rhs.last_) << std::endl;
+      reserve(std::distance(rhs.first_, rhs.last_));
+      size_type i = 0;
+      for (const_iterator it = rhs.begin(); it != rhs.end(); ++it) {
+// std::cerr << "push_back: " << i << " / " << *it << std::endl;
+        push_back(*it);
+        ++i;
+      }
     }
     return *this;
   }
 
   ~vector() {
-    for (std::size_t i = 0; i != size(); ++i)
-      alc.destroy(first_ + i);
+    clear();
     alc.deallocate(first_, capacity());
   }
 
@@ -63,7 +75,12 @@ class vector {
   const_reverse_iterator rbegin() const { return const_reverse_iterator{ last_  }; }
   const_reverse_iterator rend()   const { return const_reverse_iterator{ first_ }; }
 
-  size_type size() const { return std::distance(first_, last_); }
+  size_type size() const {
+    if (first_ == NULL)
+      return 0;
+    else
+      return std::distance(first_, last_);
+  }
   size_type max_size() const { return alc.max_size(); }
   void resize(size_type sz, T c = T()) {
     if (sz < size())
@@ -74,14 +91,22 @@ class vector {
         *it = c;
     }
   }
-  size_type capacity() const { return std::distance(first_, reserved_last_); }
+  size_type capacity() const {
+    if (first_ == NULL)
+      return 0;
+    else
+      return std::distance(first_, reserved_last_);
+  }
   bool empty() const { return first_ == last_; }
   void reserve(size_type n) {
+std::cerr << "try reserving: n=" << n << ", size()" << size() << 
+  ", max_size:" << max_size() << ", capacity" << capacity() << std::endl;
     if (n > max_size())
       std::length_error("reserve() failed : the specified size is bigger than max_size().");
     if (n <= capacity())
       return;
 
+std::cerr << "  reserving: n=" << n << ", size()" << size() << std::endl;
     T* tmp_first_ = alc.allocate(n);
     size_type data_size = size();
     for (size_type i = 0; i < data_size; ++i) {
@@ -240,7 +265,7 @@ class vector {
     else if (flg_end == 2)
       last_ = it;
   }
-  void clear() { erase(first_, last_); }
+  void clear() { destroy_until(rend()); }
 
   allocator_type get_allocator() const {}
 
@@ -277,6 +302,11 @@ class vector {
   T* first_;
   T* last_;
   T* reserved_last_;
+
+  void destroy_until(reverse_iterator rend) {
+    for (reverse_iterator it = rbegin(); it != rend; ++it, --last_)
+      alc.destroy(&*it);
+  }
 };
 
 // swap();
