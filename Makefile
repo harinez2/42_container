@@ -53,3 +53,9 @@ test: $(gtest)
 		-I$(gtestdir) -I$(includes) -lpthread -o tester
 	./tester
 	$(RM) tester
+
+.PHONY: wtest
+wtest:
+	clang++ test/test_wrapper_main.cpp
+	./a.out
+	$(RM) a.out
