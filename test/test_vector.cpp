@@ -130,10 +130,10 @@ TEST_F(VectorTest, int_constructor_init_err_bordermax) {
 // copy constructor (int)
 
 TEST_F(VectorTest, int_constructor_copy) {
-  std::vector<int> vstd(65535);
-  std::vector<int> vstd2(vstd);
   ft::vector<int> vft(65535);
   ft::vector<int> vft2(vft);
+  std::vector<int> vstd(65535);
+  std::vector<int> vstd2(vstd);
 
   EXPECT_EQ(vft2.size(), 65535);
   EXPECT_FALSE(vft2.empty());

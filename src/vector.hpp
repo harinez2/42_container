@@ -44,19 +44,14 @@ class vector {
       push_back(*it);
   }
 
-  vector(const vector& rhs) { *this = rhs; }
+  vector(const vector& rhs) : vector(rhs.alc) { *this = rhs; }
 
   vector& operator=(const vector& rhs) {
     if (this != &rhs) {
       clear();
-      std::cerr << "size: " << std::distance(rhs.first_, rhs.last_) << std::endl;
       reserve(std::distance(rhs.first_, rhs.last_));
-      size_type i = 0;
-      for (const_iterator it = rhs.begin(); it != rhs.end(); ++it) {
-// std::cerr << "push_back: " << i << " / " << *it << std::endl;
+      for (const_iterator it = rhs.begin(); it != rhs.end(); ++it)
         push_back(*it);
-        ++i;
-      }
     }
     return *this;
   }
