@@ -492,16 +492,18 @@ TEST_F(VectorTest, int_clear) {
   vstd.clear();
   EXPECT_EQ(vft.size(), 0);
   EXPECT_TRUE(vft.empty());
+  EXPECT_EQ(vft.capacity(), 0);
   compare_with_std_vector(vft, vstd);
 
-  ft::vector<int> vft2(vft_);
-  std::vector<int> vstd2(vstd_);
-  EXPECT_EQ(vft2.size(), 5);
+  ft::vector<int> vft2(65535);
+  std::vector<int> vstd2(65535);
+  EXPECT_EQ(vft2.size(), 65535);
   EXPECT_FALSE(vft2.empty());
   vft2.clear();
   vstd2.clear();
   EXPECT_EQ(vft2.size(), 0);
   EXPECT_TRUE(vft2.empty());
+  EXPECT_EQ(vft2.capacity(), 65535);
   compare_with_std_vector(vft2, vstd2);
 }
 
