@@ -38,7 +38,7 @@ TEST_F(VectorTest, int_constructor_empty) {
   compare_with_std_vector(vft, vstd);
 }
 
-TEST_F(VectorTest, int_constructor_with_allocator) {
+TEST_F(VectorTest, int_constructor_allocator) {
   std::allocator<int> alc;
   ft::vector<int> vft(alc);
   std::vector<int> vstd(alc);
@@ -48,7 +48,7 @@ TEST_F(VectorTest, int_constructor_with_allocator) {
   compare_with_std_vector(vft, vstd);
 }
 
-TEST_F(VectorTest, int_constructor_init_with_value) {
+TEST_F(VectorTest, int_constructor_value) {
   ft::vector<int> vft(4);
   std::vector<int> vstd(4);
 
@@ -57,7 +57,7 @@ TEST_F(VectorTest, int_constructor_init_with_value) {
   compare_with_std_vector(vft, vstd);
 }
 
-TEST_F(VectorTest, int_constructor_init_with_value_two) {
+TEST_F(VectorTest, int_constructor_value_initvalue) {
   ft::vector<int> vft(4, 2);
   std::vector<int> vstd(4, 2);
 
@@ -70,7 +70,7 @@ TEST_F(VectorTest, int_constructor_init_with_value_two) {
   compare_with_std_vector(vft, vstd);
 }
 
-TEST_F(VectorTest, int_constructor_init_with_value_two_with_allocator) {
+TEST_F(VectorTest, int_constructor_value_initvalue_allocator) {
   std::allocator<int> alc;
   ft::vector<int> vft(4, 2, alc);
   std::vector<int> vstd(4, 2, alc);
@@ -87,7 +87,7 @@ TEST_F(VectorTest, int_constructor_init_with_value_two_with_allocator) {
 // ======================================================
 // constructor with iterator (int)
 
-TEST_F(VectorTest, int_constructor_init_with_value_array) {
+TEST_F(VectorTest, int_constructor_valuearray) {
   int myints[] = {16, 2, 77, 29};
   ft::vector<int> vft(4, 2);
   std::vector<int> vstd(4, 2);
@@ -108,22 +108,18 @@ TEST_F(VectorTest, int_constructor_init_with_value_array) {
 // ======================================================
 // constructor (int) border
 
-TEST_F(VectorTest, int_constructor_init_err_bordermin) {
+TEST_F(VectorTest, int_constructor_border) {
   ft::vector<int> vft(0, 0);
   std::vector<int> vstd(0, 0);
-
   EXPECT_EQ(vft.size(), 0);
   EXPECT_TRUE(vft.empty());
   compare_with_std_vector(vft, vstd);
-}
 
-TEST_F(VectorTest, int_constructor_init_err_bordermax) {
-  ft::vector<int> vft(65535, 0);
-  std::vector<int> vstd(65535, 0);
-
-  EXPECT_EQ(vft.size(), 65535);
-  EXPECT_FALSE(vft.empty());
-  compare_with_std_vector(vft, vstd);
+  ft::vector<int> vft2(65535, 0);
+  std::vector<int> vstd2(65535, 0);
+  EXPECT_EQ(vft2.size(), 65535);
+  EXPECT_FALSE(vft2.empty());
+  compare_with_std_vector(vft2, vstd2);
 }
 
 // ======================================================
@@ -530,7 +526,7 @@ TEST_F(VectorTest, int_clear) {
 //======================================================
 // constructor (string)
 
-TEST_F(VectorTest, constructor_empty_string) {
+TEST_F(VectorTest, str_constructor_empty) {
   ft::vector<std::string> vft;
   std::vector<std::string> vstd;
 
@@ -539,7 +535,7 @@ TEST_F(VectorTest, constructor_empty_string) {
   compare_with_std_vector(vft, vstd);
 }
 
-// TEST_F(VectorTest, constructor_init_with_same_value_int) {
+// TEST_F(VectorTest, constructor_with_same_value_int) {
 //   ft::vector<std::string> vft(100, "hello");
 //   std::vector<std::string> vstd(100, "hello");
 
