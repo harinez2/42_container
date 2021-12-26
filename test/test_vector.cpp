@@ -381,6 +381,7 @@ TEST_F(VectorTest, int_capacity) {
   ft::vector<int> vft;
   std::vector<int> vstd;
   EXPECT_EQ(vft.capacity(), 0);
+  compare_with_std_vector(vft, vstd);
 
   vft.resize(65535, 2);
   vstd.resize(65535, 2);
@@ -395,6 +396,7 @@ TEST_F(VectorTest, int_empty) {
   ft::vector<int> vft;
   std::vector<int> vstd;
   EXPECT_TRUE(vft.empty());
+  compare_with_std_vector(vft, vstd);
 
   vft.push_back(42);
   vstd.push_back(42);
@@ -462,6 +464,145 @@ TEST_F(VectorTest, int_reserve) {
   EXPECT_EQ(vft.capacity(), 65535);
   compare_with_std_vector(vft, vstd);
 }
+
+// ======================================================
+// operator[] (int)
+
+TEST_F(VectorTest, int_operatorsqbracket) {
+  ft::vector<int> vft(4, 2);
+  std::vector<int> vstd(4, 2);
+  EXPECT_EQ(vft[0], 2);
+  EXPECT_EQ(vft[1], 2);
+  EXPECT_EQ(vft[0], vstd[0]);
+  EXPECT_EQ(vft[1], vstd[1]);
+  compare_with_std_vector(vft, vstd);
+
+  vft.resize(65535, -1);
+  vstd.resize(65535, -1);
+  EXPECT_EQ(vft[0], 2);
+  EXPECT_EQ(vft[1], 2);
+  EXPECT_EQ(vft[3], 2);
+  EXPECT_EQ(vft[4], -1);
+  EXPECT_EQ(vft[65534], -1);
+  EXPECT_EQ(vft[0], vstd[0]);
+  EXPECT_EQ(vft[1], vstd[1]);
+  EXPECT_EQ(vft[3], vstd[3]);
+  EXPECT_EQ(vft[4], vstd[4]);
+  EXPECT_EQ(vft[65534], vstd[65534]);
+  compare_with_std_vector(vft, vstd);
+
+  vft[0] = 3;
+  vft[1] = 4;
+  vft[2] = 5;
+  vft[65534] = 6;
+  vstd[0] = 3;
+  vstd[1] = 4;
+  vstd[2] = 5;
+  vstd[65534] = 6;
+  EXPECT_EQ(vft[0], 3);
+  EXPECT_EQ(vft[1], 4);
+  EXPECT_EQ(vft[2], 5);
+  EXPECT_EQ(vft[65534], 6);
+  EXPECT_EQ(vft[0], vstd[0]);
+  EXPECT_EQ(vft[1], vstd[1]);
+  EXPECT_EQ(vft[2], vstd[2]);
+  EXPECT_EQ(vft[65534], vstd[65534]);
+  compare_with_std_vector(vft, vstd);
+}
+
+// ======================================================
+// at (int)
+
+TEST_F(VectorTest, int_at) {
+  ft::vector<int> vft(4, 2);
+  std::vector<int> vstd(4, 2);
+  EXPECT_EQ(vft.at(0), 2);
+  EXPECT_EQ(vft.at(1), 2);
+  EXPECT_EQ(vft.at(0), vstd.at(0));
+  EXPECT_EQ(vft.at(1), vstd.at(1));
+  compare_with_std_vector(vft, vstd);
+
+  vft.resize(65535, -1);
+  vstd.resize(65535, -1);
+  EXPECT_EQ(vft.at(0), 2);
+  EXPECT_EQ(vft.at(1), 2);
+  EXPECT_EQ(vft.at(3), 2);
+  EXPECT_EQ(vft.at(4), -1);
+  EXPECT_EQ(vft.at(65534), -1);
+  EXPECT_EQ(vft.at(0), vstd.at(0));
+  EXPECT_EQ(vft.at(1), vstd.at(1));
+  EXPECT_EQ(vft.at(3), vstd.at(3));
+  EXPECT_EQ(vft.at(4), vstd.at(4));
+  EXPECT_EQ(vft.at(65534), vstd.at(65534));
+  compare_with_std_vector(vft, vstd);
+
+  vft.at(0) = 3;
+  vft.at(1) = 4;
+  vft.at(2) = 5;
+  vft.at(65534) = 6;
+  vstd.at(0) = 3;
+  vstd.at(1) = 4;
+  vstd.at(2) = 5;
+  vstd.at(65534) = 6;
+  EXPECT_EQ(vft.at(0), 3);
+  EXPECT_EQ(vft.at(1), 4);
+  EXPECT_EQ(vft.at(2), 5);
+  EXPECT_EQ(vft.at(65534), 6);
+  EXPECT_EQ(vft.at(0), vstd.at(0));
+  EXPECT_EQ(vft.at(1), vstd.at(1));
+  EXPECT_EQ(vft.at(2), vstd.at(2));
+  EXPECT_EQ(vft.at(65534), vstd.at(65534));
+  compare_with_std_vector(vft, vstd);
+}
+
+// ======================================================
+// front (int)
+
+TEST_F(VectorTest, int_front) {
+  ft::vector<int> vft(vft_);
+  std::vector<int> vstd(vstd_);
+  EXPECT_EQ(vft.front(), 42);
+  EXPECT_EQ(vft.front(), vft[0]);
+  EXPECT_EQ(vft.front(), vstd.front());
+  compare_with_std_vector(vft, vstd);
+
+  vft.clear();
+  vft.push_back(88);
+  vft.resize(12, 99);
+  vstd.clear();
+  vstd.push_back(88);
+  vstd.resize(12, 99);
+  
+  EXPECT_EQ(vft.front(), 88);
+  EXPECT_EQ(vft.front(), vft[0]);
+  EXPECT_EQ(vft.front(), vstd.front());
+  compare_with_std_vector(vft, vstd);
+}
+
+// ======================================================
+// back (int)
+
+TEST_F(VectorTest, int_back) {
+  ft::vector<int> vft(vft_);
+  std::vector<int> vstd(vstd_);
+  EXPECT_EQ(vft.back(), 4242);
+  EXPECT_EQ(vft.back(), vft[vft.size() - 1]);
+  EXPECT_EQ(vft.back(), vstd.back());
+  compare_with_std_vector(vft, vstd);
+
+  vft.clear();
+  vft.push_back(88);
+  vft.resize(12, 99);
+  vstd.clear();
+  vstd.push_back(88);
+  vstd.resize(12, 99);
+  
+  EXPECT_EQ(vft.back(), 99);
+  EXPECT_EQ(vft.back(), vft[vft.size() - 1]);
+  EXPECT_EQ(vft.back(), vstd.back());
+  compare_with_std_vector(vft, vstd);
+}
+
 
 // ======================================================
 // assign (int)

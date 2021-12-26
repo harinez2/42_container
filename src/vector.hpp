@@ -118,24 +118,22 @@ class vector {
   }
 
   // elements access
-  T&       operator[](size_type n)       { return first_[n]; }
-  const T& operator[](size_type n) const { return first_[n]; }
-  T& at(size_type n) {
+  reference       operator[](size_type n)       { return *(first_ + n); }
+  const_reference operator[](size_type n) const { return *(first_ + n); }
+  reference at(size_type n) {
     if (size() <= n)
       throw std::out_of_range("Index is out of range in at().");
-    return first_[n];
+    return *(first_ + n);
   }
-  const T& at(size_type n) const {
+  const_reference at(size_type n) const {
     if (size() <= n)
       throw std::out_of_range("Index is out of range in at().");
-    return first_[n];
+    return *(first_ + n);
   }
-  T&       front()       { return first_; }
-  const T& front() const { return first_; }
-  T&       back()       { return last_ - 1; }
-  const T& back() const { return last_ - 1; }
-  // T&       back()       { T* end = last_; --end; return end; }
-  // const T& back() const { T* end = last_; --end; return end; }
+  reference       front()       { return *begin(); }
+  const_reference front() const { return *begin(); }
+  reference       back()       { return *(end() - 1); }
+  const_reference back() const { return *(end() - 1); }
 
   // changing container elements
   template <class InputIterator>
