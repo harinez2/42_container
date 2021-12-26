@@ -161,6 +161,48 @@ TEST_F(VectorTest, int_basic) {
 }
 
 // ======================================================
+// resize (int)
+
+TEST_F(VectorTest, int_resize) {
+  ft::vector<int> vft;
+  std::vector<int> vstd;
+  vft.resize(0);
+  vstd.resize(0);
+  EXPECT_EQ(vft.size(), 0);
+  compare_with_std_vector(vft, vstd);
+
+  vft.resize(1);
+  vstd.resize(1);
+  EXPECT_EQ(vft.size(), 1);
+  EXPECT_EQ(vft[0], 0);
+  compare_with_std_vector(vft, vstd);
+  
+  vft.resize(1);
+  vstd.resize(1);
+  EXPECT_EQ(vft.size(), 1);
+  EXPECT_EQ(vft[0], 0);
+  compare_with_std_vector(vft, vstd);
+  
+  vft.resize(42, -4);
+  vstd.resize(42, -4);
+  EXPECT_EQ(vft.size(), 42);
+  EXPECT_EQ(vft[0], 0);
+  EXPECT_EQ(vft[1], -4);
+  EXPECT_EQ(vft[41], -4);
+  compare_with_std_vector(vft, vstd);
+
+  vft.resize(65535, 2);
+  vstd.resize(65535, 2);
+  EXPECT_EQ(vft.size(), 65535);
+  EXPECT_EQ(vft[0], 0);
+  EXPECT_EQ(vft[1], -4);
+  EXPECT_EQ(vft[41], -4);
+  EXPECT_EQ(vft[42], 2);
+  EXPECT_EQ(vft[65534], 2);
+  compare_with_std_vector(vft, vstd);
+}
+
+// ======================================================
 // iterator (int)
 
 // TEST_F(VectorTest, int_iterator) {

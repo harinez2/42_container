@@ -22,7 +22,7 @@ class vector {
   typedef std::reverse_iterator<iterator>       reverse_iterator; //TODO
   typedef std::reverse_iterator<const_iterator> const_reverse_iterator; // TODO
 
-
+  // constructors & destructor
   vector(const allocator_type& a = allocator_type())
       : alc(a), first_(NULL), last_(NULL), reserved_last_(NULL) {}
 
@@ -48,6 +48,10 @@ class vector {
 
   vector& operator=(const vector& rhs) {
     if (this != &rhs) {
+      // if (size() == rhs.size()) {
+      //   for (const_iterator it = rhs.begin(); it != rhs.end(); ++it)
+      //     push_back(*it);
+      // }
       clear();
       reserve(std::distance(rhs.first_, rhs.last_));
       for (const_iterator it = rhs.begin(); it != rhs.end(); ++it)
@@ -61,6 +65,7 @@ class vector {
     alc.deallocate(first_, capacity());
   }
 
+  // iterator
   iterator begin() { return first_; }
   iterator end()   { return last_;  }
   const_iterator begin() const { return first_; }
@@ -70,11 +75,9 @@ class vector {
   const_reverse_iterator rbegin() const { return const_reverse_iterator{ last_  }; }
   const_reverse_iterator rend()   const { return const_reverse_iterator{ first_ }; }
 
+  // area
   size_type size() const {
-    if (first_ == NULL)
-      return 0;
-    else
-      return std::distance(first_, last_);
+    return std::distance(first_, last_);
   }
   size_type max_size() const { return alc.max_size(); }
   void resize(size_type sz, T c = T()) {
@@ -82,8 +85,10 @@ class vector {
       erase(begin() + sz, end());
     else if (sz > size()) {
       reserve(sz);
-      for (T* it = last_; it != end(); ++it)
+      iterator it = last_;
+      for (size_type i = 0; i < sz - size(); ++i, ++it)
         *it = c;
+      last_ = it;
     }
   }
   size_type capacity() const {
@@ -111,6 +116,7 @@ class vector {
     reserved_last_ = first_ + n;
   }
 
+  // elements access
   T&       operator[](size_type n)       { return first_[n]; }
   const T& operator[](size_type n) const { return first_[n]; }
   T& at(size_type n) {
@@ -130,6 +136,7 @@ class vector {
   // T&       back()       { T* end = last_; --end; return end; }
   // const T& back() const { T* end = last_; --end; return end; }
 
+  // changing container elements
   template <class InputIterator>
   void assign(InputIterator first, InputIterator last) {
     for (iterator it = first_; first != last; ++it, ++first)
@@ -259,8 +266,10 @@ class vector {
   }
   void clear() { destroy_until(rend()); }
 
+  // allocator
   allocator_type get_allocator() const {}
 
+  // compare operator
   bool operator==(const T& rhs) {
     iterator it_lhs = begin();
     iterator it_rhs = rhs.begin();
@@ -301,6 +310,7 @@ class vector {
   }
 };
 
+// swap
 // swap();
 
 } // namespace ft
