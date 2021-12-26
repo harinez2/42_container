@@ -468,21 +468,51 @@ TEST_F(VectorTest, int_reserve) {
 }
 
 // ======================================================
+// assign (int)
 
-// TEST_F(VectorTest, int_size) {
-//   ft::vector<int>::iterator vft_it = vft_.rbegin();
-//   std::vector<int>::iterator vstd_it = vstd_.rbegin();
+// ======================================================
+// push_back (int)
 
-//   for (; vft_it != vft_.rend() && vstd_it != vstd_.rend(); ++vft_it, ++vstd_it)
-//     EXPECT_EQ(*vft_it, *vstd_it);
-// }
+// ======================================================
+// pop_back (int)
+
+// ======================================================
+// insert (int)
+
+// ======================================================
+// erase (int)
+
+// ======================================================
+// swap (int)
+
+
+// ======================================================
+// clear (int)
+
+TEST_F(VectorTest, int_clear) {
+  ft::vector<int> vft;
+  std::vector<int> vstd;
+  vft.clear();
+  vstd.clear();
+  EXPECT_EQ(vft.size(), 0);
+  EXPECT_TRUE(vft.empty());
+  compare_with_std_vector(vft, vstd);
+
+  ft::vector<int> vft2(vft_);
+  std::vector<int> vstd2(vstd_);
+  EXPECT_EQ(vft2.size(), 5);
+  EXPECT_FALSE(vft2.empty());
+  vft2.clear();
+  vstd2.clear();
+  EXPECT_EQ(vft2.size(), 0);
+  EXPECT_TRUE(vft2.empty());
+  compare_with_std_vector(vft2, vstd2);
+}
 
 
 
-
-
-
-
+//======================================================
+// swap (int)
 //https://programming-place.net/ppp/contents/cpp/library/005.html
 // TEST_F(VectorTest, int_swap) {
 
@@ -496,7 +526,6 @@ TEST_F(VectorTest, int_reserve) {
 
 //   EXPECT_EQ(v.capacity(), 1);
 // }
-
 
 //======================================================
 // constructor (string)
