@@ -4,6 +4,9 @@
 #include <memory>
 #include <stdexcept>
 
+#include <iostream> //TODO:remove
+#include <limits> //TODO:remove
+
 namespace ft {
 
 template <typename T, typename Allocator = std::allocator<T> >
@@ -76,9 +79,7 @@ class vector {
   const_reverse_iterator rend()   const { return const_reverse_iterator{ first_ }; }
 
   // area
-  size_type size() const {
-    return std::distance(first_, last_);
-  }
+  size_type size() const { return std::distance(first_, last_); }
   size_type max_size() const { return alc.max_size(); }
   void resize(size_type sz, T c = T()) {
     if (sz < size())
@@ -100,11 +101,11 @@ class vector {
   bool empty() const { return first_ == last_; }
   void reserve(size_type n) {
     if (n > max_size())
-      std::length_error("reserve() failed : the specified size is bigger than max_size().");
+      throw std::length_error("vector::reserve");
     if (n <= capacity())
       return;
 
-    T* tmp_first_ = alc.allocate(n);
+    value_type* tmp_first_ = alc.allocate(n);
     size_type data_size = size();
     for (size_type i = 0; i < data_size; ++i) {
       alc.construct(tmp_first_ + i, first_[i]);
@@ -300,9 +301,9 @@ class vector {
  private:
   static const int default_size_ = 1;
   Allocator alc;
-  T* first_;
-  T* last_;
-  T* reserved_last_;
+  value_type* first_;
+  value_type* last_;
+  value_type* reserved_last_;
 
   void destroy_until(reverse_iterator rend) {
     for (reverse_iterator it = rbegin(); it != rend; ++it, --last_)
