@@ -553,6 +553,21 @@ TEST_F(VectorTest, int_at) {
   EXPECT_EQ(vft.at(2), vstd.at(2));
   EXPECT_EQ(vft.at(65534), vstd.at(65534));
   compare_with_std_vector(vft, vstd);
+  
+  std::string vft_err;
+  std::string vstd_err;
+  try {
+    vft.at(65535);
+  } catch(std::exception& e) {
+    vft_err = e.what();
+  }
+  try {
+    vstd.at(65535);
+  } catch(std::exception& e) {
+    vstd_err = e.what();
+  }
+  EXPECT_EQ(vft_err, vstd_err);
+  compare_with_std_vector(vft, vstd);
 }
 
 // ======================================================
@@ -603,24 +618,41 @@ TEST_F(VectorTest, int_back) {
   compare_with_std_vector(vft, vstd);
 }
 
-
 // ======================================================
 // assign (int)
+
+TEST_F(VectorTest, int_assign) {
+}
 
 // ======================================================
 // push_back (int)
 
+TEST_F(VectorTest, int_pushback) {
+}
+
 // ======================================================
 // pop_back (int)
+
+TEST_F(VectorTest, int_popback) {
+}
 
 // ======================================================
 // insert (int)
 
+TEST_F(VectorTest, int_insert) {
+}
+
 // ======================================================
 // erase (int)
 
+TEST_F(VectorTest, int_erase) {
+}
+
 // ======================================================
 // swap (int)
+
+TEST_F(VectorTest, int_swap) {
+}
 
 
 // ======================================================

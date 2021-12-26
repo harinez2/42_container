@@ -121,13 +121,23 @@ class vector {
   reference       operator[](size_type n)       { return *(first_ + n); }
   const_reference operator[](size_type n) const { return *(first_ + n); }
   reference at(size_type n) {
-    if (size() <= n)
-      throw std::out_of_range("Index is out of range in at().");
+    if (size() <= n) {
+      std::ostringstream oss;
+      oss << n;
+      throw std::out_of_range(
+        "vector::_M_range_check: __n (which is " + oss.str() +
+        ") >= this->size() (which is " + oss.str() + ")");
+    }
     return *(first_ + n);
   }
   const_reference at(size_type n) const {
-    if (size() <= n)
-      throw std::out_of_range("Index is out of range in at().");
+    if (size() <= n) {
+      std::ostringstream oss;
+      oss << n;
+      throw std::out_of_range(
+        "vector::_M_range_check: __n (which is " + oss.str() +
+        ") >= this->size() (which is " + oss.str() + ")");
+    }
     return *(first_ + n);
   }
   reference       front()       { return *begin(); }
