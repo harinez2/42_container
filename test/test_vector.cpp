@@ -200,6 +200,16 @@ TEST_F(VectorTest, int_resize) {
   EXPECT_EQ(vft[42], 2);
   EXPECT_EQ(vft[65534], 2);
   compare_with_std_vector(vft, vstd);
+  
+  vft.resize(50, 3);
+  vstd.resize(50, 3);
+  EXPECT_EQ(vft.size(), 50);
+  EXPECT_EQ(vft[0], 0);
+  EXPECT_EQ(vft[1], -4);
+  EXPECT_EQ(vft[41], -4);
+  EXPECT_EQ(vft[42], 2);
+  EXPECT_EQ(vft[49], 2);
+  compare_with_std_vector(vft, vstd);
 }
 
 // ======================================================
