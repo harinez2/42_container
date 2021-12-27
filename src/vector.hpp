@@ -124,21 +124,25 @@ class vector {
   const_reference operator[](size_type n) const { return *(first_ + n); }
   reference at(size_type n) {
     if (size() <= n) {
-      std::ostringstream oss;
-      oss << n;
+      std::ostringstream oss_n;
+      oss_n << n;
+      std::ostringstream oss_size;
+      oss_size << size();
       throw std::out_of_range(
-        "vector::_M_range_check: __n (which is " + oss.str() +
-        ") >= this->size() (which is " + oss.str() + ")");
+        "vector::_M_range_check: __n (which is " + oss_n.str() +
+        ") >= this->size() (which is " + oss_size.str() + ")");
     }
     return *(first_ + n);
   }
   const_reference at(size_type n) const {
     if (size() <= n) {
-      std::ostringstream oss;
-      oss << n;
+      std::ostringstream oss_n;
+      oss_n << n;
+      std::ostringstream oss_size;
+      oss_size << size();
       throw std::out_of_range(
-        "vector::_M_range_check: __n (which is " + oss.str() +
-        ") >= this->size() (which is " + oss.str() + ")");
+        "vector::_M_range_check: __n (which is " + oss_n.str() +
+        ") >= this->size() (which is " + oss_size.str() + ")");
     }
     return *(first_ + n);
   }
