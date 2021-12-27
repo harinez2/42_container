@@ -2,6 +2,8 @@
 #define VECTOR_HPP
 
 #include <memory>
+#include <algorithm>
+#include <iterator>
 #include <stdexcept>
 
 #include <iostream> //TODO:remove
@@ -148,13 +150,33 @@ class vector {
   // changing container elements
   template <class InputIterator>
   void assign(InputIterator first, InputIterator last) {
-    for (iterator it = first_; first != last; ++it, ++first)
-      *it = *first;
+    // size_type inputitr_size = std::distance(first, last);
+    // if (inputitr_size < this->size()) {
+    //   std::copy(first, last, begin());
+    //   destroy_until(rend() - inputitr_size);
+    // }
+    // else {
+    //   InputIterator it = first;
+    //   std::advance(it, inputitr_size);
+    //   std::copy(first, it, begin());
+    //   insert(end(), it, last);
+    // }
   }
   void assign(size_type n, const_reference u) {
-    iterator it = first_;
-    for (size_type i = 0; i < n; ++i, ++it)
-      *it = u;
+    // if (n > capacity()) {
+    //   vector tmp(n, u, alc);
+    //   std::copy(begin(), end(), tmp.begin());
+    //   destroy_until(rend());
+    //   first_ = tmp.begin();
+    //   last_ = tmp.end();
+    //   reserved_last_ = first_ + n;
+    // } else if (n > size()) {
+    //   std::fill(begin(), end(), u);
+    //   std::uninitialized_fill(end(), n - size(), u);
+    //   last_ += n - size();
+    // } else {
+    //   destroy_until(std::fill_n(begin(), n, u));
+    // }
   }
   void push_back(const_reference x) {
     if (last_ == reserved_last_) {
