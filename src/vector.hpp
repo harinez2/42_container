@@ -29,7 +29,7 @@ class vector {
   vector(const allocator_type& a = allocator_type())
       : alc(a), first_(NULL), last_(NULL), reserved_last_(NULL) {}
 
-  vector(value_type n, const T& v = T(), const allocator_type& a = allocator_type())
+  vector(value_type n, const_reference v = value_type(), const allocator_type& a = allocator_type())
       : vector(a) {
     first_ = alc.allocate(n);
     last_ = first_ + n;
@@ -81,7 +81,7 @@ class vector {
   // area
   size_type size() const { return std::distance(first_, last_); }
   size_type max_size() const { return alc.max_size(); }
-  void resize(size_type sz, T c = T()) {
+  void resize(size_type sz, value_type c = value_type()) {
     if (sz < size())
       erase(begin() + sz, end());
     else if (sz > size()) {
@@ -151,12 +151,12 @@ class vector {
     for (iterator it = first_; first != last; ++it, ++first)
       *it = *first;
   }
-  void assign(size_type n, const T& u) {
+  void assign(size_type n, const_reference u) {
     iterator it = first_;
     for (size_type i = 0; i < n; ++i, ++it)
       *it = u;
   }
-  void push_back(const T& x) {
+  void push_back(const_reference x) {
     if (last_ == reserved_last_) {
       if (size() == 0)
         reserve(default_size_);
@@ -171,11 +171,11 @@ class vector {
       return;
     --last_;
   }
-  iterator insert(iterator position, const T& x) {
+  iterator insert(iterator position, const_reference x) {
     insert(position, 1, x);
     return position;
   }
-  void insert(iterator position, size_type n, const T& x) {
+  void insert(iterator position, size_type n, const_reference x) {
     reserve(n);
     iterator it_from = end() - 1;
     iterator it_to = position + n;
@@ -230,7 +230,7 @@ class vector {
       ++it;
     }
     if (flg_found == true) {
-      T* new_last_ = it_prev;
+      value_type* new_last_ = it_prev;
       while (it_prev != end()) {
         alc.destroy(it_prev++);
       }
@@ -248,7 +248,7 @@ class vector {
     iterator it_rhs = x.begin();
     while (true) {
       if (it != end() && it_rhs != end()) {
-        T tmp = *it;
+        value_type tmp = *it;
         *it = *it_rhs;
         *it_rhs = tmp;
         ++it;
@@ -279,7 +279,7 @@ class vector {
   allocator_type get_allocator() const {}
 
   // compare operator
-  bool operator==(const T& rhs) {
+  bool operator==(const_reference rhs) {
     iterator it_lhs = begin();
     iterator it_rhs = rhs.begin();
     for (; it_lhs != end() && it_rhs != rhs.end(); ++it_lhs, ++it_rhs) {
@@ -290,7 +290,7 @@ class vector {
     }
     return (it_lhs == end() && it_rhs == rhs.end()) ? true : false;
   }
-  bool operator!=(const T& rhs) { return !(this == rhs); }
+  bool operator!=(const_reference rhs) { return !(this == rhs); }
   bool operator<(const vector& rhs) {
     iterator it_lhs = begin();
     iterator it_rhs = rhs.begin();
