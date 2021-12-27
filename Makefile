@@ -46,16 +46,24 @@ $(gtest):
 
 .PHONY: test
 test: $(gtest) 
-	clang++ -std=c++11 $(testdir)/gtest.cpp \
+	$(CXX) -std=c++11 $(testdir)/gtest.cpp \
 		$(gtestdir)/googletest-release-1.11.0/googletest/src/gtest_main.cc \
 		$(gtestdir)/gtest/gtest-all.cc \
 		-D DEBUG -g -fsanitize=integer -fsanitize=address -fsanitize=leak -fsanitize=undefined \
-		-I$(gtestdir) -I$(includes) -lpthread -o tester
+		-I$(gtestdir) -I$(includes) -lpthread -o tester $(lcovflags)
 	./tester
 	$(RM) tester
 
 .PHONY: wtest
 wtest:
-	clang++ test/test_wrapper_main.cpp
+	$(CXX) $(testdir)/test_wrapper_main.cpp
 	./a.out
 	$(RM) a.out
+
+.PHONY: lcov
+lcov: CXX = g++
+lcov: lcovflags += -fprofile-arcs -ftest-coverage
+lcov: test
+lcov:
+	lcov -c -b . -d . -o cov_test.info
+	genhtml cov_test.info -o cov_test
