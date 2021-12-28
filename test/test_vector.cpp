@@ -719,10 +719,10 @@ TEST_F(VectorTest, int_pushback) {
   EXPECT_EQ(vft.at(5), 2147483647);
   compare_with_std_vector(vft, vstd);
 
-  // push_back 10000 times
+  // push_back BIG_TEST_SIZE times
   ft::vector<int> vft2;
   std::vector<int> vstd2;
-  for (std::size_t i = 0; i < 10000; ++i) {
+  for (std::size_t i = 0; i < BIG_TEST_SIZE; ++i) {
     vft2.push_back(i);
     vstd2.push_back(i);
     compare_with_std_vector(vft2, vstd2);
@@ -748,23 +748,23 @@ TEST_F(VectorTest, int_popback) {
   EXPECT_EQ(vft.at(1), 1);
   compare_with_std_vector(vft, vstd);
 
-  // pop_back 500 times
-  ft::vector<int> vft2(10000, 42);
-  std::vector<int> vstd2(10000, 42);
-  EXPECT_EQ(vft2.size(), 10000);
+  // pop_back BIG_TEST_SIZE / 2 times
+  ft::vector<int> vft2(BIG_TEST_SIZE, 42);
+  std::vector<int> vstd2(BIG_TEST_SIZE, 42);
+  EXPECT_EQ(vft2.size(), BIG_TEST_SIZE);
   EXPECT_EQ(vft2.size(), vstd2.size());
-  for (std::size_t i = 0; i < 500; ++i) {
+  for (std::size_t i = 0; i < BIG_TEST_SIZE / 2; ++i) {
     vft2.pop_back();
     vstd2.pop_back();
     compare_with_std_vector(vft2, vstd2);
   }
-  EXPECT_EQ(vft2.size(), 9500);
-  EXPECT_EQ(vft2[9499], 42);
+  EXPECT_EQ(vft2.size(), BIG_TEST_SIZE - BIG_TEST_SIZE / 2);
+  EXPECT_EQ(vft2[BIG_TEST_SIZE - BIG_TEST_SIZE / 2 - 1], 42);
   EXPECT_EQ(vft2.size(), vstd2.size());
   compare_with_std_vector(vft2, vstd2);
 
-  // pop_back 9500 times until size() is zero
-  for (std::size_t i = 0; i < 9500; ++i) {
+  // pop_back remain data until size() is zero
+  for (std::size_t i = 0; i < BIG_TEST_SIZE - BIG_TEST_SIZE / 2; ++i) {
     vft2.pop_back();
     vstd2.pop_back();
     compare_with_std_vector(vft2, vstd2);
