@@ -184,7 +184,7 @@ class vector {
       destroy_until(rbegin() + size() - n);
     }
   }
-  void push_back(const_reference x) {
+  void push_back(const_reference x) {//TODO: change to use insert
     if (last_ == reserved_last_) {
       if (size() == 0)
         reserve(default_size_);
@@ -195,9 +195,8 @@ class vector {
     ++last_;
   }
   void pop_back() {
-    if (empty() == true)
-      return;
     --last_;
+    alc_.destroy(last_);
   }
   iterator insert(iterator position, const_reference x) {
     insert(position, 1, x);
