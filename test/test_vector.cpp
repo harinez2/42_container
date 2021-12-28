@@ -771,6 +771,13 @@ TEST_F(VectorTest, int_popback) {
   }
   EXPECT_EQ(vft2.size(), 0);
   EXPECT_TRUE(vft2.empty());
+
+  // too much pop_back
+  vft2.pop_back();
+  vstd2.pop_back();
+  EXPECT_EQ(vft2.size(), 0);
+  EXPECT_TRUE(vft2.empty());
+  compare_with_std_vector(vft2, vstd2);
 }
 
 // ======================================================
