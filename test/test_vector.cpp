@@ -700,6 +700,7 @@ TEST_F(VectorTest, int_assign_initializer) {
 // push_back (int)
 
 TEST_F(VectorTest, int_pushback) {
+  // push_back 4 times
   ft::vector<int> vft(2, 2);
   std::vector<int> vstd(2, 2);
   EXPECT_EQ(vft.at(0), 2);
@@ -718,11 +719,14 @@ TEST_F(VectorTest, int_pushback) {
   EXPECT_EQ(vft.at(5), 2147483647);
   compare_with_std_vector(vft, vstd);
 
+  // push_back 10000 times
+  ft::vector<int> vft2;
+  std::vector<int> vstd2;
   for (std::size_t i = 0; i < 10000; ++i) {
-    vft.push_back(i);
-    vstd.push_back(i);
+    vft2.push_back(i);
+    vstd2.push_back(i);
+    compare_with_std_vector(vft2, vstd2);
   }
-  compare_with_std_vector(vft, vstd);
 }
 
 // ======================================================
@@ -752,6 +756,7 @@ TEST_F(VectorTest, int_popback) {
   for (std::size_t i = 0; i < 500; ++i) {
     vft2.pop_back();
     vstd2.pop_back();
+    compare_with_std_vector(vft2, vstd2);
   }
   EXPECT_EQ(vft2.size(), 9500);
   EXPECT_EQ(vft2[9499], 42);
@@ -762,10 +767,10 @@ TEST_F(VectorTest, int_popback) {
   for (std::size_t i = 0; i < 9500; ++i) {
     vft2.pop_back();
     vstd2.pop_back();
+    compare_with_std_vector(vft2, vstd2);
   }
   EXPECT_EQ(vft2.size(), 0);
   EXPECT_TRUE(vft2.empty());
-  compare_with_std_vector(vft2, vstd2);
 }
 
 // ======================================================
