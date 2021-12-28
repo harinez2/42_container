@@ -184,12 +184,8 @@ class vector {
     }
   }
   void push_back(const_reference x) {//TODO: change to use insert
-    if (last_ == reserved_last_) {
-      if (size() == 0)
-        reserve(default_size_);
-      else
-        reserve(size() * 2);
-    }
+    if (last_ == reserved_last_)
+      reserve(get_new_allocate_size_(1, "vector::_M_insert_aux"));
     alc_.construct(first_ + size(), x);
     ++last_;
   }
@@ -198,11 +194,56 @@ class vector {
     alc_.destroy(last_);
   }
   iterator insert(iterator position, const_reference x) {
-    insert(position, 1, x);
+    if (end() != reserved_last_ && position == end()) {
+      alc_.construct(end(), x);
+      ++last_;
+    }
+    else {
+      _M_insert_aux(position, x);
+    }
     return position;
   }
+
+
+
+  void _M_insert_aux(iterator position, const_reference x) {
+    if (end() != reserved_last_) {
+      alc_.construct(end(), *(end() - 1));
+      copy_backward_(position, end() - 2, end() - 1);
+      ++last_;
+      *position = x;
+    }
+    else {
+      const size_type new_len_ = get_new_allocate_size_(1, "vector::_M_insert_aux");
+      const size_type elems_before_ = position - begin();
+
+      value_type* new_first_ = alc_.allocate(new_len_);
+      value_type* new_last_ = new_first_;
+      try {
+        std::uninitialized_copy(begin(), &*position, new_first_);
+        alc_.construct(new_first_ + elems_before_, x);
+        std::uninitialized_copy(&*position, end(), new_first_ + elems_before_ + 1);
+        new_last_ = new_first_ + size() + 1;
+      } catch(...) {
+        // if (!new_last_)
+        //   this->_M_impl.destroy(new_first_ + elems_before_);
+        // else
+        //   std::_Destroy(new_first_, new_last_, get_allocator());
+        // _M_deallocate(new_first_, new_len_);
+        // __throw_exception_again;
+      }
+      destroy_until(rend());
+      alc_.deallocate(begin(), capacity());
+      first_ = new_first_;
+      last_ = new_last_;
+      reserved_last_ = new_first_ + new_len_;
+    }
+  }
+
+
+
   void insert(iterator position, size_type n, const_reference x) {
-    reserve(n);
+    reserve(size() + n);
     iterator it_from = end() - 1;
     iterator it_to = position + n;
     for (; it_from != position; --it_from) {
@@ -215,23 +256,23 @@ class vector {
     }
     last_ += n;
   }
-  template <class InputIterator>
-  void insert(iterator position, InputIterator first, InputIterator last) {
-    size_type n = std::distance(first, last);
-    reserve(n);
-    iterator it_from = end() - 1;
-    iterator it_to = position + n;
-    for (; it_from != position; --it_from) {
-      *it_to = *it_from;
-      --it_to;
-    }
-    *it_to = *it_from;
-    for (size_type i = 0; i < n; ++i) {
-      *(position + i) = *first;
-      ++first;
-    }
-    last_ += n;
-  }
+  // template <class InputIterator>
+  // void insert(iterator position, InputIterator first, InputIterator last) {
+  //   size_type n = std::distance(first, last);
+  //   reserve(n);
+  //   iterator it_from = end() - 1;
+  //   iterator it_to = position + n;
+  //   for (; it_from != position; --it_from) {
+  //     *it_to = *it_from;
+  //     --it_to;
+  //   }
+  //   *it_to = *it_from;
+  //   for (size_type i = 0; i < n; ++i) {
+  //     *(position + i) = *first;
+  //     ++first;
+  //   }
+  //   last_ += n;
+  // }
   iterator erase(iterator position) {
     return erase(position, position);
   }
@@ -333,7 +374,6 @@ class vector {
   bool operator>=(const vector& rhs) { return this > rhs || this == rhs; }
 
  private:
-  static const int default_size_ = 1;
   Allocator alc_;
   value_type* first_;
   value_type* last_;
@@ -342,6 +382,19 @@ class vector {
   void destroy_until(reverse_iterator rend) {
     for (reverse_iterator it = rbegin(); it != rend; ++it, --last_)
       alc_.destroy(&*it);
+  }
+  size_type get_new_allocate_size_(size_type n, std::string errmsg) const {
+    if (max_size() - size() < n)
+      throw std::length_error(errmsg);
+    
+    const size_type len_ = size() + std::max(size(), n);
+    return len_ > max_size() ? max_size() : len_;
+  }
+  void copy_backward_(iterator first, iterator last, iterator result_end) {
+    for (iterator it = last; it != first - 1; --it) {
+      *result_end = *it;
+      --result_end;
+    }
   }
 };
 

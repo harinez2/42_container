@@ -776,7 +776,43 @@ TEST_F(VectorTest, int_popback) {
 // ======================================================
 // insert (int)
 
-TEST_F(VectorTest, int_insert) {
+TEST_F(VectorTest, int_insert_iterator) {
+  // insert in empty vector
+  ft::vector<int> vft;
+  std::vector<int> vstd;
+  vft.insert(vft.begin(), 42);
+  vstd.insert(vstd.begin(), 42);
+  EXPECT_EQ(vft[0], 42);
+  EXPECT_EQ(vft.size(), 1);
+  compare_with_std_vector(vft, vstd);
+
+  // insert in head, tail, and middle
+  ft::vector<int> vft2(vft_);
+  std::vector<int> vstd2(vstd_);
+  vft2.insert(vft2.begin(), 1111);
+  vstd2.insert(vstd2.begin(), 1111);
+  compare_with_std_vector(vft2, vstd2);
+  vft2.insert(vft2.end(), 2222);
+  vstd2.insert(vstd2.end(), 2222);
+  compare_with_std_vector(vft2, vstd2);
+  vft2.insert(vft2.begin() + 2, 3333);
+  vstd2.insert(vstd2.begin() + 2, 3333);
+  EXPECT_EQ(vft2[0], 1111);
+  EXPECT_EQ(vft2[1], 42);
+  EXPECT_EQ(vft2[2], 3333);
+  EXPECT_EQ(vft2[3], 1);
+  EXPECT_EQ(vft2[4], 0);
+  EXPECT_EQ(vft2[5], -42);
+  EXPECT_EQ(vft2[6], 4242);
+  EXPECT_EQ(vft2[7], 2222);
+  EXPECT_EQ(vft2.size(), 8);
+  compare_with_std_vector(vft2, vstd2);
+}
+
+TEST_F(VectorTest, int_insert_iterator_size) {
+}
+
+TEST_F(VectorTest, int_insert_iterator_inputiterator) {
 }
 
 // ======================================================
