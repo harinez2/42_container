@@ -197,51 +197,17 @@ class vector {
     if (end() != reserved_last_ && position == end()) {
       alc_.construct(end(), x);
       ++last_;
-    }
-    else {
-      _M_insert_aux(position, x);
-    }
-    return position;
-  }
-
-
-
-  void _M_insert_aux(iterator position, const_reference x) {
-    if (end() != reserved_last_) {
+    } else if (end() != reserved_last_) {
       alc_.construct(end(), *(end() - 1));
       copy_backward_(position, end() - 2, end() - 1);
       ++last_;
       *position = x;
     }
     else {
-      const size_type new_len_ = get_new_allocate_size_(1, "vector::_M_insert_aux");
-      const size_type elems_before_ = position - begin();
-
-      value_type* new_first_ = alc_.allocate(new_len_);
-      value_type* new_last_ = new_first_;
-      try {
-        std::uninitialized_copy(begin(), &*position, new_first_);
-        alc_.construct(new_first_ + elems_before_, x);
-        std::uninitialized_copy(&*position, end(), new_first_ + elems_before_ + 1);
-        new_last_ = new_first_ + size() + 1;
-      } catch(...) {
-        // if (!new_last_)
-        //   this->_M_impl.destroy(new_first_ + elems_before_);
-        // else
-        //   std::_Destroy(new_first_, new_last_, get_allocator());
-        // _M_deallocate(new_first_, new_len_);
-        // __throw_exception_again;
-      }
-      destroy_until(rend());
-      alc_.deallocate(begin(), capacity());
-      first_ = new_first_;
-      last_ = new_last_;
-      reserved_last_ = new_first_ + new_len_;
+      insert_reallocate_(position, x);
     }
+    return position;
   }
-
-
-
   void insert(iterator position, size_type n, const_reference x) {
     reserve(size() + n);
     iterator it_from = end() - 1;
@@ -395,6 +361,31 @@ class vector {
       *result_end = *it;
       --result_end;
     }
+  }
+  void insert_reallocate_(iterator position, const_reference x) {
+    const size_type new_len_ = get_new_allocate_size_(1, "vector::_M_insert_aux");
+    const size_type elems_before_ = position - begin();
+
+    value_type* new_first_ = alc_.allocate(new_len_);
+    value_type* new_last_ = new_first_;
+    try {
+      std::uninitialized_copy(begin(), &*position, new_first_);
+      alc_.construct(new_first_ + elems_before_, x);
+      std::uninitialized_copy(&*position, end(), new_first_ + elems_before_ + 1);
+      new_last_ = new_first_ + size() + 1;
+    } catch(...) {
+      // if (!new_last_)
+      //   this->_M_impl.destroy(new_first_ + elems_before_);
+      // else
+      //   std::_Destroy(new_first_, new_last_, get_allocator());
+      // _M_deallocate(new_first_, new_len_);
+      // __throw_exception_again;
+    }
+    destroy_until(rend());
+    alc_.deallocate(begin(), capacity());
+    first_ = new_first_;
+    last_ = new_last_;
+    reserved_last_ = new_first_ + new_len_;
   }
 };
 
