@@ -29,15 +29,15 @@ class vector {
 
   // constructors & destructor
   vector(const allocator_type& a = allocator_type())
-      : alc(a), first_(NULL), last_(NULL), reserved_last_(NULL) {}
+      : alc_(a), first_(NULL), last_(NULL), reserved_last_(NULL) {}
 
   vector(value_type n, const_reference v = value_type(), const allocator_type& a = allocator_type())
       : vector(a) {
-    first_ = alc.allocate(n);
+    first_ = alc_.allocate(n);
     last_ = first_ + n;
     reserved_last_ = first_ + n;
     for (size_type i = 0; i < n; ++i) {
-      alc.construct(first_ + i, v);
+      alc_.construct(first_ + i, v);
     }
   }
 
@@ -49,7 +49,7 @@ class vector {
       push_back(*it);
   }
 
-  vector(const vector& rhs) : vector(rhs.alc) { *this = rhs; }
+  vector(const vector& rhs) : vector(rhs.alc_) { *this = rhs; }
 
   vector& operator=(const vector& rhs) {
     if (this != &rhs) {
@@ -67,7 +67,7 @@ class vector {
 
   ~vector() {
     clear();
-    alc.deallocate(first_, capacity());
+    alc_.deallocate(first_, capacity());
   }
 
   // iterator
@@ -82,7 +82,7 @@ class vector {
 
   // area
   size_type size() const { return std::distance(first_, last_); }
-  size_type max_size() const { return alc.max_size(); }
+  size_type max_size() const { return alc_.max_size(); }
   void resize(size_type sz, value_type c = value_type()) {
     if (sz < size())
       erase(begin() + sz, end());
@@ -107,13 +107,13 @@ class vector {
     if (n <= capacity())
       return;
 
-    value_type* tmp_first_ = alc.allocate(n);
+    value_type* tmp_first_ = alc_.allocate(n);
     size_type data_size = size();
     for (size_type i = 0; i < data_size; ++i) {
-      alc.construct(tmp_first_ + i, first_[i]);
-      alc.destroy(first_ + i);
+      alc_.construct(tmp_first_ + i, first_[i]);
+      alc_.destroy(first_ + i);
     }
-    alc.deallocate(first_, data_size);
+    alc_.deallocate(first_, data_size);
     first_ = tmp_first_;
     last_ = first_ + data_size;
     reserved_last_ = first_ + n;
@@ -168,10 +168,10 @@ class vector {
   // }
   void assign(size_type n, const_reference u) {
     if (n > capacity()) {
-      value_type* tmp_first_ = alc.allocate(n);
+      value_type* tmp_first_ = alc_.allocate(n);
       std::uninitialized_fill(tmp_first_, tmp_first_ + n, u);
       destroy_until(rend());
-      alc.deallocate(begin(), capacity());
+      alc_.deallocate(begin(), capacity());
       first_ = tmp_first_;
       last_ = tmp_first_ + n;
       reserved_last_ = tmp_first_ + n;
@@ -191,7 +191,7 @@ class vector {
       else
         reserve(size() * 2);
     }
-    alc.construct(first_ + size(), x);
+    alc_.construct(first_ + size(), x);
     ++last_;
   }
   void pop_back() {
@@ -260,7 +260,7 @@ class vector {
     if (flg_found == true) {
       value_type* new_last_ = it_prev;
       while (it_prev != end()) {
-        alc.destroy(it_prev++);
+        alc_.destroy(it_prev++);
       }
       last_ = new_last_;
     }
@@ -336,14 +336,14 @@ class vector {
 
  private:
   static const int default_size_ = 1;
-  Allocator alc;
+  Allocator alc_;
   value_type* first_;
   value_type* last_;
   value_type* reserved_last_;
 
   void destroy_until(reverse_iterator rend) {
     for (reverse_iterator it = rbegin(); it != rend; ++it, --last_)
-      alc.destroy(&*it);
+      alc_.destroy(&*it);
   }
 };
 
