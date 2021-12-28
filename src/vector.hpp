@@ -152,8 +152,8 @@ class vector {
   const_reference back() const { return *(end() - 1); }
 
   // changing container elements
-  template <class InputIterator>
-  void assign(InputIterator first, InputIterator last) {
+  // template <class InputIterator>
+  // void assign(InputIterator first, InputIterator last) {
     // size_type inputitr_size = std::distance(first, last);
     // if (inputitr_size < this->size()) {
     //   std::copy(first, last, begin());
@@ -165,22 +165,24 @@ class vector {
     //   std::copy(first, it, begin());
     //   insert(end(), it, last);
     // }
-  }
+  // }
   void assign(size_type n, const_reference u) {
-    // if (n > capacity()) {
-    //   vector tmp(n, u, alc);
-    //   std::copy(begin(), end(), tmp.begin());
-    //   destroy_until(rend());
-    //   first_ = tmp.begin();
-    //   last_ = tmp.end();
-    //   reserved_last_ = first_ + n;
-    // } else if (n > size()) {
-    //   std::fill(begin(), end(), u);
-    //   std::uninitialized_fill(end(), n - size(), u);
-    //   last_ += n - size();
-    // } else {
-    //   destroy_until(std::fill_n(begin(), n, u));
-    // }
+    if (n > capacity()) {
+      value_type* tmp_first_ = alc.allocate(n);
+      std::uninitialized_fill(tmp_first_, tmp_first_ + n, u);
+      destroy_until(rend());
+      alc.deallocate(begin(), capacity());
+      first_ = tmp_first_;
+      last_ = tmp_first_ + n;
+      reserved_last_ = tmp_first_ + n;
+    } else if (n > size()) {
+      std::fill(begin(), end(), u);
+      std::uninitialized_fill(end(), end() + n - size(), u);
+      last_ += n - size();
+    } else {
+      std::fill_n(begin(), n, u);
+      destroy_until(rbegin() + size() - n);
+    }
   }
   void push_back(const_reference x) {
     if (last_ == reserved_last_) {

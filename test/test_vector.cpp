@@ -661,39 +661,39 @@ TEST_F(VectorTest, int_assign_iterator) {
 }
 
 TEST_F(VectorTest, int_assign_initializer) {
-  // // assinging the same size
-  // ft::vector<int> vft(vft_);
-  // std::vector<int> vstd(vstd_);
-  // vft.assign(5, 42);
-  // vstd.assign(5, 42);
-  // EXPECT_EQ(vft[0], 42);
-  // EXPECT_EQ(vft[1], 42);
-  // EXPECT_EQ(vft[2], 42);
-  // EXPECT_EQ(vft[3], 42);
-  // EXPECT_EQ(vft[4], 42);
-  // EXPECT_EQ(vft.size(), 5);
-  // compare_with_std_vector(vft, vstd);
+  // assinging the same size
+  ft::vector<int> vft(vft_);
+  std::vector<int> vstd(vstd_);
+  vft.assign(5, 42);
+  vstd.assign(5, 42);
+  EXPECT_EQ(vft[0], 42);
+  EXPECT_EQ(vft[1], 42);
+  EXPECT_EQ(vft[2], 42);
+  EXPECT_EQ(vft[3], 42);
+  EXPECT_EQ(vft[4], 42);
+  EXPECT_EQ(vft.size(), 5);
+  compare_with_std_vector(vft, vstd);
 
-  // // assinging smaller size
-  // vft.assign(2, 420);
-  // vstd.assign(2, 420);
-  // EXPECT_EQ(vft[0], 420);
-  // EXPECT_EQ(vft[1], 420);
-  // EXPECT_EQ(vft.size(), 2);
-  // compare_with_std_vector(vft, vstd);
+  // assinging smaller size
+  vft.assign(2, 420);
+  vstd.assign(2, 420);
+  EXPECT_EQ(vft[0], 420);
+  EXPECT_EQ(vft[1], 420);
+  EXPECT_EQ(vft.size(), 2);
+  compare_with_std_vector(vft, vstd);
 
-  // // assinging bigger size
-  // vft.assign(7, 4200);
-  // vstd.assign(7, 4200);
-  // EXPECT_EQ(vft[0], 4200);
-  // EXPECT_EQ(vft[1], 4200);
-  // EXPECT_EQ(vft[2], 4200);
-  // EXPECT_EQ(vft[3], 4200);
-  // EXPECT_EQ(vft[4], 4200);
-  // EXPECT_EQ(vft[5], 4200);
-  // EXPECT_EQ(vft[6], 4200);
-  // EXPECT_EQ(vft.size(), 7);
-  // compare_with_std_vector(vft, vstd);
+  // assinging bigger size
+  vft.assign(7, 4200);
+  vstd.assign(7, 4200);
+  EXPECT_EQ(vft[0], 4200);
+  EXPECT_EQ(vft[1], 4200);
+  EXPECT_EQ(vft[2], 4200);
+  EXPECT_EQ(vft[3], 4200);
+  EXPECT_EQ(vft[4], 4200);
+  EXPECT_EQ(vft[5], 4200);
+  EXPECT_EQ(vft[6], 4200);
+  EXPECT_EQ(vft.size(), 7);
+  compare_with_std_vector(vft, vstd);
 }
 
 // ======================================================
