@@ -67,7 +67,7 @@ class vector {
 
   ~vector() {
     clear();
-    alc_.deallocate(first_, capacity());
+    alc_.deallocate(begin(), capacity());
   }
 
   // iterator
@@ -109,11 +109,10 @@ class vector {
 
     value_type* tmp_first_ = alc_.allocate(n);
     size_type data_size = size();
-    for (size_type i = 0; i < data_size; ++i) {
+    for (size_type i = 0; i < data_size; ++i)
       alc_.construct(tmp_first_ + i, first_[i]);
-      alc_.destroy(first_ + i);
-    }
-    alc_.deallocate(first_, data_size);
+    destroy_until(rend());
+    alc_.deallocate(begin(), capacity());
     first_ = tmp_first_;
     last_ = first_ + data_size;
     reserved_last_ = first_ + n;
