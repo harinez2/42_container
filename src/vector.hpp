@@ -188,7 +188,7 @@ class vector {
       alc_.construct(first_ + size(), x);
       ++last_;
     } else {
-      realloc_insert_(end(), x);
+      realloc_insert_(end(), 1, x);
     }
   }
   void pop_back() {
@@ -201,9 +201,8 @@ class vector {
       ++last_;
     } else if (end() != reserved_last_) {
       backward_insert_(position, 1, x);
-    }
-    else {
-      realloc_insert_(position, x);
+    } else {
+      realloc_insert_(position, 1, x);
     }
     return position;
   }
@@ -212,23 +211,10 @@ class vector {
       return;
     
     if (reserved_last_ - last_ >= n) {
-
+      backward_insert_(position, n, x);
     } else {
-
+      realloc_insert_(position, n, x);
     }
-
-    reserve(size() + n);
-    iterator it_from = end() - 1;
-    iterator it_to = position + n;
-    for (; it_from != position; --it_from) {
-      *it_to = *it_from;
-      --it_to;
-    }
-    *it_to = *it_from;
-    for (size_type i = 0; i < n; ++i) {
-      *(position + i) = x;
-    }
-    last_ += n;
   }
   // template <class InputIterator>
   // void insert(iterator position, InputIterator first, InputIterator last) {
@@ -378,17 +364,18 @@ class vector {
     last_ += n;
     std::fill_n(position, n, x);
   }
-  void realloc_insert_(iterator position, const_reference x) {
-    const size_type new_len = get_new_allocate_size_(1, "vector::realloc_insert_");
+  void realloc_insert_(iterator position, size_type n, const_reference x) {
+    const size_type new_len = get_new_allocate_size_(n, "vector::realloc_insert_");
     const size_type elems_before = position - begin();
 
     value_type* new_first = alc_.allocate(new_len);
     value_type* new_last = new_first;
     try {
       std::uninitialized_copy(begin(), &*position, new_first);
-      alc_.construct(new_first + elems_before, x);
-      std::uninitialized_copy(&*position, end(), new_first + elems_before + 1);
-      new_last = new_first + size() + 1;
+      for (size_type i = 0; i < n; ++i)
+        alc_.construct(new_first + elems_before + i, x);
+      std::uninitialized_copy(&*position, end(), new_first + elems_before + n);
+      new_last = new_first + size() + n;
     } catch(...) {
       // if (!new_last)
       //   this->_M_impl.destroy(new_first + elems_before);
