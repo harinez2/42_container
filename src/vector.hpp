@@ -183,11 +183,13 @@ class vector {
       destroy_until(rbegin() + size() - n);
     }
   }
-  void push_back(const_reference x) {//TODO: change to use insert
-    if (last_ == reserved_last_)
-      reserve(get_new_allocate_size_(1, "vector::_M_insert_aux"));
-    alc_.construct(first_ + size(), x);
-    ++last_;
+  void push_back(const_reference x) {
+    if (last_ != reserved_last_) {
+      alc_.construct(first_ + size(), x);
+      ++last_;
+    } else {
+      realloc_insert_(end(), x);
+    }
   }
   void pop_back() {
     --last_;
@@ -204,7 +206,7 @@ class vector {
       *position = x;
     }
     else {
-      insert_reallocate_(position, x);
+      realloc_insert_(position, x);
     }
     return position;
   }
@@ -362,7 +364,7 @@ class vector {
       --result_end;
     }
   }
-  void insert_reallocate_(iterator position, const_reference x) {
+  void realloc_insert_(iterator position, const_reference x) {
     const size_type new_len_ = get_new_allocate_size_(1, "vector::_M_insert_aux");
     const size_type elems_before_ = position - begin();
 
