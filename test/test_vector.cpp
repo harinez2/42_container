@@ -858,7 +858,46 @@ TEST_F(VectorTest, int_insert_iterator_inputiterator) {
 // ======================================================
 // erase (int)
 
-TEST_F(VectorTest, int_erase) {
+TEST_F(VectorTest, int_erase_one) {
+  // erase top
+  ft::vector<int> vft(vft_);
+  std::vector<int> vstd(vstd_);
+  vft.erase(vft.begin());
+  vstd.erase(vstd.begin());
+  compare_with_std_vector(vft, vstd);
+
+  // erase middle
+  vft.erase(vft.begin() + 1);
+  vstd.erase(vstd.begin() + 1);
+  compare_with_std_vector(vft, vstd);
+
+  // erase end
+  vft.erase(vft.end() - 1);
+  vstd.erase(vstd.end() - 1);
+  compare_with_std_vector(vft, vstd);
+}
+
+TEST_F(VectorTest, int_erase_iterator) {
+  // erase top
+  ft::vector<int> vft(vft_);
+  std::vector<int> vstd(vstd_);
+  vft.erase(vft.begin(), vft.begin() + 2);
+  vstd.erase(vstd.begin(), vstd.begin() + 2);
+  compare_with_std_vector(vft, vstd);
+
+  // erase middle
+  ft::vector<int> vft2(vft_);
+  std::vector<int> vstd2(vstd_);
+  vft2.erase(vft2.begin() + 1, vft2.begin() + 2);
+  vstd2.erase(vstd2.begin() + 1, vstd2.begin() + 2);
+  compare_with_std_vector(vft2, vstd2);
+
+  // erase end
+  ft::vector<int> vft3(vft_);
+  std::vector<int> vstd3(vstd_);
+  vft3.erase(vft3.end() - 2, vft3.end());
+  vstd3.erase(vstd3.end() - 2, vstd3.end());
+  compare_with_std_vector(vft3, vstd3);
 }
 
 // ======================================================

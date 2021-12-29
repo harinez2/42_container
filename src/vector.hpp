@@ -234,36 +234,15 @@ class vector {
   //   last_ += n;
   // }
   iterator erase(iterator position) {
-    return erase(position, position);
+    return erase(position, position + 1);
   }
   iterator erase(iterator first, iterator last) {
-    bool flg_found = false;
-    iterator it_prev;
-    iterator it_ret = end();
-    for (iterator it = begin(); it != end(); ) {
-      if (it == first) {
-        flg_found = true;
-        it_ret = it;
-        it_prev = it;
-        while (it != last && it != end())
-          ++it;
-        if (it == end())
-          continue;
-      }
-      else if (flg_found == true) {
-        *it_prev = *it;
-        ++it_prev;
-      }
-      ++it;
+    if (first != last) {
+      if (last != end())
+        copy_foreward_(last, end(), first);
+      destroy_until_(rbegin() + std::distance(first, last));
     }
-    if (flg_found == true) {
-      value_type* new_last_ = it_prev;
-      while (it_prev != end()) {
-        alc_.destroy(it_prev++);
-      }
-      last_ = new_last_;
-    }
-    return it_ret;
+    return first;
   }
   void swap(vector& x) {
     if (capacity() < x.size())
@@ -349,6 +328,12 @@ class vector {
     
     const size_type len_ = size() + std::max(size(), n);
     return len_ > max_size() ? max_size() : len_;
+  }
+  void copy_foreward_(iterator first, iterator last, iterator result_begin) {
+    for (iterator it = first; it != last; ++it) {
+      *result_begin = *it;
+      ++result_begin;
+    }
   }
   void copy_backward_(iterator first, iterator last, iterator result_end) {
     for (iterator it = last - 1; it != first - 1; --it) {
