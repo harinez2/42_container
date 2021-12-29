@@ -252,7 +252,7 @@ class vector {
   void clear() { destroy_until_(rend()); }
 
   // allocator
-  allocator_type get_allocator() const {}
+  allocator_type get_allocator() const { return alc_; }
 
   // compare operator
   bool operator==(const_reference rhs) {

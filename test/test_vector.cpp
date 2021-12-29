@@ -1006,9 +1006,41 @@ TEST_F(VectorTest, int_clear) {
 }
 
 // ======================================================
-// allocator (int)
+// get_allocator (int)
 
-TEST_F(VectorTest, int_allocator) {
+TEST_F(VectorTest, int_getallocator) {
+  // std
+  std::allocator<int> std_alloc;
+  std::vector<int> vstd(std_alloc);
+  std::allocator<int> std_result = vstd.get_allocator();
+  EXPECT_EQ(std_result, std_alloc);
+
+  // ft
+  ft::vector<int> vft(std_alloc);
+  std::allocator<int> ft_result = vft.get_allocator();
+  EXPECT_EQ(ft_result, std_alloc);
+
+  // std const
+  const std::allocator<int> std_alloc2;
+  const std::vector<int> vstd2(std_alloc2);
+  std::allocator<int> std_result2 = vstd2.get_allocator();
+  EXPECT_EQ(std_result2, std_alloc2);
+
+  // ft const
+  const ft::vector<int> vft2(std_alloc2);
+  std::allocator<int> ft_result2 = vft2.get_allocator();
+  EXPECT_EQ(ft_result2, std_alloc2);
+
+  // std const const
+  const std::allocator<int> std_alloc3;
+  const std::vector<int> vstd3(std_alloc3);
+  const std::allocator<int> std_result3 = vstd3.get_allocator();
+  EXPECT_EQ(std_result3, std_alloc3);
+
+  // ft const const
+  const ft::vector<int> vft3(std_alloc3);
+  const std::allocator<int> ft_result3 = vft3.get_allocator();
+  EXPECT_EQ(ft_result3, std_alloc3);
 }
 
 //======================================================
