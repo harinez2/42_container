@@ -111,7 +111,7 @@ class vector {
     size_type data_size = size();
     for (size_type i = 0; i < data_size; ++i)
       alc_.construct(tmp_first_ + i, first_[i]);
-    destroy_until(rend());
+    destroy_until_(rend());
     alc_.deallocate(begin(), capacity());
     first_ = tmp_first_;
     last_ = first_ + data_size;
@@ -156,7 +156,7 @@ class vector {
   //   size_type inputitr_size = std::distance(first, last);
   //   if (inputitr_size < this->size()) {
   //     std::copy(first, last, begin());
-  //     destroy_until(rend() - inputitr_size);
+  //     destroy_until_(rend() - inputitr_size);
   //   }
   //   else {
   //     InputIterator it = first;
@@ -169,7 +169,7 @@ class vector {
     if (n > capacity()) {
       value_type* tmp_first_ = alc_.allocate(n);
       std::uninitialized_fill(tmp_first_, tmp_first_ + n, u);
-      destroy_until(rend());
+      destroy_until_(rend());
       alc_.deallocate(begin(), capacity());
       first_ = tmp_first_;
       last_ = tmp_first_ + n;
@@ -180,7 +180,7 @@ class vector {
       last_ += n - size();
     } else {
       std::fill_n(begin(), n, u);
-      destroy_until(rbegin() + size() - n);
+      destroy_until_(rbegin() + size() - n);
     }
   }
   void push_back(const_reference x) {
@@ -300,7 +300,7 @@ class vector {
     else if (flg_end == 2)
       last_ = it;
   }
-  void clear() { destroy_until(rend()); }
+  void clear() { destroy_until_(rend()); }
 
   // allocator
   allocator_type get_allocator() const {}
@@ -339,7 +339,7 @@ class vector {
   value_type* last_;
   value_type* reserved_last_;
 
-  void destroy_until(reverse_iterator rend) {
+  void destroy_until_(reverse_iterator rend) {
     for (reverse_iterator it = rbegin(); it != rend; ++it, --last_)
       alc_.destroy(&*it);
   }
@@ -384,7 +384,7 @@ class vector {
       // _M_deallocate(new_first, new_len);
       // __throw_exception_again;
     }
-    destroy_until(rend());
+    destroy_until_(rend());
     alc_.deallocate(begin(), capacity());
     first_ = new_first;
     last_ = new_last;
