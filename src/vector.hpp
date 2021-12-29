@@ -200,10 +200,7 @@ class vector {
       alc_.construct(end(), x);
       ++last_;
     } else if (end() != reserved_last_) {
-      alc_.construct(end(), *(end() - 1));
-      copy_backward_(position, end() - 2, end() - 1);
-      ++last_;
-      *position = x;
+      backward_insert_(position, 1, x);
     }
     else {
       realloc_insert_(position, x);
@@ -211,6 +208,15 @@ class vector {
     return position;
   }
   void insert(iterator position, size_type n, const_reference x) {
+    if (n == 0)
+      return;
+    
+    if (reserved_last_ - last_ >= n) {
+
+    } else {
+
+    }
+
     reserve(size() + n);
     iterator it_from = end() - 1;
     iterator it_to = position + n;
@@ -359,10 +365,18 @@ class vector {
     return len_ > max_size() ? max_size() : len_;
   }
   void copy_backward_(iterator first, iterator last, iterator result_end) {
-    for (iterator it = last; it != first - 1; --it) {
+    for (iterator it = last - 1; it != first - 1; --it) {
       *result_end = *it;
       --result_end;
     }
+  }
+  void backward_insert_(iterator position, size_type n, const_reference x) {
+    for (size_type i = 0; i < n; ++i) {
+      alc_.construct(end() + i, *(end() - n + i));
+    }
+    copy_backward_(position, end() - n, end() - 1);
+    last_ += n;
+    std::fill_n(position, n, x);
   }
   void realloc_insert_(iterator position, const_reference x) {
     const size_type new_len = get_new_allocate_size_(1, "vector::realloc_insert_");
