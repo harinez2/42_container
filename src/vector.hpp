@@ -245,39 +245,9 @@ class vector {
     return first;
   }
   void swap(vector& x) {
-    if (capacity() < x.size())
-      reserve(x.size());
-    if (x.capacity() < size())
-      x.reserve(size());
-    int flg_end = 0;
-    iterator it = begin();
-    iterator it_rhs = x.begin();
-    while (true) {
-      if (it != end() && it_rhs != end()) {
-        value_type tmp = *it;
-        *it = *it_rhs;
-        *it_rhs = tmp;
-        ++it;
-        ++it_rhs;
-      } else if (it != end()) {
-        *it_rhs = *it;
-        if (flg_end == 0) {
-          flg_end = 1;
-          last_ = it;
-        }
-      } else if (it_rhs != end()) {
-        *it = *it_rhs;
-        if (flg_end == 0) {
-          flg_end = 2;
-          x.last_ = it_rhs;
-        }
-      } else
-        break;
-    }
-    if (flg_end == 1)
-      x.last_ = it_rhs;
-    else if (flg_end == 2)
-      last_ = it;
+    swap_(first_, x.first_);
+    swap_(last_, x.last_);
+    swap_(reserved_last_, x.reserved_last_);
   }
   void clear() { destroy_until_(rend()); }
 
@@ -318,6 +288,11 @@ class vector {
   value_type* last_;
   value_type* reserved_last_;
 
+  void swap_(value_type*& x, value_type*& y) {
+    value_type* tmp = x;
+    x = y;
+    y = tmp;
+  }
   void destroy_until_(reverse_iterator rend) {
     for (reverse_iterator it = rbegin(); it != rend; ++it, --last_)
       alc_.destroy(&*it);

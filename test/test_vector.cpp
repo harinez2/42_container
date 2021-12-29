@@ -904,8 +904,52 @@ TEST_F(VectorTest, int_erase_iterator) {
 // swap (int)
 
 TEST_F(VectorTest, int_swap) {
-}
+  // swap with some data
+  ft::vector<int> vft(vft_);
+  std::vector<int> vstd(vstd_);
+  ft::vector<int> vft2;
+  std::vector<int> vstd2;
+  vft2.push_back(9);
+  vstd2.push_back(9);
+  vft.swap(vft2);
+  vstd.swap(vstd2);
+  for (std::size_t i = 0; i < vft_.size(); ++i)
+    EXPECT_EQ(vft2[i], vft_[i]);
+  compare_with_std_vector(vft, vstd);
+  compare_with_std_vector(vft2, vstd2);
 
+  // left is empty
+  ft::vector<int> vft3;
+  std::vector<int> vstd3;
+  ft::vector<int> vft4(vft_);
+  std::vector<int> vstd4(vstd_);
+  vft3.swap(vft4);
+  vstd3.swap(vstd4);
+  for (std::size_t i = 0; i < vft_.size(); ++i)
+    EXPECT_EQ(vft3[i], vft_[i]);
+  compare_with_std_vector(vft3, vstd3);
+  compare_with_std_vector(vft4, vstd4);
+
+  // right is empty
+  vft3.swap(vft4);
+  vstd3.swap(vstd4);
+  for (std::size_t i = 0; i < vft_.size(); ++i)
+    EXPECT_EQ(vft4[i], vft_[i]);
+  compare_with_std_vector(vft3, vstd3);
+  compare_with_std_vector(vft4, vstd4);
+
+  // both empty
+  ft::vector<int> vft5;
+  std::vector<int> vstd5;
+  ft::vector<int> vft6;
+  std::vector<int> vstd6;
+  vft5.swap(vft6);
+  vstd5.swap(vstd6);
+  EXPECT_EQ(vft5.size(), 0);
+  EXPECT_EQ(vft6.size(), 0);
+  compare_with_std_vector(vft5, vstd5);
+  compare_with_std_vector(vft6, vstd6);
+}
 
 // ======================================================
 // clear (int)
