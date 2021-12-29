@@ -32,7 +32,6 @@ class VectorTest : public ::testing::Test {
 TEST_F(VectorTest, int_constructor_empty) {
   ft::vector<int> vft;
   std::vector<int> vstd;
-
   EXPECT_EQ(vft.size(), 0);
   EXPECT_TRUE(vft.empty());
   compare_with_std_vector(vft, vstd);
@@ -42,7 +41,6 @@ TEST_F(VectorTest, int_constructor_allocator) {
   std::allocator<int> alc;
   ft::vector<int> vft(alc);
   std::vector<int> vstd(alc);
-
   EXPECT_EQ(vft.size(), 0);
   EXPECT_TRUE(vft.empty());
   compare_with_std_vector(vft, vstd);
@@ -51,7 +49,6 @@ TEST_F(VectorTest, int_constructor_allocator) {
 TEST_F(VectorTest, int_constructor_value) {
   ft::vector<int> vft(4);
   std::vector<int> vstd(4);
-
   EXPECT_EQ(vft.size(), 4);
   EXPECT_FALSE(vft.empty());
   compare_with_std_vector(vft, vstd);
@@ -60,7 +57,6 @@ TEST_F(VectorTest, int_constructor_value) {
 TEST_F(VectorTest, int_constructor_value_initvalue) {
   ft::vector<int> vft(4, 2);
   std::vector<int> vstd(4, 2);
-
   EXPECT_EQ(vft.size(), 4);
   EXPECT_EQ(vft[0], 2);
   EXPECT_EQ(vft[1], 2);
@@ -74,7 +70,6 @@ TEST_F(VectorTest, int_constructor_value_initvalue_allocator) {
   std::allocator<int> alc;
   ft::vector<int> vft(4, 2, alc);
   std::vector<int> vstd(4, 2, alc);
-
   EXPECT_EQ(vft.size(), 4);
   EXPECT_EQ(vft[0], 2);
   EXPECT_EQ(vft[1], 2);
@@ -109,12 +104,14 @@ TEST_F(VectorTest, int_constructor_valuearray) {
 // constructor (int) border
 
 TEST_F(VectorTest, int_constructor_border) {
+  // min size
   ft::vector<int> vft(0, 0);
   std::vector<int> vstd(0, 0);
   EXPECT_EQ(vft.size(), 0);
   EXPECT_TRUE(vft.empty());
   compare_with_std_vector(vft, vstd);
 
+  // big size
   ft::vector<int> vft2(65535, 0);
   std::vector<int> vstd2(65535, 0);
   EXPECT_EQ(vft2.size(), 65535);
@@ -130,7 +127,6 @@ TEST_F(VectorTest, int_constructor_copy) {
   ft::vector<int> vft2(vft);
   std::vector<int> vstd(65535);
   std::vector<int> vstd2(vstd);
-
   EXPECT_EQ(vft2.size(), 65535);
   EXPECT_FALSE(vft2.empty());
   compare_with_std_vector(vft2, vstd2);
@@ -276,17 +272,17 @@ TEST_F(VectorTest, int_constructor_copy) {
 // basic (int)
 
 TEST_F(VectorTest, int_basic) {
+  // basic
   ft::vector<int> vft;
   std::vector<int> vstd;
   vft.push_back(42);
   vstd.push_back(42);
-
   EXPECT_EQ(vft[0], 42);
   compare_with_std_vector(vft, vstd);
   
+  // push_back
   vft.push_back(21);
   vstd.push_back(21);
-
   EXPECT_EQ(vft[0], 42);
   EXPECT_EQ(vft[1], 21);
   compare_with_std_vector(vft, vstd);
@@ -296,16 +292,19 @@ TEST_F(VectorTest, int_basic) {
 // size (int)
 
 TEST_F(VectorTest, int_size) {
+  // check size is 0
   ft::vector<int> vft;
   std::vector<int> vstd;
   EXPECT_EQ(vft.size(), 0);
   compare_with_std_vector(vft, vstd);
   
+  // check size is 1 after push_back
   vft.push_back(21);
   vstd.push_back(21);
   EXPECT_EQ(vft.size(), 1);
   compare_with_std_vector(vft, vstd);
 
+  // check size is 65535 after resizing 65535
   vft.resize(65535, 2);
   vstd.resize(65535, 2);
   EXPECT_EQ(vft.size(), 65535);
@@ -316,6 +315,7 @@ TEST_F(VectorTest, int_size) {
 // max_size (int)
 
 TEST_F(VectorTest, int_maxsize) {
+  // check max_size
   ft::vector<int> vft;
   std::vector<int> vstd;
   EXPECT_EQ(vft.max_size(), vstd.max_size());
@@ -326,6 +326,7 @@ TEST_F(VectorTest, int_maxsize) {
 // resize (int)
 
 TEST_F(VectorTest, int_resize) {
+  // check resize 0
   ft::vector<int> vft;
   std::vector<int> vstd;
   vft.resize(0);
@@ -333,18 +334,21 @@ TEST_F(VectorTest, int_resize) {
   EXPECT_EQ(vft.size(), 0);
   compare_with_std_vector(vft, vstd);
 
+  // check resize 1
   vft.resize(1);
   vstd.resize(1);
   EXPECT_EQ(vft.size(), 1);
   EXPECT_EQ(vft[0], 0);
   compare_with_std_vector(vft, vstd);
   
+  // check resize another 1
   vft.resize(1);
   vstd.resize(1);
   EXPECT_EQ(vft.size(), 1);
   EXPECT_EQ(vft[0], 0);
   compare_with_std_vector(vft, vstd);
   
+  // check resize 42 with minus value
   vft.resize(42, -4);
   vstd.resize(42, -4);
   EXPECT_EQ(vft.size(), 42);
@@ -353,6 +357,7 @@ TEST_F(VectorTest, int_resize) {
   EXPECT_EQ(vft[41], -4);
   compare_with_std_vector(vft, vstd);
 
+  // check resize big data with positive value
   vft.resize(65535, 2);
   vstd.resize(65535, 2);
   EXPECT_EQ(vft.size(), 65535);
@@ -363,6 +368,7 @@ TEST_F(VectorTest, int_resize) {
   EXPECT_EQ(vft[65534], 2);
   compare_with_std_vector(vft, vstd);
   
+  // check resize with reducing size
   vft.resize(50, 3);
   vstd.resize(50, 3);
   EXPECT_EQ(vft.size(), 50);
@@ -378,11 +384,13 @@ TEST_F(VectorTest, int_resize) {
 // capacity (int)
 
 TEST_F(VectorTest, int_capacity) {
+  // check capacoty is 0
   ft::vector<int> vft;
   std::vector<int> vstd;
   EXPECT_EQ(vft.capacity(), 0);
   compare_with_std_vector(vft, vstd);
 
+  // check capacoty is 65535
   vft.resize(65535, 2);
   vstd.resize(65535, 2);
   EXPECT_EQ(vft.capacity(), 65535);
@@ -393,16 +401,19 @@ TEST_F(VectorTest, int_capacity) {
 // empty (int)
 
 TEST_F(VectorTest, int_empty) {
+  // check empty is true
   ft::vector<int> vft;
   std::vector<int> vstd;
   EXPECT_TRUE(vft.empty());
   compare_with_std_vector(vft, vstd);
 
+  // check empty is false
   vft.push_back(42);
   vstd.push_back(42);
   EXPECT_FALSE(vft.empty());
   compare_with_std_vector(vft, vstd);
 
+  // check empty is true after resizing to 0
   vft.resize(0);
   vstd.resize(0);
   EXPECT_TRUE(vft.empty());
@@ -413,40 +424,47 @@ TEST_F(VectorTest, int_empty) {
 // reserve (int)
 
 TEST_F(VectorTest, int_reserve) {
+  // initial check
   ft::vector<int> vft;
   std::vector<int> vstd;
   EXPECT_EQ(vft.size(), 0);
   compare_with_std_vector(vft, vstd);
 
+  // reserve 0
   vft.reserve(0);
   vstd.reserve(0);
   EXPECT_EQ(vft.size(), 0);
   compare_with_std_vector(vft, vstd);
 
+  // reserve 1
   vft.reserve(1);
   vstd.reserve(1);
   EXPECT_EQ(vft.size(), 0);
   EXPECT_EQ(vft.capacity(), 1);
   compare_with_std_vector(vft, vstd);
 
+  // reserve another 1
   vft.reserve(1);
   vstd.reserve(1);
   EXPECT_EQ(vft.size(), 0);
   EXPECT_EQ(vft.capacity(), 1);
   compare_with_std_vector(vft, vstd);
 
+  // reserve 65535
   vft.reserve(65535);
   vstd.reserve(65535);
   EXPECT_EQ(vft.size(), 0);
   EXPECT_EQ(vft.capacity(), 65535);
   compare_with_std_vector(vft, vstd);
 
+  // reserve extra 1
   vft.reserve(1);
   vstd.reserve(1);
   EXPECT_EQ(vft.size(), 0);
   EXPECT_EQ(vft.capacity(), 65535);
   compare_with_std_vector(vft, vstd);
 
+  // reserve over max_size and check err msg
   std::string vft_err;
   std::string vstd_err;
   try {
@@ -469,6 +487,7 @@ TEST_F(VectorTest, int_reserve) {
 // operator[] (int)
 
 TEST_F(VectorTest, int_operatorsqbracket) {
+  // basic
   ft::vector<int> vft(4, 2);
   std::vector<int> vstd(4, 2);
   EXPECT_EQ(vft[0], 2);
@@ -477,6 +496,7 @@ TEST_F(VectorTest, int_operatorsqbracket) {
   EXPECT_EQ(vft[1], vstd[1]);
   compare_with_std_vector(vft, vstd);
 
+  // big data case (read)
   vft.resize(65535, -1);
   vstd.resize(65535, -1);
   EXPECT_EQ(vft[0], 2);
@@ -491,6 +511,7 @@ TEST_F(VectorTest, int_operatorsqbracket) {
   EXPECT_EQ(vft[65534], vstd[65534]);
   compare_with_std_vector(vft, vstd);
 
+  // big data case (write)
   vft[0] = 3;
   vft[1] = 4;
   vft[2] = 5;
@@ -514,6 +535,7 @@ TEST_F(VectorTest, int_operatorsqbracket) {
 // at (int)
 
 TEST_F(VectorTest, int_at) {
+  // basic
   ft::vector<int> vft(4, 2);
   std::vector<int> vstd(4, 2);
   EXPECT_EQ(vft.at(0), 2);
@@ -522,6 +544,7 @@ TEST_F(VectorTest, int_at) {
   EXPECT_EQ(vft.at(1), vstd.at(1));
   compare_with_std_vector(vft, vstd);
 
+  // big data case (read)
   vft.resize(65535, -1);
   vstd.resize(65535, -1);
   EXPECT_EQ(vft.at(0), 2);
@@ -536,6 +559,7 @@ TEST_F(VectorTest, int_at) {
   EXPECT_EQ(vft.at(65534), vstd.at(65534));
   compare_with_std_vector(vft, vstd);
 
+  // big data case (write)
   vft.at(0) = 3;
   vft.at(1) = 4;
   vft.at(2) = 5;
@@ -554,6 +578,7 @@ TEST_F(VectorTest, int_at) {
   EXPECT_EQ(vft.at(65534), vstd.at(65534));
   compare_with_std_vector(vft, vstd);
   
+  // invalid op and check err msg
   std::string vft_err;
   std::string vstd_err;
   try {
@@ -574,6 +599,7 @@ TEST_F(VectorTest, int_at) {
 // front (int)
 
 TEST_F(VectorTest, int_front) {
+  // return front in some data
   ft::vector<int> vft(vft_);
   std::vector<int> vstd(vstd_);
   EXPECT_EQ(vft.front(), 42);
@@ -581,13 +607,13 @@ TEST_F(VectorTest, int_front) {
   EXPECT_EQ(vft.front(), vstd.front());
   compare_with_std_vector(vft, vstd);
 
+  // return front after doing some op
   vft.clear();
   vft.push_back(88);
   vft.resize(12, 99);
   vstd.clear();
   vstd.push_back(88);
   vstd.resize(12, 99);
-  
   EXPECT_EQ(vft.front(), 88);
   EXPECT_EQ(vft.front(), vft[0]);
   EXPECT_EQ(vft.front(), vstd.front());
@@ -598,6 +624,7 @@ TEST_F(VectorTest, int_front) {
 // back (int)
 
 TEST_F(VectorTest, int_back) {
+  // return back in some data
   ft::vector<int> vft(vft_);
   std::vector<int> vstd(vstd_);
   EXPECT_EQ(vft.back(), 4242);
@@ -605,13 +632,13 @@ TEST_F(VectorTest, int_back) {
   EXPECT_EQ(vft.back(), vstd.back());
   compare_with_std_vector(vft, vstd);
 
+  // return back after doing some op
   vft.clear();
   vft.push_back(88);
   vft.resize(12, 99);
   vstd.clear();
   vstd.push_back(88);
   vstd.resize(12, 99);
-  
   EXPECT_EQ(vft.back(), 99);
   EXPECT_EQ(vft.back(), vft[vft.size() - 1]);
   EXPECT_EQ(vft.back(), vstd.back());
@@ -955,6 +982,7 @@ TEST_F(VectorTest, int_swap) {
 // clear (int)
 
 TEST_F(VectorTest, int_clear) {
+  // clear empty vector
   ft::vector<int> vft;
   std::vector<int> vstd;
   vft.clear();
@@ -964,6 +992,7 @@ TEST_F(VectorTest, int_clear) {
   EXPECT_EQ(vft.capacity(), 0);
   compare_with_std_vector(vft, vstd);
 
+  // clear 65535 data
   ft::vector<int> vft2(65535);
   std::vector<int> vstd2(65535);
   EXPECT_EQ(vft2.size(), 65535);
@@ -976,7 +1005,11 @@ TEST_F(VectorTest, int_clear) {
   compare_with_std_vector(vft2, vstd2);
 }
 
+// ======================================================
+// allocator (int)
 
+TEST_F(VectorTest, int_allocator) {
+}
 
 //======================================================
 // swap (int)
