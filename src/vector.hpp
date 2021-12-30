@@ -36,9 +36,7 @@ class vector {
     first_ = alc_.allocate(n);
     last_ = first_ + n;
     reserved_last_ = first_ + n;
-    for (size_type i = 0; i < n; ++i) {
-      alc_.construct(first_ + i, v);
-    }
+    std::uninitialized_fill(first_, first_ + n, v);
   }
 
   template <class InputIter>
@@ -109,8 +107,7 @@ class vector {
 
     value_type* tmp_first_ = alc_.allocate(n);
     size_type data_size = size();
-    for (size_type i = 0; i < data_size; ++i)
-      alc_.construct(tmp_first_ + i, first_[i]);
+    std::uninitialized_copy(first_, first_ + data_size, tmp_first_);
     destroy_until_(rend());
     alc_.deallocate(begin(), capacity());
     first_ = tmp_first_;
@@ -332,8 +329,7 @@ class vector {
     value_type* new_last = new_first;
     try {
       std::uninitialized_copy(begin(), &*position, new_first);
-      for (size_type i = 0; i < n; ++i)
-        alc_.construct(new_first + elems_before + i, x);
+      std::uninitialized_fill(new_first + elems_before, new_first + elems_before + n, x);
       std::uninitialized_copy(&*position, end(), new_first + elems_before + n);
       new_last = new_first + size() + n;
     } catch(...) {
