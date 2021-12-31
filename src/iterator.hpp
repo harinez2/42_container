@@ -83,6 +83,6 @@ class reverse_iterator
   typedef iterator_traits<Iterator> traits_type_;
 };
 
-}
+} // namespace ft
 
 #endif
