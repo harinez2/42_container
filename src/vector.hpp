@@ -18,8 +18,8 @@ class vector {
   typedef const T&                              const_reference;
   typedef T*                                    iterator; //TODO
   typedef const T*                              const_iterator; //TODO
-  typedef std::size_t                           size_type;
-  typedef std::ptrdiff_t                        difference_type;
+  typedef size_t                                size_type;
+  typedef ptrdiff_t                             difference_type;
   typedef T                                     value_type;
   typedef Allocator                             allocator_type;
   typedef typename Allocator::pointer           pointer;
