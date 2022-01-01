@@ -9,6 +9,8 @@
 #include <iostream> //TODO:remove
 #include <limits> //TODO:remove
 
+#include "iterator.hpp"
+
 namespace ft {
 
 template <typename T, typename Allocator = std::allocator<T> >

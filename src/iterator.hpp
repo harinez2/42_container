@@ -7,11 +7,15 @@ namespace ft {
 
 template<typename Iterator>
 class reverse_iterator
-    : public iterator<typename iterator_traits<Iterator>::iterator_category,
+    : public std::iterator<typename iterator_traits<Iterator>::iterator_category,
                       typename iterator_traits<Iterator>::value_type,
                       typename iterator_traits<Iterator>::difference_type,
                       typename iterator_traits<Iterator>::pointer,
                       typename iterator_traits<Iterator>::reference> {
+ protected:
+  Iterator iterator_;
+  typedef iterator_traits<Iterator> traits_type_;
+
  public:
   typedef Iterator                                iterator_type;
   typedef typename traits_type_::difference_type  difference_type;
@@ -65,7 +69,7 @@ class reverse_iterator
     return reverse_iterator(iterator_ - n);
  }
   reverse_iterator& operator+=(difference_type n) {
-    iterator -= n;
+    iterator_ -= n;
     return *this;
   }
   reverse_iterator operator-(difference_type n) const {
@@ -77,10 +81,6 @@ class reverse_iterator
   }
   reference operator[](difference_type n) const { return *(*this + n); }
 
- protected:
-  Iterator iterator_;
-
-  typedef iterator_traits<Iterator> traits_type_;
 };
 
 } // namespace ft
