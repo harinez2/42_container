@@ -16,18 +16,18 @@ namespace ft {
 template <typename T, typename Allocator = std::allocator<T> >
 class vector {
  public:
-  typedef T&                                    reference;
-  typedef const T&                              const_reference;
-  typedef T*                                    iterator; //TODO
-  typedef const T*                              const_iterator; //TODO
-  typedef size_t                                size_type;
-  typedef ptrdiff_t                             difference_type;
-  typedef T                                     value_type;
-  typedef Allocator                             allocator_type;
-  typedef typename Allocator::pointer           pointer;
-  typedef typename Allocator::const_pointer     const_pointer;
-  typedef std::reverse_iterator<iterator>       reverse_iterator; //TODO
-  typedef std::reverse_iterator<const_iterator> const_reverse_iterator; // TODO
+  typedef T&                                     reference;
+  typedef const T&                               const_reference;
+  typedef size_t                                 size_type;
+  typedef ptrdiff_t                              difference_type;
+  typedef T                                      value_type;
+  typedef Allocator                              allocator_type;
+  typedef typename Allocator::pointer            pointer;
+  typedef typename Allocator::const_pointer      const_pointer;
+  typedef normal_iterator<pointer, vector>       iterator;
+  typedef normal_iterator<const pointer, const vector> const_iterator;
+  typedef std::reverse_iterator<iterator>             reverse_iterator;
+  typedef std::reverse_iterator<const_iterator>       const_reverse_iterator;
 
   // constructors & destructor
   vector(const allocator_type& a = allocator_type())
@@ -71,7 +71,7 @@ class vector {
   }
 
   // iterator
-  iterator begin() { return first_; }
+  iterator begin() { return iterator(first_); }
   iterator end()   { return last_;  }
   const_iterator begin() const { return first_; }
   const_iterator end()   const { return last_;  }

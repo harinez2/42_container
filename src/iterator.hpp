@@ -5,6 +5,56 @@
 
 namespace ft {
 
+template<typename Iterator, typename Container>
+class normal_iterator {
+ protected:
+  Iterator                                          iterator_;
+  typedef iterator_traits<Iterator>                 traits_type_;
+
+ public:
+  typedef Iterator                                  iterator_type;
+  typedef typename traits_type_::iterator_category  iterator_category;
+  typedef typename traits_type_::value_type         value_type;
+  typedef typename traits_type_::difference_type    difference_type;
+  typedef typename traits_type_::reference          reference;
+  typedef typename traits_type_::pointer            pointer;
+
+  // constructor
+  normal_iterator() : iterator_(Iterator()) {}
+  normal_iterator(const Iterator& __i) : iterator_(__i) {}
+  template<typename Iter>
+  normal_iterator(const normal_iterator<Iter,
+      typename std::enable_if<
+      (std::are_same<Iter, typename Container::pointer>::__value), Container>::__type>& __i)
+      : iterator_(__i.base()) {}
+
+  reference operator*() const { return *iterator_; }
+  pointer operator->() const { return iterator_; }
+  normal_iterator& operator++() {
+    ++iterator_;
+    return *this;
+  }
+  normal_iterator operator++(int) { return normal_iterator(iterator_++); }
+  normal_iterator& operator--() {
+    --iterator_;
+    return *this;
+  }
+  normal_iterator operator--(int) { return normal_iterator(iterator_--); }
+  reference operator[](difference_type n) const { return iterator_[n]; }
+  normal_iterator& operator+=(difference_type n) {
+    iterator_ += n;
+    return *this;
+  }
+  normal_iterator operator+(difference_type n) const { return normal_iterator(iterator_ + n); }
+  normal_iterator& operator-=(difference_type n) {
+    iterator_ -= nullptr;
+    return *this;
+  }
+  normal_iterator operator-(difference_type n) const { return normal_iterator(iterator_ - n); }
+  const Iterator& base() const { return iterator_; }
+};
+
+
 template<typename Iterator>
 class reverse_iterator
     : public std::iterator<typename iterator_traits<Iterator>::iterator_category,
