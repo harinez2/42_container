@@ -24,7 +24,7 @@ class normal_iterator {
   normal_iterator(const Iterator& i) : iterator_(i) {}
   template<typename Iter>
   normal_iterator(const normal_iterator<Iter>& i)
-      : iterator_(i.base()) {}
+      : iterator_(const_cast<Iterator>(i.base())) {}
 
   reference operator*() const { return *iterator_; }
   pointer operator->() const { return iterator_; }
@@ -53,20 +53,20 @@ class normal_iterator {
 };
 
 template <class ValueType1, class ValueType2>
-bool operator==(const ft::normal_iterator<ValueType1> &lhs,
-                const ft::normal_iterator<ValueType2> &rhs) {
+bool operator==(const normal_iterator<ValueType1> &lhs,
+                const normal_iterator<ValueType2> &rhs) {
   return lhs.base() == rhs.base();
 }
 
 template <class ValueType1, class ValueType2>
-bool operator!=(const ft::normal_iterator<ValueType1> &lhs,
-                const ft::normal_iterator<ValueType2> &rhs) {
+bool operator!=(const normal_iterator<ValueType1> &lhs,
+                const normal_iterator<ValueType2> &rhs) {
   return lhs.base() != rhs.base();
 }
 
 template <class ValueType1, class ValueType2>
-bool operator-(const ft::normal_iterator<ValueType1> &lhs,
-               const ft::normal_iterator<ValueType2> &rhs) {
+bool operator-(const normal_iterator<ValueType1> &lhs,
+               const normal_iterator<ValueType2> &rhs) {
   return lhs.base() - rhs.base();
 }
 
