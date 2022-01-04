@@ -107,7 +107,7 @@ class vector {
     if (n <= capacity())
       return;
 
-    value_type* tmp_first_ = alc_.allocate(n);
+    pointer tmp_first_ = alc_.allocate(n);
     size_type data_size = size();
     std::uninitialized_copy(first_, first_ + data_size, tmp_first_);
     destroy_until_(rend());
@@ -166,7 +166,7 @@ class vector {
   // }
   void assign(size_type n, const_reference u) {
     if (n > capacity()) {
-      value_type* tmp_first_ = alc_.allocate(n);
+      pointer tmp_first_ = alc_.allocate(n);
       std::uninitialized_fill(tmp_first_, tmp_first_ + n, u);
       destroy_until_(rend());
       alc_.deallocate(first_, capacity());
@@ -283,12 +283,12 @@ class vector {
 
  private:
   Allocator alc_;
-  value_type* first_;
-  value_type* last_;
-  value_type* reserved_last_;
+  pointer first_;
+  pointer last_;
+  pointer reserved_last_;
 
-  void swap_(value_type*& x, value_type*& y) {
-    value_type* tmp = x;
+  void swap_(pointer& x, pointer& y) {
+    pointer tmp = x;
     x = y;
     y = tmp;
   }
@@ -327,8 +327,8 @@ class vector {
     const size_type new_len = get_new_allocate_size_(n, "vector::realloc_insert_");
     const size_type elems_before = &*position - first_;
 
-    value_type* new_first = alc_.allocate(new_len);
-    value_type* new_last = new_first;
+    pointer new_first = alc_.allocate(new_len);
+    pointer new_last = new_first;
     try {
       std::uninitialized_copy(begin(), position, new_first);
       std::uninitialized_fill(new_first + elems_before, new_first + elems_before + n, x);
