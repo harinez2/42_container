@@ -22,12 +22,12 @@ class vector {
   typedef ptrdiff_t                              difference_type;
   typedef T                                      value_type;
   typedef Allocator                              allocator_type;
-  typedef typename Allocator::pointer            pointer;
-  typedef typename Allocator::const_pointer      const_pointer;
-  typedef normal_iterator<pointer, vector>       iterator;
-  typedef normal_iterator<const pointer, const vector> const_iterator;
-  typedef std::reverse_iterator<iterator>             reverse_iterator;
-  typedef std::reverse_iterator<const_iterator>       const_reverse_iterator;
+  typedef typename allocator_type::pointer       pointer;
+  typedef typename allocator_type::const_pointer const_pointer;
+  typedef normal_iterator<pointer>               iterator;
+  typedef normal_iterator<const pointer>         const_iterator;
+  typedef std::reverse_iterator<iterator>        reverse_iterator;
+  typedef std::reverse_iterator<const_iterator>  const_reverse_iterator;
 
   // constructors & destructor
   vector(const allocator_type& a = allocator_type())
@@ -59,7 +59,7 @@ class vector {
       // }
       clear();
       reserve(std::distance(rhs.first_, rhs.last_));
-      for (const_iterator it = rhs.begin(); it != rhs.end(); ++it)
+      for (iterator it = const_cast<iterator>(rhs.begin()); it != rhs.end(); ++it)
         push_back(*it);
     }
     return *this;

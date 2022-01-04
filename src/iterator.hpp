@@ -5,7 +5,7 @@
 
 namespace ft {
 
-template<typename Iterator, typename Container>
+template<typename Iterator>
 class normal_iterator {
  protected:
   Iterator                                          iterator_;
@@ -21,12 +21,10 @@ class normal_iterator {
 
   // constructor
   normal_iterator() : iterator_(Iterator()) {}
-  normal_iterator(const Iterator& __i) : iterator_(__i) {}
+  normal_iterator(const Iterator& i) : iterator_(i) {}
   template<typename Iter>
-  normal_iterator(const normal_iterator<Iter,
-      typename std::enable_if<
-      (std::is_same<Iter, typename Container::pointer>::__value), Container>::__type>& __i)
-      : iterator_(__i.base()) {}
+  normal_iterator(const normal_iterator<Iter>& i)
+      : iterator_(i.base()) {}
 
   reference operator*() const { return *iterator_; }
   pointer operator->() const { return iterator_; }
@@ -54,6 +52,23 @@ class normal_iterator {
   const Iterator& base() const { return iterator_; }
 };
 
+template <class ValueType1, class ValueType2>
+bool operator==(const ft::normal_iterator<ValueType1> &lhs,
+                const ft::normal_iterator<ValueType2> &rhs) {
+  return lhs.base() == rhs.base();
+}
+
+template <class ValueType1, class ValueType2>
+bool operator!=(const ft::normal_iterator<ValueType1> &lhs,
+                const ft::normal_iterator<ValueType2> &rhs) {
+  return lhs.base() != rhs.base();
+}
+
+template <class ValueType1, class ValueType2>
+bool operator-(const ft::normal_iterator<ValueType1> &lhs,
+               const ft::normal_iterator<ValueType2> &rhs) {
+  return lhs.base() - rhs.base();
+}
 
 template<typename Iterator>
 class reverse_iterator
