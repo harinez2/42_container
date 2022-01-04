@@ -25,7 +25,7 @@ class normal_iterator {
   template<typename Iter>
   normal_iterator(const normal_iterator<Iter,
       typename std::enable_if<
-      (std::are_same<Iter, typename Container::pointer>::__value), Container>::__type>& __i)
+      (std::is_same<Iter, typename Container::pointer>::__value), Container>::__type>& __i)
       : iterator_(__i.base()) {}
 
   reference operator*() const { return *iterator_; }

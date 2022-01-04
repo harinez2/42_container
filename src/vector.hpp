@@ -67,18 +67,18 @@ class vector {
 
   ~vector() {
     clear();
-    alc_.deallocate(begin(), capacity());
+    alc_.deallocate(first_, capacity());
   }
 
   // iterator
   iterator begin() { return iterator(first_); }
-  iterator end()   { return last_;  }
-  const_iterator begin() const { return first_; }
-  const_iterator end()   const { return last_;  }
-  reverse_iterator rbegin() { return reverse_iterator{ last_  }; }
-  reverse_iterator rend()   { return reverse_iterator{ first_ }; }
-  const_reverse_iterator rbegin() const { return const_reverse_iterator{ last_  }; }
-  const_reverse_iterator rend()   const { return const_reverse_iterator{ first_ }; }
+  iterator end()   { return iterator(last_);  }
+  const_iterator begin() const { return const_iterator(first_); }
+  const_iterator end()   const { return const_iterator(last_);  }
+  reverse_iterator rbegin() { return reverse_iterator(last_); }
+  reverse_iterator rend()   { return reverse_iterator(first_); }
+  const_reverse_iterator rbegin() const { return const_reverse_iterator(last_); }
+  const_reverse_iterator rend()   const { return const_reverse_iterator(first_); }
 
   // area
   size_type size() const { return std::distance(first_, last_); }
@@ -91,7 +91,7 @@ class vector {
       iterator it = last_;
       for (size_type i = 0; i < sz - size(); ++i, ++it)
         *it = c;
-      last_ = it;
+      last_ = &*it;
     }
   }
   size_type capacity() const {
@@ -111,7 +111,7 @@ class vector {
     size_type data_size = size();
     std::uninitialized_copy(first_, first_ + data_size, tmp_first_);
     destroy_until_(rend());
-    alc_.deallocate(begin(), capacity());
+    alc_.deallocate(first_, capacity());
     first_ = tmp_first_;
     last_ = first_ + data_size;
     reserved_last_ = first_ + n;
@@ -169,7 +169,7 @@ class vector {
       value_type* tmp_first_ = alc_.allocate(n);
       std::uninitialized_fill(tmp_first_, tmp_first_ + n, u);
       destroy_until_(rend());
-      alc_.deallocate(begin(), capacity());
+      alc_.deallocate(first_, capacity());
       first_ = tmp_first_;
       last_ = tmp_first_ + n;
       reserved_last_ = tmp_first_ + n;
@@ -195,10 +195,10 @@ class vector {
     alc_.destroy(last_);
   }
   iterator insert(iterator position, const_reference x) {
-    if (end() != reserved_last_ && position == end()) {
-      alc_.construct(end(), x);
+    if (last_ != reserved_last_ && position == end()) {
+      alc_.construct(last_, x);
       ++last_;
-    } else if (end() != reserved_last_) {
+    } else if (last_ != reserved_last_) {
       backward_insert_(position, 1, x);
     } else {
       realloc_insert_(position, 1, x);
@@ -317,7 +317,7 @@ class vector {
   }
   void backward_insert_(iterator position, size_type n, const_reference x) {
     for (size_type i = 0; i < n; ++i) {
-      alc_.construct(end() + i, *(end() - n + i));
+      alc_.construct(last_ + i, *(end() - n + i));
     }
     copy_backward_(position, end() - n, end() - 1);
     last_ += n;
@@ -325,14 +325,14 @@ class vector {
   }
   void realloc_insert_(iterator position, size_type n, const_reference x) {
     const size_type new_len = get_new_allocate_size_(n, "vector::realloc_insert_");
-    const size_type elems_before = position - begin();
+    const size_type elems_before = &*position - first_;
 
     value_type* new_first = alc_.allocate(new_len);
     value_type* new_last = new_first;
     try {
-      std::uninitialized_copy(begin(), &*position, new_first);
+      std::uninitialized_copy(begin(), position, new_first);
       std::uninitialized_fill(new_first + elems_before, new_first + elems_before + n, x);
-      std::uninitialized_copy(&*position, end(), new_first + elems_before + n);
+      std::uninitialized_copy(position, end(), new_first + elems_before + n);
       new_last = new_first + size() + n;
     } catch(...) {
       // if (!new_last)
@@ -343,7 +343,7 @@ class vector {
       // __throw_exception_again;
     }
     destroy_until_(rend());
-    alc_.deallocate(begin(), capacity());
+    alc_.deallocate(first_, capacity());
     first_ = new_first;
     last_ = new_last;
     reserved_last_ = new_first + new_len;
