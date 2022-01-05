@@ -81,17 +81,20 @@ class vector {
   const_reverse_iterator rend()   const { return const_reverse_iterator(first_); }
 
   // area
-  size_type size() const { return std::distance(first_, last_); }
+  size_type size() const {
+    if (first_ == NULL)
+      return 0;
+    else
+      return std::distance(first_, last_);
+  }
   size_type max_size() const { return alc_.max_size(); }
   void resize(size_type sz, value_type c = value_type()) {
     if (sz < size())
       erase(begin() + sz, end());
     else if (sz > size()) {
       reserve(sz);
-      iterator it = last_;
-      for (size_type i = 0; i < sz - size(); ++i, ++it)
-        *it = c;
-      last_ = &*it;
+      std::fill_n(last_, sz - size(), c);
+      last_ += sz - size();
     }
   }
   size_type capacity() const {
@@ -109,9 +112,11 @@ class vector {
 
     pointer tmp_first_ = alc_.allocate(n);
     size_type data_size = size();
-    std::uninitialized_copy(first_, first_ + data_size, tmp_first_);
-    destroy_until_(rend());
-    alc_.deallocate(first_, capacity());
+    if (first_ != NULL) {
+      std::uninitialized_copy(first_, first_ + data_size, tmp_first_);
+      destroy_until_(rend());
+      alc_.deallocate(first_, capacity());
+    }
     first_ = tmp_first_;
     last_ = first_ + data_size;
     reserved_last_ = first_ + n;
@@ -168,8 +173,10 @@ class vector {
     if (n > capacity()) {
       pointer tmp_first_ = alc_.allocate(n);
       std::uninitialized_fill(tmp_first_, tmp_first_ + n, u);
-      destroy_until_(rend());
-      alc_.deallocate(first_, capacity());
+      if (first_ != NULL) {
+        destroy_until_(rend());
+        alc_.deallocate(first_, capacity());
+      }
       first_ = tmp_first_;
       last_ = tmp_first_ + n;
       reserved_last_ = tmp_first_ + n;
@@ -239,7 +246,7 @@ class vector {
     if (first != last) {
       if (last != end())
         copy_foreward_(last, end(), first);
-      destroy_until_(rbegin() + std::distance(first, last));
+      destroy_until_(rbegin() + std::distance(&*first, &*last));
     }
     return first;
   }
