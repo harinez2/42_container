@@ -253,34 +253,6 @@ class vector {
   // allocator
   allocator_type get_allocator() const { return alc_; }
 
-  // compare operator
-  bool operator==(const_reference rhs) {
-    iterator it_lhs = begin();
-    iterator it_rhs = rhs.begin();
-    for (; it_lhs != end() && it_rhs != rhs.end(); ++it_lhs, ++it_rhs) {
-      if (*this == *rhs)
-        continue;
-      else
-        return false;
-    }
-    return (it_lhs == end() && it_rhs == rhs.end()) ? true : false;
-  }
-  bool operator!=(const_reference rhs) { return !(this == rhs); }
-  bool operator<(const vector& rhs) {
-    iterator it_lhs = begin();
-    iterator it_rhs = rhs.begin();
-    for (; it_lhs != end() && it_rhs != rhs.end(); ++it_lhs, ++it_rhs) {
-      if (*this < *rhs)
-        continue;
-      else
-        return false;
-    }
-    return (it_lhs == end() && it_rhs == rhs.end()) ? true : false;
-  }
-  bool operator<=(const vector& rhs) { return this < rhs || this == rhs; }
-  bool operator>(const vector& rhs)  { return !(this <= rhs); }
-  bool operator>=(const vector& rhs) { return this > rhs || this == rhs; }
-
  private:
   Allocator alc_;
   pointer first_;
@@ -350,8 +322,36 @@ class vector {
   }
 };
 
-// swap
-// swap();
+// compare operator
+template <class T, class Allocator>
+bool operator==(const vector<T, Allocator>& x, const vector<T, Allocator>& y) {
+  return x.size() == y.size() && equal(x.begin(), x.end(), y.begin());
+}
+template <class T, class Allocator>
+bool operator!=(const vector<T, Allocator>& x,const vector<T, Allocator>& y) {
+  return !(x == y);
+}
+template <class T, class Allocator>
+bool operator<(const vector<T, Allocator>& x, const vector<T, Allocator>& y) {
+  return std::lexicographical_compare(x.begin(), x.end(), y.begin(), y.end());//TODO:fix
+}
+template <class T, class Allocator>
+bool operator<=(const vector<T, Allocator>& x, const vector<T, Allocator>& y) {
+  return !(x > y);
+}
+template <class T, class Allocator>
+bool operator>(const vector<T, Allocator>& x, const vector<T, Allocator>& y) {
+  return y < x;
+}
+template <class T, class Allocator>
+bool operator>=(const vector<T, Allocator>& x, const vector<T, Allocator>& y) {
+  !(x < y);
+}
+
+template <class T, class Allocator>
+void swap(vector<T, Allocator>& x, vector<T, Allocator>& y) {
+  x.swap(y);
+}
 
 } // namespace ft
 
