@@ -45,7 +45,8 @@ class normal_iterator {
   }
   normal_iterator operator+(difference_type n) const { return normal_iterator(iterator_ + n); }
   normal_iterator& operator-=(difference_type n) {
-    iterator_ -= nullptr;
+    (void)n;//TODO
+    iterator_ -= NULL;
     return *this;
   }
   normal_iterator operator-(difference_type n) const { return normal_iterator(iterator_ - n); }
