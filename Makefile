@@ -24,6 +24,7 @@ fclean: clean
 	$(RM) $(NAME)
 	$(RM) tester
 	$(RM) -r $(gtestdir)
+	$(RM) -r cov_test
 
 .PHONY: re
 re: fclean all
@@ -68,6 +69,7 @@ lcov:
 	lcov -c -b . -d . -o cov_test.info
 	genhtml cov_test.info -o cov_test
 
+.PHONY: usage
 usage:
 	@echo "Available options for make:"
 	@echo "  make"
