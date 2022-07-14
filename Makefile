@@ -35,7 +35,7 @@ debug: re
 
 gtestdir	= ./gtest
 gtest		= $(gtestdir)/gtest $(gtestdir)/googletest-release-1.11.0
-testdir		= ./test
+mytestdir	= ./test
 
 $(gtest):
 	mkdir -p $(gtestdir)
@@ -47,7 +47,7 @@ $(gtest):
 
 .PHONY: test
 test: $(gtest) 
-	$(CXX) -std=c++11 $(testdir)/gtest.cpp \
+	$(CXX) -std=c++11 $(mytestdir)/gtest.cpp \
 		$(gtestdir)/googletest-release-1.11.0/googletest/src/gtest_main.cc \
 		$(gtestdir)/gtest/gtest-all.cc \
 		-D DEBUG -g -fsanitize=integer -fsanitize=address -fsanitize=leak -fsanitize=undefined \
@@ -57,7 +57,7 @@ test: $(gtest)
 
 .PHONY: wtest
 wtest:
-	$(CXX) $(testdir)/test_wrapper_main.cpp
+	$(CXX) $(mytestdir)/test_wrapper_main.cpp
 	./a.out
 	$(RM) a.out
 
