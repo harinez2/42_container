@@ -15,10 +15,10 @@ void compare_with_std_vector(ft::vector<T>& vft, std::vector<T>& vstd) {
   for (size_t i = 0; i < vstd.size(); ++i)
     EXPECT_EQ(vft[i], vstd[i]);
 
-  if (vft.size() > 0 || vstd.size() > 0)
+  if (vstd.size() > 0) {
     EXPECT_EQ(vft.front(), vstd.front());
-  if (vft.size() > 0 || vstd.size() > 0)
     EXPECT_EQ(vft.back(), vstd.back());
+  }
 }
 
 #endif
