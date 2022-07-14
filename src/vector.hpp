@@ -44,7 +44,7 @@ class vector {
 
   // constructor (3)
   template <class InputIter>
-  vector(InputIter first, InputIter last, const Allocator& a = Allocator())
+  vector(InputIter first, InputIter last, const allocator_type& a = allocator_type())
       : vector(a) {
     reserve(std::distance(first, last));
     for (InputIter it = first; it != last; ++it)
@@ -194,6 +194,15 @@ class vector {
     }
   }
   void push_back(const_reference x) {
+    // TODO
+    // if (first_ != NULL && last_ != reserved_last_) {
+    //   std::cout << "push_back new:" << x << ", size():" << size() << std::endl;
+    //   alc_.construct(first_ + size(), x);
+    //   ++last_;
+    // } else {
+    //   std::cout << "push_back realloc_insert_:" << x << ", size():" << size() << std::endl;
+    //   realloc_insert_(end(), 1, x);
+    // }
     if (last_ != reserved_last_) {
       alc_.construct(first_ + size(), x);
       ++last_;
