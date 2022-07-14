@@ -33,22 +33,23 @@ re: fclean all
 debug: CXXFLAGS += -g -fsanitize=integer -fsanitize=address -fsanitize=leak -fsanitize=undefined
 debug: re
 
-gtestdir	= ./gtest
-gtest		= $(gtestdir)/gtest $(gtestdir)/googletest-release-1.11.0
-mytestdir	= ./test
+gtestdir		= ./gtest
+gtest_release	= googletest-release-1.11.0
+gtest			= $(gtestdir)/gtest $(gtestdir)/$(gtest_release)
+mytestdir		= ./test
 
 $(gtest):
 	mkdir -p $(gtestdir)
 	curl -OL https://github.com/google/googletest/archive/refs/tags/release-1.11.0.tar.gz
-	tar -xvzf release-1.11.0.tar.gz googletest-release-1.11.0
+	tar -xvzf release-1.11.0.tar.gz $(gtest_release)
 	rm -rf release-1.11.0.tar.gz
-	python3 googletest-release-1.11.0/googletest/scripts/fuse_gtest_files.py $(gtestdir)
-	mv googletest-release-1.11.0 $(gtestdir)
+	python3 $(gtest_release)/googletest/scripts/fuse_gtest_files.py $(gtestdir)
+	mv $(gtest_release) $(gtestdir)
 
 .PHONY: test
 test: $(gtest) 
 	$(CXX) -std=c++11 $(mytestdir)/gtest.cpp \
-		$(gtestdir)/googletest-release-1.11.0/googletest/src/gtest_main.cc \
+		$(gtestdir)/$(gtest_release)/googletest/src/gtest_main.cc \
 		$(gtestdir)/gtest/gtest-all.cc \
 		-D DEBUG -g -fsanitize=integer -fsanitize=address -fsanitize=leak -fsanitize=undefined \
 		-I$(gtestdir) -I$(includes) -lpthread -o tester $(lcovflags)
