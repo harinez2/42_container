@@ -67,3 +67,15 @@ lcov: test
 lcov:
 	lcov -c -b . -d . -o cov_test.info
 	genhtml cov_test.info -o cov_test
+
+usage:
+	@echo "Available options for make:"
+	@echo "  make"
+	@echo "  make all       Build everything."
+	@echo "  make clean"
+	@echo "  make flean"
+	@echo "  make re"
+	@echo "  make debug     Build with fsanitize options."
+	@echo "  make test      Build and run tests using google test."
+	@echo "  make wtest     Build and run tests using original basic test."
+	@echo "  make lcov      Count line of code."
