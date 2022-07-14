@@ -91,7 +91,7 @@ void test_erase_range() {
   print_vec(v);
 
   ft::vector<int>::iterator it = v.begin();
-  ft::vector<int>::iterator it_end = v.begin();
+  ft::vector<int>::iterator it_end = v.end();
   ++it_end;
   std::cout << "deleting 0-1..." << *(v.erase(it, it_end)) << std::endl;
   print_vec(v);
