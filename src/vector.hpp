@@ -29,10 +29,11 @@ class vector {
   typedef std::reverse_iterator<iterator>        reverse_iterator;
   typedef std::reverse_iterator<const_iterator>  const_reverse_iterator;
 
-  // constructors & destructor
+  // constructor (1)
   vector(const allocator_type& a = allocator_type())
       : alc_(a), first_(NULL), last_(NULL), reserved_last_(NULL) {}
 
+  // constructor (2)
   vector(value_type n, const_reference v = value_type(), const allocator_type& a = allocator_type())
       : vector(a) {
     first_ = alc_.allocate(n);
@@ -41,6 +42,7 @@ class vector {
     std::uninitialized_fill(first_, first_ + n, v);
   }
 
+  // constructor (3)
   template <class InputIter>
   vector(InputIter first, InputIter last, const Allocator& a = Allocator())
       : vector(a) {
@@ -49,6 +51,7 @@ class vector {
       push_back(*it);
   }
 
+  // constructor (4)
   vector(const vector& rhs) : vector(rhs.alc_) { *this = rhs; }
 
   vector& operator=(const vector& rhs) {
@@ -65,6 +68,7 @@ class vector {
     return *this;
   }
 
+  // destructor
   ~vector() {
     clear();
     alc_.deallocate(first_, capacity());
