@@ -9,6 +9,8 @@
 #include <cassert> //TODO:remove
 #include "is_integral.hpp"
 
+enum my_enum{};
+
 template <typename T>
 void print_vec(const T& vec) {
   for (typename T::const_iterator it = vec.begin(); it != vec.end(); ++it)
@@ -114,33 +116,69 @@ void test_erase_range() {
 }
 
 void test_isintegral() {
+  // 1-4
   assert(boost::is_integral<int>::value == true);//, "value == true, int is integral");
-  // assert(boost::core<boost::is_integral<int>::value_type, bool>::value);//, "value_type == bool");
-  // assert(boost::core::is_same<boost::is_integral<int>::type, std::true_type>::value);//, "type == true_type");
-  // assert(boost::is_integral<int>() == true);//, "is_integral<int>() == true");
+  if (!(boost::core::is_same< boost::is_integral<int>::value_type, bool>::value == true))//, "value_type == bool");
+    std::cout << "NG boost2" << std::endl;
+  if (!(boost::core::is_same<boost::is_integral<int>::type, boost::true_type>::value == true))//, "type == true_type");
+    std::cout << "NG boost3" << std::endl;
+  assert(boost::is_integral<int>() == true);//, "is_integral<int>() == true");
 
-  // assert(boost::is_integral<int*>::value == false);//, "value == false, int* is not integral");
-  // assert(boost::core::is_same<boost::is_integral<int*>::value_type, bool>::value);//, "value_type == bool");
-  // assert(boost::core::is_same<boost::is_integral<int*>::type, std::false_type>::value);//, "type == false_type");
-  // assert(boost::is_integral<int*>() == false);//, "is_integral<int*>() == false");
+  // 5-8
+  assert(boost::is_integral<int*>::value == false);//, "value == false, int* is not integral");
+  if (!(boost::core::is_same<boost::is_integral<int*>::value_type, bool>::value == true))//, "value_type == bool");
+    std::cout << "NG boost6" << std::endl;
+  if (!(boost::core::is_same<boost::is_integral<int*>::type, boost::false_type>::value == true))//, "type == false_type");
+    std::cout << "NG boost7" << std::endl;
+  assert(boost::is_integral<int*>() == false);//, "is_integral<int*>() == false");
 
-  // assert(boost::is_integral<bool>::value == true);//, "bool is integral");
-  // assert(boost::is_integral<char>::value == true);//, "char is integral");
-  // assert(boost::is_integral<char32_t>::value == true);//, "char32_t is integral");
-  // assert(boost::is_integral<const long long>::value == true);//, "const long long is integral");
-  // assert(boost::is_integral<volatile unsigned>::value == true);//, "volatile unsigned is integral");
+  // 9-14
+  assert(boost::is_integral<bool>::value == true);//, "bool is integral");
+  assert(boost::is_integral<char>::value == true);//, "char is integral");
+  assert(boost::is_integral<unsigned char>::value == true);
+  assert(boost::is_integral<unsigned short>::value == true);
+  assert(boost::is_integral<unsigned int>::value == true);
+  assert(boost::is_integral<unsigned long>::value == true);
 
-  // enum my_enum{};
-  // assert(boost::is_integral<my_enum>::value == false);//, "my_enum is not integral");
-  // assert(boost::is_integral<int&>::value == false);//, "int& is not integral");
-  // assert(boost::is_integral<int[1]>::value == false);//, "int[1] is not integral");
-  // assert(boost::is_integral<int ()>::value == false);//, "int () is not integral");
-  // assert(boost::is_integral<float>::value == false);//, "float is not integral");
+  // 15-19
+  assert(boost::is_integral<my_enum>::value == false);//, "my_enum is not integral");
+  assert(boost::is_integral<int&>::value == false);//, "int& is not integral");
+  assert(boost::is_integral<int[1]>::value == false);//, "int[1] is not integral");
+  assert(boost::is_integral<int ()>::value == false);//, "int () is not integral");
+  assert(boost::is_integral<float>::value == false);//, "float is not integral");
 
   //---------------------------------------------
 
+  // 1-4
   assert(ft::is_integral<int>::value == true);
+  if (!(boost::core::is_same<ft::is_integral<int>::value_type, bool>::value))
+    std::cout << "NG ft2" << std::endl;
+  if (!(boost::core::is_same<ft::is_integral<int>::type, ft::true_type>::value == true))
+    std::cout << "NG ft3" << std::endl;
+  assert(ft::is_integral<int>() == true);
 
+  // 5-8
+  assert(ft::is_integral<int*>::value == false);
+  if (!(boost::core::is_same<ft::is_integral<int*>::value_type, bool>::value == true))
+    std::cout << "NG ft6" << std::endl;
+  if (!(boost::core::is_same<ft::is_integral<int*>::type, ft::false_type>::value == true))
+    std::cout << "NG ft7" << std::endl;
+  assert(ft::is_integral<int*>() == false);
+  
+  // 9-14
+  assert(ft::is_integral<bool>::value == true);
+  assert(ft::is_integral<char>::value == true);
+  assert(ft::is_integral<unsigned char>::value == true);
+  assert(ft::is_integral<unsigned short>::value == true);
+  assert(ft::is_integral<unsigned int>::value == true);
+  assert(ft::is_integral<unsigned long>::value == true);
+
+  // 15-19
+  assert(ft::is_integral<my_enum>::value == false);
+  assert(ft::is_integral<int&>::value == false);
+  assert(ft::is_integral<int[1]>::value == false);
+  assert(ft::is_integral<int ()>::value == false);
+  assert(ft::is_integral<float>::value == false);
 }
 
 int main() {
