@@ -4,6 +4,11 @@
 #include <iostream>
 // #include <cassert>
 
+#include <boost/type_traits/is_integral.hpp> //TODO:remove
+#include <boost/core/is_same.hpp> //TODO:remove
+#include <cassert> //TODO:remove
+#include "is_integral.hpp"
+
 template <typename T>
 void print_vec(const T& vec) {
   for (typename T::const_iterator it = vec.begin(); it != vec.end(); ++it)
@@ -108,10 +113,42 @@ void test_erase_range() {
   std::cout << std::endl;
 }
 
+void test_isintegral() {
+  assert(boost::is_integral<int>::value == true);//, "value == true, int is integral");
+  // assert(boost::core<boost::is_integral<int>::value_type, bool>::value);//, "value_type == bool");
+  // assert(boost::core::is_same<boost::is_integral<int>::type, std::true_type>::value);//, "type == true_type");
+  // assert(boost::is_integral<int>() == true);//, "is_integral<int>() == true");
+
+  // assert(boost::is_integral<int*>::value == false);//, "value == false, int* is not integral");
+  // assert(boost::core::is_same<boost::is_integral<int*>::value_type, bool>::value);//, "value_type == bool");
+  // assert(boost::core::is_same<boost::is_integral<int*>::type, std::false_type>::value);//, "type == false_type");
+  // assert(boost::is_integral<int*>() == false);//, "is_integral<int*>() == false");
+
+  // assert(boost::is_integral<bool>::value == true);//, "bool is integral");
+  // assert(boost::is_integral<char>::value == true);//, "char is integral");
+  // assert(boost::is_integral<char32_t>::value == true);//, "char32_t is integral");
+  // assert(boost::is_integral<const long long>::value == true);//, "const long long is integral");
+  // assert(boost::is_integral<volatile unsigned>::value == true);//, "volatile unsigned is integral");
+
+  // enum my_enum{};
+  // assert(boost::is_integral<my_enum>::value == false);//, "my_enum is not integral");
+  // assert(boost::is_integral<int&>::value == false);//, "int& is not integral");
+  // assert(boost::is_integral<int[1]>::value == false);//, "int[1] is not integral");
+  // assert(boost::is_integral<int ()>::value == false);//, "int () is not integral");
+  // assert(boost::is_integral<float>::value == false);//, "float is not integral");
+
+  //---------------------------------------------
+
+  assert(ft::is_integral<int>::value == true);
+
+}
+
 int main() {
   // test_reference_sample();
   // test_reserve();
   // test_erase();
-  test_erase_range();
+  // test_erase_range();
+
+  test_isintegral();
   return 0;
 }
