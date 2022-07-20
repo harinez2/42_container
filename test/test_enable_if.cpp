@@ -1,4 +1,4 @@
-#include "../src/is_integral.hpp"
+#include "../src/type_traits.hpp"
 
 #include <type_traits>
 
