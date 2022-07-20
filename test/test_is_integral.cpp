@@ -20,6 +20,8 @@ TEST_F(IsIntegralTest, basic_cases) {
   bool ret;
 
   EXPECT_TRUE(boost::is_integral<int>::value);
+  ret = boost::core::is_same<boost::is_integral<int>::value_type, int>::value;
+  EXPECT_TRUE(ret);
   ret = boost::core::is_same<boost::is_integral<int>::value_type, bool>::value;
   EXPECT_FALSE(ret);
   ret = boost::core::is_same<boost::is_integral<int>::type, boost::true_type>::value;
@@ -27,6 +29,8 @@ TEST_F(IsIntegralTest, basic_cases) {
   EXPECT_TRUE(boost::is_integral<int>());
 
   EXPECT_TRUE(ft::is_integral<int>::value);
+  ret = boost::core::is_same<ft::is_integral<int>::value_type, int>::value;
+  EXPECT_TRUE(ret);
   ret = boost::core::is_same<ft::is_integral<int>::value_type, bool>::value;
   EXPECT_FALSE(ret);
   ret = boost::core::is_same<ft::is_integral<int>::type, ft::true_type>::value;
