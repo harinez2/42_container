@@ -61,6 +61,15 @@ template<> struct is_integral_helper<bool> : public true_type{};
 template<typename T>
 struct is_integral : public is_integral_helper<typename remove_cv<T>::type>::type { };
 
+// enable_if
+template<bool, typename T = void>
+struct enable_if {};
+
+template<typename T>
+struct enable_if<true, T> {
+  typedef T type;
+};
+
 } // namespace ft
 
 #endif
