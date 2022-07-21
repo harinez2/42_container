@@ -8,6 +8,7 @@
 
 #include <iostream> //TODO:remove
 #include <limits> //TODO:remove
+#include <sstream>
 
 #include "iterator.hpp"
 
@@ -34,7 +35,8 @@ class vector {
       : alc_(a), first_(NULL), last_(NULL), reserved_last_(NULL) {}
 
   // constructor (2)
-  vector(value_type n, const_reference v = value_type(), const allocator_type& a = allocator_type())
+  // vector(size_type n, const value_type v = value_type(), const allocator_type& a = allocator_type())
+  vector(value_type n, const value_type v = value_type(), const allocator_type& a = allocator_type())
       : vector(a) {
     first_ = alc_.allocate(n);
     last_ = first_ + n;
