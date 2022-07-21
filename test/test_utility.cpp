@@ -130,4 +130,10 @@ TEST_F(UtilityTest, pair_non_member_operators) {
 }
 
 TEST_F(UtilityTest, make_pair) {
+  std::pair<int, int> std_int_twovalue = std::make_pair(7, 8);
+  ft::pair<int, int> ft_int_twovalue = ft::make_pair(7, 8);
+  EXPECT_EQ(std_int_twovalue.first, 7);
+  EXPECT_EQ(std_int_twovalue.second, 8);
+  EXPECT_EQ(ft_int_twovalue.first, 7);
+  EXPECT_EQ(ft_int_twovalue.second, 8);
 }
