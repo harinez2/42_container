@@ -8,9 +8,6 @@ class EnableIfTest : public ::testing::Test {
   }
   ~EnableIfTest() {
   }
-
- protected:
-  enum my_enum{};
 };
 
 //------------------------------------------------------
