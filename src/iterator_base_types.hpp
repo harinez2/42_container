@@ -1,5 +1,5 @@
-#ifndef ITERATOR_BASE_TYPES_H
-#define ITERATOR_BASE_TYPES_H
+#ifndef ITERATOR_BASE_TYPES_HPP
+#define ITERATOR_BASE_TYPES_HPP
 
 #include <cstddef>
 
