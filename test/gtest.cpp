@@ -5,4 +5,5 @@
 
 #include "test_is_integral.cpp"
 #include "test_enable_if.cpp"
+#include "test_utility.cpp"
 // #include "test_vector.cpp"

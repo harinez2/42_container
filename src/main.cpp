@@ -1,3 +1,5 @@
+#include "type_traits.hpp"
+#include "utility.hpp"
 #include "vector.hpp"
 
 // #include <vector>
@@ -7,7 +9,6 @@
 #include <boost/type_traits/is_integral.hpp> //TODO:remove
 #include <boost/core/is_same.hpp> //TODO:remove
 #include <cassert> //TODO:remove
-#include "is_integral.hpp"
 
 enum my_enum{};
 

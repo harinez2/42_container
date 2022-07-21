@@ -7,7 +7,7 @@ namespace ft {
 template <class T1, class T2>
 struct pair {
   typedef T1    first_type;
-  typedef T1    second_type;
+  typedef T2    second_type;
 
   T1 first;
   T2 second;
@@ -25,7 +25,7 @@ struct pair {
 
   // assignment operator
   pair& operator=(const pair& rhs) {
-    if (this != rhs) {
+    if (this != &rhs) {
       first = rhs.first;
       second = rhs.second;
     }
