@@ -2,15 +2,16 @@
 #define VECTOR_HPP
 
 #include <memory>
-#include <algorithm>
-#include <iterator>
 #include <stdexcept>
 
 #include <iostream> //TODO:remove
 #include <limits> //TODO:remove
 #include <sstream>
 
+#include "algorithm.hpp"
+#include "iterator_base_types.hpp"
 #include "iterator.hpp"
+#include "type_traits.hpp"
 
 namespace ft {
 
@@ -19,16 +20,16 @@ class vector {
  public:
   typedef T&                                     reference;
   typedef const T&                               const_reference;
-  typedef size_t                                 size_type;
-  typedef ptrdiff_t                              difference_type;
+  typedef std::size_t                            size_type;
+  typedef std::ptrdiff_t                         difference_type;
   typedef T                                      value_type;
   typedef Allocator                              allocator_type;
   typedef typename allocator_type::pointer       pointer;
   typedef typename allocator_type::const_pointer const_pointer;
   typedef normal_iterator<pointer>               iterator;
   typedef normal_iterator<const_pointer>         const_iterator;
-  typedef std::reverse_iterator<iterator>        reverse_iterator;
-  typedef std::reverse_iterator<const_iterator>  const_reverse_iterator;
+  typedef std::reverse_iterator<iterator>             reverse_iterator;
+  typedef std::reverse_iterator<const_iterator>       const_reverse_iterator;
 
   // constructor (1)
   vector(const allocator_type& a = allocator_type())
