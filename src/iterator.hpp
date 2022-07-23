@@ -39,9 +39,9 @@ class normal_iterator {
   // constructor
   normal_iterator() : current_(Iterator()) {}
   normal_iterator(const Iterator& i) : current_(i) {}
-  template<typename Iter>
-  normal_iterator(const normal_iterator<Iter>& i)
-      : current_(const_cast<Iterator>(i.base())) {}
+  // template<typename Iter>
+  // normal_iterator(const normal_iterator<Iter>& i)
+  //     : current_(const_cast<Iterator>(i.base())) {}
 
   // Allow iterator to const_iterator conversion
   template<typename Iter>
