@@ -3,17 +3,17 @@
 #include <algorithm>
 #include <vector>
 
-class EqualTest : public ::testing::Test {
+class AlgorithmTest : public ::testing::Test {
  public:
-  EqualTest() {
+  AlgorithmTest() {
   }
-  ~EqualTest() {
+  ~AlgorithmTest() {
   }
 };
 
 //------------------------------------------------------
 
-TEST_F(EqualTest, basic_cases) {
+TEST_F(AlgorithmTest, equal_basic_cases) {
   std::vector<int> std_v1 = {4, 2, 0};
   std::vector<int> std_v2 = {4, 2, 0};
   std::vector<int> std_v3 = {4, 2, 1};
@@ -35,7 +35,7 @@ bool predicator_double(int x, int y) {
   return false;
 }
 
-TEST_F(EqualTest, with_pred) {
+TEST_F(AlgorithmTest, equal_with_pred) {
   std::vector<int> std_v1 = {4, 2, 0};
   std::vector<int> std_v2 = {8, 4, 0};
   std::vector<int> std_v3 = {8, 4, 1};
