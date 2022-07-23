@@ -47,63 +47,73 @@ TEST_F(NormalIteratorTest, copy_constructor) {
   __gnu_cxx::__normal_iterator<std::vector<int>::iterator, std::vector<int>> gnu_it_vec2(v.begin());
   __gnu_cxx::__normal_iterator<std::vector<int>::iterator, std::vector<int>> gnu_it_vec(gnu_it_vec2);
   EXPECT_EQ(*gnu_it_vec, 1);
-  EXPECT_EQ(*gnu_it_vec++, 1);
+  gnu_it_vec++;
   EXPECT_EQ(*gnu_it_vec, 2);
-  EXPECT_EQ(*++gnu_it_vec, 3);
-  EXPECT_EQ(*gnu_it_vec, 3);
-  EXPECT_EQ(*gnu_it_vec--, 3);
-  EXPECT_EQ(*gnu_it_vec, 2);
-  EXPECT_EQ(*--gnu_it_vec, 1);
-  EXPECT_EQ(*gnu_it_vec, 1);
   
   ft::normal_iterator<std::vector<int>::iterator, std::vector<int>> ft_it_vec2(v.begin());
   ft::normal_iterator<std::vector<int>::iterator, std::vector<int>> ft_it_vec(ft_it_vec2);
   EXPECT_EQ(*ft_it_vec, 1);
-  EXPECT_EQ(*ft_it_vec++, 1);
+  ft_it_vec++;
   EXPECT_EQ(*ft_it_vec, 2);
-  EXPECT_EQ(*++ft_it_vec, 3);
-  EXPECT_EQ(*ft_it_vec, 3);
-  EXPECT_EQ(*ft_it_vec--, 3);
-  EXPECT_EQ(*ft_it_vec, 2);
-  EXPECT_EQ(*--ft_it_vec, 1);
+}
+
+TEST_F(NormalIteratorTest, const_constructor) {
+  const std::vector<int>::iterator it_const = v.begin();
+  __gnu_cxx::__normal_iterator<std::vector<int>::iterator, std::vector<int>> gnu_it_vec(it_const);
+  EXPECT_EQ(*gnu_it_vec, 1);
+  gnu_it_vec++;
+  EXPECT_EQ(*gnu_it_vec, 2);
+  
+  ft::normal_iterator<std::vector<int>::iterator, std::vector<int>> ft_it_vec(it_const);
   EXPECT_EQ(*ft_it_vec, 1);
+  ft_it_vec++;
+  EXPECT_EQ(*ft_it_vec, 2);
 }
 
 TEST_F(NormalIteratorTest, plus_minus) {
+  __gnu_cxx::__normal_iterator<std::vector<int>::iterator, std::vector<int>> gnu_it_vec(v.begin());
+  EXPECT_EQ(*(gnu_it_vec + 2), 3);
+  EXPECT_EQ(*gnu_it_vec, 1);
+  EXPECT_EQ(*(gnu_it_vec += 2), 3);
+  EXPECT_EQ(*gnu_it_vec, 3);
+  EXPECT_EQ(*(gnu_it_vec - 2), 1);
+  EXPECT_EQ(*gnu_it_vec, 3);
+  EXPECT_EQ(*(gnu_it_vec -= 2), 1);
+  EXPECT_EQ(*gnu_it_vec, 1);
   
-  // __gnu_cxx::__normal_iterator<std::vector<int>::iterator, std::vector<int>> it_tmp;
-  // std::cout << *(it += 2) << std::endl;
-  // it_tmp = it + 1;
-  // std::cout << *it_tmp << std::endl;
-  // std::cout << *(it -= 2) << std::endl;
-  // it_tmp = it - 1;
-  // std::cout << *it_tmp << std::endl;
-  // std::cout << it.base() << std::endl;
+  ft::normal_iterator<std::vector<int>::iterator, std::vector<int>> ft_it_vec(v.begin());
+  EXPECT_EQ(*(ft_it_vec + 2), 3);
+  EXPECT_EQ(*ft_it_vec, 1);
+  EXPECT_EQ(*(ft_it_vec += 2), 3);
+  EXPECT_EQ(*ft_it_vec, 3);
+  EXPECT_EQ(*(ft_it_vec - 2), 1);
+  EXPECT_EQ(*ft_it_vec, 3);
+  EXPECT_EQ(*(ft_it_vec -= 2), 1);
+  EXPECT_EQ(*ft_it_vec, 1);
 }
 
-TEST_F(NormalIteratorTest, basic_cases) {
+TEST_F(NormalIteratorTest, reference_operators) {
+  __gnu_cxx::__normal_iterator<std::vector<int>::iterator, std::vector<int>> gnu_it_vec(v.begin());
+  EXPECT_EQ(*(gnu_it_vec.base()), 1);
+  EXPECT_EQ(*((&gnu_it_vec)->base()), 1);
+  EXPECT_EQ(gnu_it_vec[2], 3);
   
+  ft::normal_iterator<std::vector<int>::iterator, std::vector<int>> ft_it_vec(v.begin());
+  EXPECT_EQ(*(ft_it_vec.base()), 1);
+  EXPECT_EQ(*((&ft_it_vec)->base()), 1);
+  EXPECT_EQ(ft_it_vec[2], 3);
+}
 
-  // ft::normal_iterator<int> it;
-  // ft::normal_iterator<int, vector> it;
-  // ft::normal_iterator it_vec(v.begin());//?
-  // ft::normal_iterator it2(it);
+TEST_F(NormalIteratorTest, comparison_operators) {
+  __gnu_cxx::__normal_iterator<std::vector<int>::iterator, std::vector<int>> gnu_it_vec(v.begin());
+  __gnu_cxx::__normal_iterator<std::vector<int>::iterator, std::vector<int>> gnu_it_vec2(v.begin());
+  EXPECT_TRUE(gnu_it_vec == gnu_it_vec);
+  EXPECT_TRUE(gnu_it_vec == gnu_it_vec2);
   
-  // std::cout << *it << std:endl;
-  // std::cout << it->current_ << std:endl;
-  // std::cout << *it++ << std:endl;
-  // std::cout << *++it << std:endl;
-  // std::cout << *it-- << std:endl;
-  // std::cout << *--it << std:endl;
-  // std::cout << *it[2] << std:endl;
-  
-  // std::cout << *(it += 2) << std:endl;
-  // it_tmp = it + 1;
-  // std::cout << *it_tmp << std:endl;
-  // std::cout << *(it -= 2) << std:endl;
-  // it_tmp = it - 1;
-  // std::cout << *it_tmp << std:endl;
-  // std::cout << it.base() << std:endl;
+  ft::normal_iterator<std::vector<int>::iterator, std::vector<int>> ft_it_vec(v.begin());
+  ft::normal_iterator<std::vector<int>::iterator, std::vector<int>> ft_it_vec2(v.begin());
+  EXPECT_TRUE(ft_it_vec == ft_it_vec2);
+  EXPECT_TRUE(ft_it_vec == ft_it_vec2);
 }
 
 class increment_iterator{//} : public ft::iterator<std::input_iterator_tag, int> {
