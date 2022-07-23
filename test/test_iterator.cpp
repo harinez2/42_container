@@ -3,11 +3,11 @@
 #include <iterator>
 #include <algorithm>
 
-class IteratorTest : public ::testing::Test {
+class NormalIteratorTest : public ::testing::Test {
  public:
-  IteratorTest() {
+  NormalIteratorTest() {
   }
-  ~IteratorTest() {
+  ~NormalIteratorTest() {
   }
 };
 
@@ -53,7 +53,7 @@ inline bool operator>(const increment_iterator& a, const increment_iterator& b)
 inline bool operator>=(const increment_iterator& a, const increment_iterator& b)
   { return !(a < b); }
 
-TEST_F(IteratorTest, iterator_basic_cases) {
+TEST_F(NormalIteratorTest, basic_cases) {
   increment_iterator first(0);
   increment_iterator last(10);
 
@@ -69,16 +69,21 @@ TEST_F(IteratorTest, iterator_basic_cases) {
 }
 
 //------------------------------------------------------
-// normal iterator tests
+//------------------------------------------------------
 
-
+class ReverseIteratorTest : public ::testing::Test {
+ public:
+  ReverseIteratorTest() {
+  }
+  ~ReverseIteratorTest() {
+  }
+ protected:
+  std::vector<int> v = {1, 2, 3, 4, 5};
+};
 
 //------------------------------------------------------
-// reverse iterator tests
 
-TEST_F(IteratorTest, reverseit_basic_cases) {
-  std::vector<int> v = {1, 2, 3, 4, 5};
-
+TEST_F(ReverseIteratorTest, basic_cases) {
   std::reverse_iterator<decltype(v)::iterator> std_first(v.end());
   std::reverse_iterator<decltype(v)::iterator> std_last(v.begin());
   // std::for_each(std_first, std_last, [](int std_x) {
