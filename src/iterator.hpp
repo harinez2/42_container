@@ -44,7 +44,7 @@ class normal_iterator {
   template<typename Iter>
   normal_iterator(const normal_iterator<Iter,
       typename ft::enable_if<
-          (std::__are_same<Iter, typename Container::pointer>::__value),
+          std::__are_same<Iter, typename Container::pointer>::__value,
           Container>::__type>& i)
       : current_(i.base()) { }
 
