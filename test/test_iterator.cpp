@@ -4,15 +4,22 @@
 #include <bits/stl_iterator_base_types.h>
 #include <bits/stl_iterator.h>
 #include <algorithm>
+#include <array>
 
 class NormalIteratorTest : public ::testing::Test {
  public:
   NormalIteratorTest() {
+    v.push_back(10);
+    v.push_back(20);
+    v.push_back(30);
+    v.push_back(40);
+    v.push_back(50);
   }
   ~NormalIteratorTest() {
   }
+
  protected:
-  std::vector<int> v = {10, 20, 30, 40, 50};
+  std::vector<int> v;
 };
 
 //------------------------------------------------------
@@ -154,11 +161,18 @@ TEST_F(NormalIteratorTest, comparison_operators) {
 class ReverseIteratorTest : public ::testing::Test {
  public:
   ReverseIteratorTest() {
+    v.push_back(10);
+    v.push_back(20);
+    v.push_back(30);
+    v.push_back(40);
+    v.push_back(50);
   }
   ~ReverseIteratorTest() {
   }
  protected:
-  std::vector<int> v = {10, 20, 30, 40, 50};
+  std::vector<int> v;
+  // std::array<int, 5> l = {10, 20, 30, 40, 50};
+  // std::vector<float> vf = {10, 20, 30, 40, 50};
 };
 
 //------------------------------------------------------
@@ -309,3 +323,45 @@ TEST_F(ReverseIteratorTest, comparison_operators) {
   EXPECT_EQ(*(ft_it_right + 2), 10);
   EXPECT_EQ(ft_it_right - ft_it_vec, 2);
 }
+
+// TEST_F(ReverseIteratorTest, comparison_operators_differenttype) {
+//   std::reverse_iterator<std::vector<int>::iterator> gnu_it_vec(v.end());
+//   std::reverse_iterator<std::array<int, 5>::iterator> gnu_it_same(l.end());
+//   std::reverse_iterator<std::array<int, 5>::iterator> gnu_it_right(l.end());
+//   gnu_it_right++;
+//   gnu_it_right++;
+//   EXPECT_TRUE(gnu_it_vec == gnu_it_same);
+  // EXPECT_FALSE(gnu_it_vec == gnu_it_right);
+  // EXPECT_FALSE(gnu_it_vec != gnu_it_same);
+  // EXPECT_TRUE(gnu_it_vec != gnu_it_right);
+  // EXPECT_FALSE(gnu_it_vec < gnu_it_same);
+  // EXPECT_TRUE(gnu_it_vec < gnu_it_right);
+  // EXPECT_FALSE(gnu_it_vec > gnu_it_same);
+  // EXPECT_FALSE(gnu_it_vec > gnu_it_right);
+  // EXPECT_TRUE(gnu_it_vec <= gnu_it_same);
+  // EXPECT_TRUE(gnu_it_vec <= gnu_it_right);
+  // EXPECT_TRUE(gnu_it_vec >= gnu_it_same);
+  // EXPECT_FALSE(gnu_it_vec >= gnu_it_right);
+  // EXPECT_EQ(*(gnu_it_right + 2), 10);
+  // EXPECT_EQ(gnu_it_right - gnu_it_vec, 2);
+  
+  // ft::reverse_iterator<std::vector<int>::iterator> ft_it_vec(v.end());
+  // ft::reverse_iterator<std::vector<float>::iterator> ft_it_same(vf.end());
+  // ft::reverse_iterator<std::vector<float>::iterator> ft_it_right(vf.end());
+  // ft_it_right++;
+  // ft_it_right++;
+  // EXPECT_TRUE(ft_it_vec == ft_it_same);
+  // EXPECT_FALSE(ft_it_vec == ft_it_right);
+  // EXPECT_FALSE(ft_it_vec != ft_it_same);
+  // EXPECT_TRUE(ft_it_vec != ft_it_right);
+  // EXPECT_FALSE(ft_it_vec < ft_it_same);
+  // EXPECT_TRUE(ft_it_vec < ft_it_right);
+  // EXPECT_FALSE(ft_it_vec > ft_it_same);
+  // EXPECT_FALSE(ft_it_vec > ft_it_right);
+  // EXPECT_TRUE(ft_it_vec <= ft_it_same);
+  // EXPECT_TRUE(ft_it_vec <= ft_it_right);
+  // EXPECT_TRUE(ft_it_vec >= ft_it_same);
+  // EXPECT_FALSE(ft_it_vec >= ft_it_right);
+  // EXPECT_EQ(*(ft_it_right + 2), 10);
+  // EXPECT_EQ(ft_it_right - ft_it_vec, 2);
+// }

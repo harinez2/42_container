@@ -6,18 +6,33 @@
 class AlgorithmTest : public ::testing::Test {
  public:
   AlgorithmTest() {
+    std_v1.push_back(4);
+    std_v1.push_back(2);
+    std_v1.push_back(0);
   }
   ~AlgorithmTest() {
   }
+
+ protected:
+  std::vector<int> std_v1;
 };
 
 //------------------------------------------------------
 
 TEST_F(AlgorithmTest, equal_basic_cases) {
-  std::vector<int> std_v1 = {4, 2, 0};
-  std::vector<int> std_v2 = {4, 2, 0};
-  std::vector<int> std_v3 = {4, 2, 1};
-  std::vector<int> std_v4 = {4, 2, 0, 0};
+  std::vector<int> std_v2;
+  std_v2.push_back(4);
+  std_v2.push_back(2);
+  std_v2.push_back(0);
+  std::vector<int> std_v3;
+  std_v3.push_back(4);
+  std_v3.push_back(2);
+  std_v3.push_back(1);
+  std::vector<int> std_v4;
+  std_v4.push_back(4);
+  std_v4.push_back(2);
+  std_v4.push_back(0);
+  std_v4.push_back(0);
 
   EXPECT_TRUE(std::equal(std::begin(std_v1), std::end(std_v1), std::begin(std_v2)));
   EXPECT_TRUE(ft::equal(std::begin(std_v1), std::end(std_v1), std::begin(std_v2)));
@@ -36,10 +51,19 @@ bool predicator_double(int x, int y) {
 }
 
 TEST_F(AlgorithmTest, equal_with_pred) {
-  std::vector<int> std_v1 = {4, 2, 0};
-  std::vector<int> std_v2 = {8, 4, 0};
-  std::vector<int> std_v3 = {8, 4, 1};
-  std::vector<int> std_v4 = {8, 4, 0, 0};
+  std::vector<int> std_v2;
+  std_v2.push_back(8);
+  std_v2.push_back(4);
+  std_v2.push_back(0);
+  std::vector<int> std_v3;
+  std_v3.push_back(8);
+  std_v3.push_back(4);
+  std_v3.push_back(1);
+  std::vector<int> std_v4;
+  std_v4.push_back(8);
+  std_v4.push_back(4);
+  std_v4.push_back(0);
+  std_v4.push_back(0);
 
   EXPECT_TRUE(std::equal(std::begin(std_v1), std::end(std_v1), std::begin(std_v2), predicator_double));
   EXPECT_TRUE(ft::equal(std::begin(std_v1), std::end(std_v1), std::begin(std_v2), predicator_double));
