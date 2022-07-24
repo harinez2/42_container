@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <stdexcept>
+#include <iterator>
 
 #include <iostream> //TODO:remove
 #include <limits> //TODO:remove
@@ -18,26 +19,25 @@ namespace ft {
 template <typename T, typename Allocator = std::allocator<T> >
 class vector {
  public:
-  typedef T&                                     reference;
-  typedef const T&                               const_reference;
-  typedef std::size_t                            size_type;
-  typedef std::ptrdiff_t                         difference_type;
-  typedef T                                      value_type;
-  typedef Allocator                              allocator_type;
-  typedef typename allocator_type::pointer       pointer;
-  typedef typename allocator_type::const_pointer const_pointer;
-  typedef normal_iterator<pointer>               iterator;
-  typedef normal_iterator<const_pointer>         const_iterator;
-  typedef std::reverse_iterator<iterator>             reverse_iterator;
-  typedef std::reverse_iterator<const_iterator>       const_reverse_iterator;
+  typedef T&                                         reference;
+  typedef const T&                                   const_reference;
+  typedef std::size_t                                size_type;
+  typedef std::ptrdiff_t                             difference_type;
+  typedef T                                          value_type;
+  typedef Allocator                                  allocator_type;
+  typedef typename allocator_type::pointer           pointer;
+  typedef typename allocator_type::const_pointer     const_pointer;
+  typedef ft::normal_iterator<pointer, vector>       iterator;
+  typedef ft::normal_iterator<const_pointer, vector> const_iterator;
+  typedef ft::reverse_iterator<iterator>             reverse_iterator;
+  typedef ft::reverse_iterator<const_iterator>       const_reverse_iterator;
 
   // constructor (1)
-  vector(const allocator_type& a = allocator_type())
+  explicit vector(const allocator_type& a = allocator_type())
       : alc_(a), first_(NULL), last_(NULL), reserved_last_(NULL) {}
 
   // constructor (2)
-  // vector(size_type n, const value_type v = value_type(), const allocator_type& a = allocator_type())
-  vector(value_type n, const value_type v = value_type(), const allocator_type& a = allocator_type())
+  explicit vector(size_type n, const value_type v = value_type(), const allocator_type& a = allocator_type())
       : vector(a) {
     first_ = alc_.allocate(n);
     last_ = first_ + n;
@@ -47,7 +47,9 @@ class vector {
 
   // constructor (3)
   template <class InputIter>
-  vector(InputIter first, InputIter last, const allocator_type& a = allocator_type())
+  vector(InputIter first, 
+      typename ft::enable_if<!ft::is_integral<InputIter>::value, InputIter>::type last,
+      const allocator_type& a = allocator_type())
       : vector(a) {
     reserve(std::distance(first, last));
     for (InputIter it = first; it != last; ++it)
@@ -65,7 +67,7 @@ class vector {
       // }
       clear();
       reserve(std::distance(rhs.first_, rhs.last_));
-      for (iterator it = rhs.begin(); it != rhs.end(); ++it)
+      for (const_iterator it = rhs.begin(); it != rhs.end(); ++it)
         push_back(*it);
     }
     return *this;
