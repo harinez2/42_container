@@ -232,7 +232,8 @@ class vector {
       alc_.construct(last_, x);
       ++last_;
     } else if (last_ != reserved_last_) {
-      backward_insert_(position, 1, x);
+      make_insert_space_backward_(position, 1);
+      std::fill_n(position, 1, x);
     } else {
       realloc_insert_(position, 1, x);
     }
@@ -241,9 +242,9 @@ class vector {
   void insert(iterator position, size_type n, const_reference x) {
     if (n == 0)
       return;
-    
     if (reserved_last_ - last_ >= n) {
-      backward_insert_(position, n, x);
+      make_insert_space_backward_(position, n);
+      std::fill_n(position, n, x);
     } else {
       realloc_insert_(position, n, x);
     }
@@ -251,6 +252,16 @@ class vector {
   template <class InputIterator>
   void insert(iterator position, InputIterator first,
       typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last) {
+    size_type n = std::distance(first, last);
+    if (n == 0)
+      return;
+    if (reserved_last_ - last_ >= n) {
+      make_insert_space_backward_(position, n);
+      std::copy(first, last, position);
+    } else {
+
+      // realloc_insert_(position, n, x);
+    }
   // TODO
   //   size_type n = std::distance(first, last);
   //   reserve(n);
@@ -322,13 +333,12 @@ class vector {
       --result_end;
     }
   }
-  void backward_insert_(iterator position, size_type n, const_reference x) {
+  void make_insert_space_backward_(iterator position, size_type n) {
     for (size_type i = 0; i < n; ++i) {
       alc_.construct(last_ + i, *(end() - n + i));
     }
     copy_backward_(position, end() - n, end() - 1);
     last_ += n;
-    std::fill_n(position, n, x);
   }
   void realloc_insert_(iterator position, size_type n, const_reference x) {
     const size_type new_len = get_new_allocate_size_(n, "vector::realloc_insert_");
