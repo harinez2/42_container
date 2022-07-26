@@ -2,6 +2,7 @@
 #include "test_vector.hpp"
 
 #include <vector>
+#include <list>
 
 class VectorTest : public ::testing::Test {
  public:
@@ -853,7 +854,7 @@ TEST_F(VectorTest, int_popback) {
 // ======================================================
 // insert (int)
 
-TEST_F(VectorTest, int_insert_iterator) {
+TEST_F(VectorTest, int_insert_position) {
   // insert in empty vector
   ft::vector<int> vft;
   std::vector<int> vstd;
@@ -886,7 +887,7 @@ TEST_F(VectorTest, int_insert_iterator) {
   compare_with_std_vector(vft2, vstd2);
 }
 
-TEST_F(VectorTest, int_insert_iterator_size) {
+TEST_F(VectorTest, int_insert_position_size) {
   // insert in empty vector
   ft::vector<int> vft;
   std::vector<int> vstd;
@@ -929,7 +930,54 @@ TEST_F(VectorTest, int_insert_iterator_size) {
   compare_with_std_vector(vft2, vstd2);
 }
 
-TEST_F(VectorTest, int_insert_iterator_inputiterator) {
+TEST_F(VectorTest, int_insert_iterator) {
+  std::list<int> intlst;
+  intlst.push_back(42000);
+  intlst.push_back(0);
+  intlst.push_back(-42000);
+
+  // insert in empty vector
+  ft::vector<int> vft;
+  std::vector<int> vstd;
+  vft.insert(vft.begin(), intlst.begin(), intlst.end());
+  vstd.insert(vstd.begin(), intlst.begin(), intlst.end());
+  EXPECT_EQ(vft[0], 42000);
+  EXPECT_EQ(vft[1], 0);
+  EXPECT_EQ(vft[2], -42000);
+  EXPECT_EQ(vft.size(), 3);
+  compare_with_std_vector(vft, vstd);
+
+  // insert in head, tail, and middle
+  ft::vector<int> vft2(vft_);
+  std::vector<int> vstd2(vstd_);
+  vft2.insert(vft2.begin(), intlst.begin(), intlst.end());
+  vstd2.insert(vstd2.begin(), intlst.begin(), intlst.end());
+  compare_with_std_vector(vft2, vstd2);
+  vft2.insert(vft2.end(), intlst.begin(), intlst.end());
+  vstd2.insert(vstd2.end(), intlst.begin(), intlst.end());
+  compare_with_std_vector(vft2, vstd2);
+  vft2.insert(vft2.begin() + 2, intlst.begin(), intlst.end());
+  vstd2.insert(vstd2.begin() + 2, intlst.begin(), intlst.end());
+  EXPECT_EQ(vft2[0], 42000);
+  EXPECT_EQ(vft2[1], 0);
+  EXPECT_EQ(vft2[2], 42000);
+  EXPECT_EQ(vft2[3], 0);
+  EXPECT_EQ(vft2[4], -42000);
+  EXPECT_EQ(vft2[5], -42000);
+  EXPECT_EQ(vft2[6], 42);
+  EXPECT_EQ(vft2[7], 1);
+  EXPECT_EQ(vft2[8], 0);
+  EXPECT_EQ(vft2[9], -42);
+  EXPECT_EQ(vft2[10], 4242);
+  EXPECT_EQ(vft2[11], 42000);
+  EXPECT_EQ(vft2[12], 0);
+  EXPECT_EQ(vft2[13], -42000);
+  EXPECT_EQ(vft2.size(), 14);
+  compare_with_std_vector(vft2, vstd2);
+
+  // add zero
+  vft2.insert(vft2.begin() + 3, intlst.begin(), intlst.begin());
+  compare_with_std_vector(vft2, vstd2);
 }
 
 // ======================================================

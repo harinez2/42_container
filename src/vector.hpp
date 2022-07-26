@@ -259,24 +259,30 @@ class vector {
       make_insert_space_backward_(position, n);
       std::copy(first, last, position);
     } else {
+      const size_type new_len = get_new_allocate_size_(n, "vector::realloc_insert_");
+      const size_type elems_before = &*position - first_;
 
-      // realloc_insert_(position, n, x);
+      pointer new_first = alc_.allocate(new_len);
+      pointer new_last = new_first;
+      try {
+        std::uninitialized_copy(begin(), position, new_first);
+        std::uninitialized_copy(first, last, new_first + elems_before);
+        std::uninitialized_copy(position, end(), new_first + elems_before + n);
+        new_last = new_first + size() + n;
+      } catch(...) {
+        // if (!new_last)
+        //   this->_M_impl.destroy(new_first + elems_before);
+        // else
+        //   std::_Destroy(new_first, new_last, get_allocator());
+        // _M_deallocate(new_first, new_len);
+        // __throw_exception_again;
+      }
+      destroy_until_(rend());
+      alc_.deallocate(first_, capacity());
+      first_ = new_first;
+      last_ = new_last;
+      reserved_last_ = new_first + new_len;
     }
-  // TODO
-  //   size_type n = std::distance(first, last);
-  //   reserve(n);
-  //   iterator it_from = end() - 1;
-  //   iterator it_to = position + n;
-  //   for (; it_from != position; --it_from) {
-  //     *it_to = *it_from;
-  //     --it_to;
-  //   }
-  //   *it_to = *it_from;
-  //   for (size_type i = 0; i < n; ++i) {
-  //     *(position + i) = *first;
-  //     ++first;
-  //   }
-  //   last_ += n;
   }
   iterator erase(iterator position) {
     return erase(position, position + 1);
