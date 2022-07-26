@@ -158,11 +158,11 @@ class vector {
     }
     return *(first_ + n);
   }
-  pointer data() {//TODO
-
+  pointer data() {
+    return first_;
   }
-  const_pointer data() const {//TODO
-
+  const_pointer data() const {
+    return first_;
   }
   reference       front()       { return *begin(); }
   const_reference front() const { return *begin(); }

@@ -615,6 +615,23 @@ TEST_F(VectorTest, int_at) {
 }
 
 // ======================================================
+// data (int)
+
+TEST_F(VectorTest, int_data) {
+  ft::vector<int>::pointer vft_data = vft_.data();
+  std::vector<int>::pointer vstd_data = vstd_.data();
+  EXPECT_EQ(*vft_data, 42);
+  EXPECT_EQ(*vft_data, *vstd_data);
+}
+
+TEST_F(VectorTest, int_data_const) {
+  ft::vector<int>::const_pointer vft_data = vft_.data();
+  std::vector<int>::const_pointer vstd_data = vstd_.data();
+  EXPECT_EQ(*vft_data, 42);
+  EXPECT_EQ(*vft_data, *vstd_data);
+}
+
+// ======================================================
 // front (int)
 
 TEST_F(VectorTest, int_front) {
