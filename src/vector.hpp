@@ -59,7 +59,7 @@ class vector {
   // constructor (4)
   vector(const vector& rhs) : vector(rhs.alc_) { *this = rhs; }
 
-  vector& operator=(const vector& rhs) {
+  vector& operator=(const vector& rhs) {//TODO
     if (this != &rhs) {
       // if (size() == rhs.size()) {
       //   for (const_iterator it = rhs.begin(); it != rhs.end(); ++it)
@@ -158,14 +158,20 @@ class vector {
     }
     return *(first_ + n);
   }
+  pointer data() {//TODO
+
+  }
+  const_pointer data() const {//TODO
+
+  }
   reference       front()       { return *begin(); }
   const_reference front() const { return *begin(); }
   reference       back()       { return *(end() - 1); }
   const_reference back() const { return *(end() - 1); }
 
   // changing container elements
-  // template <class InputIterator>
-  // void assign(InputIterator first, InputIterator last) {
+  template <class InputIterator>
+  void assign(InputIterator first, InputIterator last) {//TODO
   //   size_type inputitr_size = std::distance(first, last);
   //   if (inputitr_size < this->size()) {
   //     std::copy(first, last, begin());
@@ -177,7 +183,7 @@ class vector {
   //     std::copy(first, it, begin());
   //     insert(end(), it, last);
   //   }
-  // }
+  }
   void assign(size_type n, const_reference u) {
     if (n > capacity()) {
       pointer tmp_first_ = alc_.allocate(n);
@@ -240,8 +246,8 @@ class vector {
       realloc_insert_(position, n, x);
     }
   }
-  // template <class InputIterator>
-  // void insert(iterator position, InputIterator first, InputIterator last) {
+  template <class InputIterator>
+  void insert(iterator position, InputIterator first, InputIterator last) {//TODO
   //   size_type n = std::distance(first, last);
   //   reserve(n);
   //   iterator it_from = end() - 1;
@@ -256,7 +262,7 @@ class vector {
   //     ++first;
   //   }
   //   last_ += n;
-  // }
+  }
   iterator erase(iterator position) {
     return erase(position, position + 1);
   }
