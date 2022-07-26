@@ -154,138 +154,138 @@ TEST_F(VectorTest, int_constructor_border) {
 // ======================================================
 // iterator (int)
 
-// TEST_F(VectorTest, int_iterator) {
-//   ft::vector<int> vft(3, 42);
-//   std::vector<int> vstd(3, 42);
+TEST_F(VectorTest, int_iterator) {
+  ft::vector<int> vft(3, 42);
+  std::vector<int> vstd(3, 42);
 
-//   EXPECT_EQ(*(vft.begin()), *(vstd.begin()));
-//   EXPECT_EQ(*(vft.end()), *(vstd.end()));
-// }
+  EXPECT_EQ(*(vft.begin()), *(vstd.begin()));
+  EXPECT_EQ(*(vft.end() - 1), *(vstd.end() - 1));
+}
 
 //------------------------------------------------------
 // iterator const (int)
 
-// TEST_F(VectorTest, int_iterator_const) {
-//   const ft::vector<int> vft(3, 42);
-//   const std::vector<int> vstd(3, 42);
+TEST_F(VectorTest, int_iterator_const) {
+  const ft::vector<int> vft(3, 42);
+  const std::vector<int> vstd(3, 42);
 
-//   EXPECT_EQ(*(vft.begin()), *(vstd.begin()));
-//   EXPECT_EQ(*(vft.end()), *(vstd.end()));
-// }
+  EXPECT_EQ(*(vft.begin()), *(vstd.begin()));
+  EXPECT_EQ(*(vft.end() - 1), *(vstd.end() - 1));
+}
 
 //------------------------------------------------------
 // iterator (int)
 
-// TEST_F(VectorTest, int_iterator2) {
-//   ft::vector<int>::iterator vft_it = vft_.begin();
-//   std::vector<int>::iterator vstd_it = vstd_.begin();
+TEST_F(VectorTest, int_iterator2) {
+  ft::vector<int>::iterator vft_it = vft_.begin();
+  std::vector<int>::iterator vstd_it = vstd_.begin();
 
-//   EXPECT_EQ(*vft_it, *vstd_it);
+  EXPECT_EQ(*vft_it, *vstd_it);
 
-//   ++vft_it;
-//   ++vstd_it;
+  ++vft_it;
+  ++vstd_it;
   
-//   EXPECT_EQ(*vft_it, *vstd_it);
+  EXPECT_EQ(*vft_it, *vstd_it);
 
-//   ft::vector<int>::iterator vft_it_end = vft_.end();
-//   std::vector<int>::iterator vstd_it_end = vstd_.end();
+  ft::vector<int>::iterator vft_it_end = vft_.end();
+  std::vector<int>::iterator vstd_it_end = vstd_.end();
   
-//   EXPECT_EQ(*(vft_it_end - 1), *(vsvstd_it_endtd_it - 1));
-// }
+  EXPECT_EQ(*(vft_it_end - 1), *(vstd_it_end - 1));
+}
 
 //------------------------------------------------------
 // iterator const (int)
 
-// TEST_F(VectorTest, int_iterator_const2) {
-//   const ft::vector<int>::iterator vft_it = vft_.begin();
-//   const std::vector<int>::iterator vstd_it = vstd_.begin();
+TEST_F(VectorTest, int_iterator_const2) {
+  const ft::vector<int>::iterator vft_it = vft_.begin();
+  const std::vector<int>::iterator vstd_it = vstd_.begin();
 
-//   EXPECT_EQ(*vft_it, *vstd_it);
+  EXPECT_EQ(*vft_it, *vstd_it);
 
-//   const ft::vector<int>::iterator vft_it = vft_.end();
-//   const std::vector<int>::iterator vstd_it = vstd_.end();
+  const ft::vector<int>::iterator vft_it_end = vft_.end();
+  const std::vector<int>::iterator vstd_it_end = vstd_.end();
   
-//   EXPECT_EQ(*(vft_it - 1), *(vstd_it - 1));
-// }
+  EXPECT_EQ(*(vft_it_end - 1), *(vstd_it_end - 1));
+}
 
 //------------------------------------------------------
 // iterator loop (int)
 
-// TEST_F(VectorTest, int_iterator_loop) {
-//   ft::vector<int>::iterator vft_it = vft_.begin();
-//   std::vector<int>::iterator vstd_it = vstd_.begin();
+TEST_F(VectorTest, int_iterator_loop) {
+  ft::vector<int>::iterator vft_it = vft_.begin();
+  std::vector<int>::iterator vstd_it = vstd_.begin();
 
-//   for (; vft_it != vft_.end() && vstd_it != vstd_.end(); ++vft_it, ++vstd_it)
-//     EXPECT_EQ(*vft_it, *vstd_it);
-// }
+  for (; vft_it != vft_.end() && vstd_it != vstd_.end(); ++vft_it, ++vstd_it)
+    EXPECT_EQ(*vft_it, *vstd_it);
+}
 
 // ======================================================
 // riterator (int)
 
-// TEST_F(VectorTest, int_riterator) {
-//   ft::vector<int> vft(3, 42);
-//   std::vector<int> vstd(3, 42);
+TEST_F(VectorTest, int_riterator) {
+  ft::vector<int> vft(3, 42);
+  std::vector<int> vstd(3, 42);
 
-//   EXPECT_EQ(*(vft.rbegin()), *(vstd.rbegin()));
-//   EXPECT_EQ(*(vft.rend()), *(vstd.rend()));
-// }
+  EXPECT_EQ(*(vft.rbegin()), *(vstd.rbegin()));
+  EXPECT_EQ(*(vft.rend() - 1), *(vstd.rend() - 1));
+}
 
 // ------------------------------------------------------
 // riterator const (int)
 
-// TEST_F(VectorTest, int_riterator_const) {
-//   const ft::vector<int> vft(3, 42);
-//   const std::vector<int> vstd(3, 42);
+TEST_F(VectorTest, int_riterator_const) {
+  const ft::vector<int> vft(3, 42);
+  const std::vector<int> vstd(3, 42);
 
-//   EXPECT_EQ(*(vft.rbegin()), *(vstd.rbegin()));
-//   EXPECT_EQ(*(vft.rend()), *(vstd.rend()));
-// }
+  EXPECT_EQ(*(vft.rbegin()), *(vstd.rbegin()));
+  EXPECT_EQ(*(vft.rend() - 1), *(vstd.rend() - 1));
+}
 
 // ------------------------------------------------------
 // riterator (int)
 
-// TEST_F(VectorTest, int_riterator2) {
-//   ft::vector<int>::iterator vft_it = vft_.rbegin();
-//   std::vector<int>::iterator vstd_it = vstd_.rbegin();
+TEST_F(VectorTest, int_riterator2) {
+  ft::vector<int>::reverse_iterator vft_it = vft_.rbegin();
+  std::vector<int>::reverse_iterator vstd_it = vstd_.rbegin();
 
-//   EXPECT_EQ(*vft_it, *vstd_it);
+  EXPECT_EQ(*vft_it, *vstd_it);
 
-//   ++vft_it;
-//   ++vstd_it;
+  ++vft_it;
+  ++vstd_it;
   
-//   EXPECT_EQ(*vft_it, *vstd_it);
+  EXPECT_EQ(*vft_it, *vstd_it);
 
-//   ft::vector<int>::iterator vft_it_end = vft_.rend();
-//   std::vector<int>::iterator vstd_it_end = vstd_.rend();
+  ft::vector<int>::reverse_iterator vft_it_end = vft_.rend();
+  std::vector<int>::reverse_iterator vstd_it_end = vstd_.rend();
   
-//   EXPECT_EQ(*(vft_it_end - 1), *(vsvstd_it_endtd_it - 1));
-// }
+  EXPECT_EQ(*(vft_it_end - 1), *(vstd_it_end - 1));
+}
 
 // ------------------------------------------------------
 // riterator const (int)
 
-// TEST_F(VectorTest, int_riterator_const2) {
-//   const ft::vector<int>::iterator vft_it = vft_.rbegin();
-//   const std::vector<int>::iterator vstd_it = vstd_.rbegin();
+TEST_F(VectorTest, int_riterator_const2) {
+  const ft::vector<int>::reverse_iterator vft_it = vft_.rbegin();
+  const std::vector<int>::reverse_iterator vstd_it = vstd_.rbegin();
 
-//   EXPECT_EQ(*vft_it, *vstd_it);
+  EXPECT_EQ(*vft_it, *vstd_it);
 
-//   const ft::vector<int>::iterator vft_it = vft_.rend();
-//   const std::vector<int>::iterator vstd_it = vstd_.rend();
+  const ft::vector<int>::reverse_iterator vft_it_end = vft_.rend();
+  const std::vector<int>::reverse_iterator vstd_it_end = vstd_.rend();
   
-//   EXPECT_EQ(*(vft_it - 1), *(vstd_it - 1));
-// }
+  EXPECT_EQ(*(vft_it_end - 1), *(vstd_it_end - 1));
+}
 
 // ------------------------------------------------------
 // riterator loop (int)
 
-// TEST_F(VectorTest, int_riterator_loop) {
-//   ft::vector<int>::iterator vft_it = vft_.rbegin();
-//   std::vector<int>::iterator vstd_it = vstd_.rbegin();
+TEST_F(VectorTest, int_riterator_loop) {
+  ft::vector<int>::reverse_iterator vft_it = vft_.rbegin();
+  std::vector<int>::reverse_iterator vstd_it = vstd_.rbegin();
 
-//   for (; vft_it != vft_.rend() && vstd_it != vstd_.rend(); ++vft_it, ++vstd_it)
-//     EXPECT_EQ(*vft_it, *vstd_it);
-// }
+  for (; vft_it != vft_.rend() && vstd_it != vstd_.rend(); ++vft_it, ++vstd_it)
+    EXPECT_EQ(*vft_it, *vstd_it);
+}
 
 // ======================================================
 // basic (int)
