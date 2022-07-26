@@ -171,18 +171,20 @@ class vector {
 
   // changing container elements
   template <class InputIterator>
-  void assign(InputIterator first, InputIterator last) {//TODO
-  //   size_type inputitr_size = std::distance(first, last);
-  //   if (inputitr_size < this->size()) {
-  //     std::copy(first, last, begin());
-  //     destroy_until_(rend() - inputitr_size);
-  //   }
-  //   else {
-  //     InputIterator it = first;
-  //     std::advance(it, inputitr_size);
-  //     std::copy(first, it, begin());
-  //     insert(end(), it, last);
-  //   }
+  void assign(InputIterator first,
+      typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last) {
+    size_type inputitr_size = std::distance(first, last);
+    if (inputitr_size == this->size()) {
+      std::copy(first, last, begin());
+    } else if (inputitr_size < this->size()) {
+      std::copy(first, last, begin());
+      destroy_until_(rend() - inputitr_size);
+    } else {
+      size_type n = std::distance(first, last);
+      reserve(n);
+      std::copy(first, last, begin());
+      last_ = first_ + n;
+    }
   }
   void assign(size_type n, const_reference u) {
     if (n > capacity()) {
