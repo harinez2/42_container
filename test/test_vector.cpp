@@ -29,6 +29,7 @@ class VectorTest : public ::testing::Test {
 //------------------------------------------------------
 // constructor (int)
 
+// (1) vector(const allocator_type& a = allocator_type())
 TEST_F(VectorTest, int_constructor_empty) {
   ft::vector<int> vft;
   std::vector<int> vstd;
@@ -46,7 +47,8 @@ TEST_F(VectorTest, int_constructor_allocator) {
   compare_with_std_vector(vft, vstd);
 }
 
-TEST_F(VectorTest, int_constructor_value) {
+// (2) vector(size_type n, const value_type v = value_type(), const allocator_type& a = allocator_type())
+TEST_F(VectorTest, int_constructor_size) {
   ft::vector<int> vft(4);
   std::vector<int> vstd(4);
   EXPECT_EQ(vft.size(), 4);
@@ -79,23 +81,53 @@ TEST_F(VectorTest, int_constructor_value_initvalue_allocator) {
   compare_with_std_vector(vft, vstd);
 }
 
-// ======================================================
-// constructor with iterator (int)
-
+// (3) vector(InputIter first, 
+//       typename ft::enable_if<!ft::is_integral<InputIter>::value, InputIter>::type last,
+//       const allocator_type& a = allocator_type())
 TEST_F(VectorTest, int_constructor_valuearray) {
-  int myints[] = {16, 2, 77, 29};
-  ft::vector<int> vft(4, 2);
-  std::vector<int> vstd(4, 2);
-  // ft::vector<int> vft2< ft::vector<int>::iterator >(vft.begin(), vft.end());
-  ft::vector<int> vft2(std::begin(myints), std::end(myints));
-  std::vector<int> vstd2(std::begin(myints), std::end(myints));
-  // std::vector<int> vstd2(vstd.begin(), vstd.end());
+  int myints[4];
+  myints[0] = 42;
+  myints[1] = 2;
+  myints[2] = -77;
+  myints[3] = 29;
+  ft::vector<int> vft(std::begin(myints), std::end(myints));
+  std::vector<int> vstd(std::begin(myints), std::end(myints));
 
-  EXPECT_EQ(vft2.size(), 4);
-  EXPECT_EQ(vft2[0], 16);
-  EXPECT_EQ(vft2[1], 2);
-  EXPECT_EQ(vft2[2], 77);
-  EXPECT_EQ(vft2[3], 29);
+  EXPECT_EQ(vft.size(), 4);
+  EXPECT_EQ(vft[0], 42);
+  EXPECT_EQ(vft[1], 2);
+  EXPECT_EQ(vft[2], -77);
+  EXPECT_EQ(vft[3], 29);
+  EXPECT_FALSE(vft.empty());
+  compare_with_std_vector(vft, vstd);
+}
+
+TEST_F(VectorTest, int_constructor_valuearray_alloc) {
+  std::allocator<int> alc;
+  int myints[4];
+  myints[0] = 42;
+  myints[1] = 2;
+  myints[2] = -77;
+  myints[3] = 29;
+  ft::vector<int> vft(std::begin(myints), std::end(myints), alc);
+  std::vector<int> vstd(std::begin(myints), std::end(myints), alc);
+
+  EXPECT_EQ(vft.size(), 4);
+  EXPECT_EQ(vft[0], 42);
+  EXPECT_EQ(vft[1], 2);
+  EXPECT_EQ(vft[2], -77);
+  EXPECT_EQ(vft[3], 29);
+  EXPECT_FALSE(vft.empty());
+  compare_with_std_vector(vft, vstd);
+}
+
+// (4) vector(const vector& rhs)
+TEST_F(VectorTest, int_constructor_copy) {
+  ft::vector<int> vft(65535);
+  ft::vector<int> vft2(vft);
+  std::vector<int> vstd(65535);
+  std::vector<int> vstd2(vstd);
+  EXPECT_EQ(vft2.size(), 65535);
   EXPECT_FALSE(vft2.empty());
   compare_with_std_vector(vft2, vstd2);
 }
@@ -114,19 +146,6 @@ TEST_F(VectorTest, int_constructor_border) {
   // big size
   ft::vector<int> vft2(65535, 0);
   std::vector<int> vstd2(65535, 0);
-  EXPECT_EQ(vft2.size(), 65535);
-  EXPECT_FALSE(vft2.empty());
-  compare_with_std_vector(vft2, vstd2);
-}
-
-// ======================================================
-// copy constructor (int)
-
-TEST_F(VectorTest, int_constructor_copy) {
-  ft::vector<int> vft(65535);
-  ft::vector<int> vft2(vft);
-  std::vector<int> vstd(65535);
-  std::vector<int> vstd2(vstd);
   EXPECT_EQ(vft2.size(), 65535);
   EXPECT_FALSE(vft2.empty());
   compare_with_std_vector(vft2, vstd2);
