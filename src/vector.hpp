@@ -249,7 +249,9 @@ class vector {
     }
   }
   template <class InputIterator>
-  void insert(iterator position, InputIterator first, InputIterator last) {//TODO
+  void insert(iterator position, InputIterator first,
+      typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type last) {
+  // TODO
   //   size_type n = std::distance(first, last);
   //   reserve(n);
   //   iterator it_from = end() - 1;
