@@ -269,13 +269,9 @@ class vector {
         std::uninitialized_copy(first, last, new_first + elems_before);
         std::uninitialized_copy(position, end(), new_first + elems_before + n);
         new_last = new_first + size() + n;
-      } catch(...) {
-        // if (!new_last)
-        //   this->_M_impl.destroy(new_first + elems_before);
-        // else
-        //   std::_Destroy(new_first, new_last, get_allocator());
-        // _M_deallocate(new_first, new_len);
-        // __throw_exception_again;
+      } catch(...) {//TODO
+        destroy_until_(reverse_iterator(new_first));
+        alc_.deallocate(new_first, new_len);
       }
       destroy_until_(rend());
       alc_.deallocate(first_, capacity());
@@ -357,13 +353,9 @@ class vector {
       std::uninitialized_fill(new_first + elems_before, new_first + elems_before + n, x);
       std::uninitialized_copy(position, end(), new_first + elems_before + n);
       new_last = new_first + size() + n;
-    } catch(...) {
-      // if (!new_last)
-      //   this->_M_impl.destroy(new_first + elems_before);
-      // else
-      //   std::_Destroy(new_first, new_last, get_allocator());
-      // _M_deallocate(new_first, new_len);
-      // __throw_exception_again;
+    } catch(...) {//TODO
+      destroy_until_(reverse_iterator(new_first));
+      alc_.deallocate(new_first, new_len);
     }
     destroy_until_(rend());
     alc_.deallocate(first_, capacity());
