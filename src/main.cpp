@@ -182,12 +182,19 @@ void test_isintegral() {
   assert(ft::is_integral<float>::value == false);
 }
 
+#include "rb_tree.hpp"
+void test_rbtree() {
+  ft::rb_tree<int> t;
+}
+
 int main() {
   // test_reference_sample();
   // test_reserve();
   // test_erase();
   // test_erase_range();
 
-  test_isintegral();
+  // test_isintegral();
+
+  test_rbtree();
   return 0;
 }
