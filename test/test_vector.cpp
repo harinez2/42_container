@@ -1142,20 +1142,55 @@ TEST_F(VectorTest, int_getallocator) {
 }
 
 //======================================================
-// swap (int)
-//https://programming-place.net/ppp/contents/cpp/library/005.html
-// TEST_F(VectorTest, int_swap) {
+// non-member swap (int)
+TEST_F(VectorTest, int_nonmenber_swap) {
+  std::vector<int> vstd_reverse;
+  vstd_reverse.push_back(4242);
+  vstd_reverse.push_back(-42);
+  vstd_reverse.push_back(0);
+  vstd_reverse.push_back(1);
+  vstd_reverse.push_back(42);
+  ft::vector<int> vft_reverse;
+  vft_reverse.push_back(4242);
+  vft_reverse.push_back(-42);
+  vft_reverse.push_back(0);
+  vft_reverse.push_back(1);
+  vft_reverse.push_back(42);
 
-//   std::vector<int> v;
-//   v.reserve(10000);
-//   v.push_back(0);
+  // two vec swap - same size
+  std::vector<int> vstd_same1(vstd_);
+  std::vector<int> vstd_same2(vstd_reverse);
+  ft::vector<int> vft_same1(vft_);
+  ft::vector<int> vft_same2(vft_reverse);
+  compare_with_std_vector(vft_same1, vstd_same1);
+  compare_with_std_vector(vft_same2, vstd_same2);
+  swap(vstd_same1, vstd_same2);
+  swap(vft_same1, vft_same2);
+  EXPECT_EQ(vft_same1.capacity(), 5);
+  EXPECT_EQ(vft_same2.capacity(), 5);
+  EXPECT_EQ(vstd_same1[0], 4242);
+  EXPECT_EQ(vstd_same2[0], 42);
+  EXPECT_EQ(vft_same1[0], 4242);
+  EXPECT_EQ(vft_same2[0], 42);
+  compare_with_std_vector(vft_same1, vstd_same1);
+  compare_with_std_vector(vft_same2, vstd_same2);
 
-//   EXPECT_EQ(v.capacity(), 10000);
+  // capacity change
+  //https://programming-place.net/ppp/contents/cpp/library/005.html
+  std::vector<int> vstd;
+  std::vector<int> vft;
+  vstd.reserve(10000);
+  vft.reserve(10000);
+  vstd.push_back(0);
+  vft.push_back(0);
+  EXPECT_EQ(vstd.capacity(), 10000);
+  EXPECT_EQ(vft.capacity(), 10000);
 
-//   std::vector<int>(v).swap(v);
-
-//   EXPECT_EQ(v.capacity(), 1);
-// }
+  std::vector<int>(vstd).swap(vstd);
+  std::vector<int>(vft).swap(vft);
+  EXPECT_EQ(vstd.capacity(), 1);
+  EXPECT_EQ(vft.capacity(), 1);
+}
 
 //======================================================
 // constructor (string)
