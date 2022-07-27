@@ -376,7 +376,7 @@ bool operator!=(const vector<T, Allocator>& x,const vector<T, Allocator>& y) {
 }
 template <class T, class Allocator>
 bool operator<(const vector<T, Allocator>& x, const vector<T, Allocator>& y) {
-  return std::lexicographical_compare(x.begin(), x.end(), y.begin(), y.end());//TODO:fix
+  return ft::lexicographical_compare(x.begin(), x.end(), y.begin(), y.end());//TODO:fix
 }
 template <class T, class Allocator>
 bool operator<=(const vector<T, Allocator>& x, const vector<T, Allocator>& y) {
