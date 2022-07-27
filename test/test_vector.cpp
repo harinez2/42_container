@@ -1074,6 +1074,21 @@ TEST_F(VectorTest, int_swap) {
   EXPECT_EQ(vft6.size(), 0);
   compare_with_std_vector(vft5, vstd5);
   compare_with_std_vector(vft6, vstd6);
+  
+  // capacity change
+  //https://programming-place.net/ppp/contents/cpp/library/005.html
+  std::vector<int> vstd7;
+  std::vector<int> vft7;
+  vstd7.reserve(10000);
+  vft7.reserve(10000);
+  vstd7.push_back(0);
+  vft7.push_back(0);
+  EXPECT_EQ(vstd7.capacity(), 10000);
+  EXPECT_EQ(vft7.capacity(), 10000);
+  std::vector<int>(vstd7).swap(vstd7);
+  std::vector<int>(vft7).swap(vft7);
+  EXPECT_EQ(vstd7.capacity(), 1);
+  EXPECT_EQ(vft7.capacity(), 1);
 }
 
 // ======================================================
@@ -1175,21 +1190,54 @@ TEST_F(VectorTest, int_nonmenber_swap) {
   compare_with_std_vector(vft_same1, vstd_same1);
   compare_with_std_vector(vft_same2, vstd_same2);
 
+  // left is empty
+  ft::vector<int> vft3;
+  std::vector<int> vstd3;
+  ft::vector<int> vft4(vft_);
+  std::vector<int> vstd4(vstd_);
+  swap(vft3, vft4);
+  swap(vstd3, vstd4);
+  for (std::size_t i = 0; i < vft_.size(); ++i)
+    EXPECT_EQ(vft3[i], vft_[i]);
+  compare_with_std_vector(vft3, vstd3);
+  compare_with_std_vector(vft4, vstd4);
+
+  // right is empty
+  swap(vft3, vft4);
+  swap(vstd3, vstd4);
+  for (std::size_t i = 0; i < vft_.size(); ++i)
+    EXPECT_EQ(vft4[i], vft_[i]);
+  compare_with_std_vector(vft3, vstd3);
+  compare_with_std_vector(vft4, vstd4);
+
+  // both empty
+  ft::vector<int> vft5;
+  std::vector<int> vstd5;
+  ft::vector<int> vft6;
+  std::vector<int> vstd6;
+  swap(vft5, vft6);
+  swap(vstd5, vstd6);
+  EXPECT_EQ(vft5.size(), 0);
+  EXPECT_EQ(vft6.size(), 0);
+  compare_with_std_vector(vft5, vstd5);
+  compare_with_std_vector(vft6, vstd6);
+
   // capacity change
   //https://programming-place.net/ppp/contents/cpp/library/005.html
-  std::vector<int> vstd;
-  std::vector<int> vft;
-  vstd.reserve(10000);
-  vft.reserve(10000);
-  vstd.push_back(0);
-  vft.push_back(0);
-  EXPECT_EQ(vstd.capacity(), 10000);
-  EXPECT_EQ(vft.capacity(), 10000);
-
-  std::vector<int>(vstd).swap(vstd);
-  std::vector<int>(vft).swap(vft);
-  EXPECT_EQ(vstd.capacity(), 1);
-  EXPECT_EQ(vft.capacity(), 1);
+  std::vector<int> vstd7;
+  std::vector<int> vft7;
+  vstd7.reserve(10000);
+  vft7.reserve(10000);
+  vstd7.push_back(0);
+  vft7.push_back(0);
+  EXPECT_EQ(vstd7.capacity(), 10000);
+  EXPECT_EQ(vft7.capacity(), 10000);
+  std::vector<int> vstd8(vstd7);
+  std::vector<int> vft8(vft7);
+  swap(vft8, vft7);
+  swap(vstd8, vstd7);
+  EXPECT_EQ(vstd7.capacity(), 1);
+  EXPECT_EQ(vft7.capacity(), 1);
 }
 
 //======================================================
