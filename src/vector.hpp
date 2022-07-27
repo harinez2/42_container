@@ -4,9 +4,6 @@
 #include <memory>
 #include <stdexcept>
 #include <iterator>
-
-#include <iostream> //TODO:remove
-#include <limits> //TODO:remove
 #include <sstream>
 
 #include "algorithm.hpp"
@@ -59,12 +56,8 @@ class vector {
   // constructor (4)
   vector(const vector& rhs) : vector(rhs.alc_) { *this = rhs; }
 
-  vector& operator=(const vector& rhs) {//TODO
+  vector& operator=(const vector& rhs) {
     if (this != &rhs) {
-      // if (size() == rhs.size()) {
-      //   for (const_iterator it = rhs.begin(); it != rhs.end(); ++it)
-      //     push_back(*it);
-      // }
       clear();
       reserve(std::distance(rhs.first_, rhs.last_));
       for (const_iterator it = rhs.begin(); it != rhs.end(); ++it)
@@ -207,15 +200,6 @@ class vector {
     }
   }
   void push_back(const_reference x) {
-    // TODO
-    // if (first_ != NULL && last_ != reserved_last_) {
-    //   std::cout << "push_back new:" << x << ", size():" << size() << std::endl;
-    //   alc_.construct(first_ + size(), x);
-    //   ++last_;
-    // } else {
-    //   std::cout << "push_back realloc_insert_:" << x << ", size():" << size() << std::endl;
-    //   realloc_insert_(end(), 1, x);
-    // }
     if (last_ != reserved_last_) {
       alc_.construct(first_ + size(), x);
       ++last_;
@@ -368,7 +352,7 @@ class vector {
 // compare operator
 template <class T, class Allocator>
 bool operator==(const vector<T, Allocator>& x, const vector<T, Allocator>& y) {
-  return x.size() == y.size() && equal(x.begin(), x.end(), y.begin());
+  return x.size() == y.size() && ft::equal(x.begin(), x.end(), y.begin());
 }
 template <class T, class Allocator>
 bool operator!=(const vector<T, Allocator>& x,const vector<T, Allocator>& y) {
@@ -376,11 +360,11 @@ bool operator!=(const vector<T, Allocator>& x,const vector<T, Allocator>& y) {
 }
 template <class T, class Allocator>
 bool operator<(const vector<T, Allocator>& x, const vector<T, Allocator>& y) {
-  return ft::lexicographical_compare(x.begin(), x.end(), y.begin(), y.end());//TODO:fix
+  return ft::lexicographical_compare(x.begin(), x.end(), y.begin(), y.end());
 }
 template <class T, class Allocator>
 bool operator<=(const vector<T, Allocator>& x, const vector<T, Allocator>& y) {
-  return !(x > y);
+  return !(y < x);
 }
 template <class T, class Allocator>
 bool operator>(const vector<T, Allocator>& x, const vector<T, Allocator>& y) {
@@ -388,7 +372,7 @@ bool operator>(const vector<T, Allocator>& x, const vector<T, Allocator>& y) {
 }
 template <class T, class Allocator>
 bool operator>=(const vector<T, Allocator>& x, const vector<T, Allocator>& y) {
-  !(x < y);
+  return !(x < y);
 }
 
 template <class T, class Allocator>

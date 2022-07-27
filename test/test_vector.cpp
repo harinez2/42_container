@@ -1158,6 +1158,78 @@ TEST_F(VectorTest, int_getallocator) {
 
 //======================================================
 // non-member swap (int)
+
+TEST_F(VectorTest, int_nonmenber_compareops) {
+  // same
+  std::vector<int> vstd2_(vstd_);
+  ft::vector<int> vft2_(vft_);
+  EXPECT_TRUE(vft_ == vft2_);
+  EXPECT_FALSE(vft_ != vft2_);
+  EXPECT_FALSE(vft_ < vft2_);
+  EXPECT_TRUE(vft_ <= vft2_);
+  EXPECT_FALSE(vft_ > vft2_);
+  EXPECT_TRUE(vft_ >= vft2_);
+  EXPECT_EQ(vft_ == vft2_, vstd_ == vstd2_);
+  EXPECT_EQ(vft_ != vft2_, vstd_ != vstd2_);
+  EXPECT_EQ(vft_ < vft2_, vstd_ < vstd2_);
+  EXPECT_EQ(vft_ <= vft2_, vstd_ <= vstd2_);
+  EXPECT_EQ(vft_ > vft2_, vstd_ > vstd2_);
+  EXPECT_EQ(vft_ >= vft2_, vstd_ >= vstd2_);
+
+  // left value is small
+  // vft2_[2] == 0
+  vstd2_[2] = 100;
+  vft2_[2] = 100;
+  EXPECT_FALSE(vft_ == vft2_);
+  EXPECT_TRUE(vft_ != vft2_);
+  EXPECT_TRUE(vft_ < vft2_);
+  EXPECT_TRUE(vft_ <= vft2_);
+  EXPECT_FALSE(vft_ > vft2_);
+  EXPECT_FALSE(vft_ >= vft2_);
+  EXPECT_EQ(vft_ == vft2_, vstd_ == vstd2_);
+  EXPECT_EQ(vft_ != vft2_, vstd_ != vstd2_);
+  EXPECT_EQ(vft_ < vft2_, vstd_ < vstd2_);
+  EXPECT_EQ(vft_ <= vft2_, vstd_ <= vstd2_);
+  EXPECT_EQ(vft_ > vft2_, vstd_ > vstd2_);
+  EXPECT_EQ(vft_ >= vft2_, vstd_ >= vstd2_);
+  
+  // right value is small
+  // vft2_[2] == 0
+  vstd2_[2] = -100;
+  vft2_[2] = -100;
+  EXPECT_FALSE(vft_ == vft2_);
+  EXPECT_TRUE(vft_ != vft2_);
+  EXPECT_FALSE(vft_ < vft2_);
+  EXPECT_FALSE(vft_ <= vft2_);
+  EXPECT_TRUE(vft_ > vft2_);
+  EXPECT_TRUE(vft_ >= vft2_);
+  EXPECT_EQ(vft_ == vft2_, vstd_ == vstd2_);
+  EXPECT_EQ(vft_ != vft2_, vstd_ != vstd2_);
+  EXPECT_EQ(vft_ < vft2_, vstd_ < vstd2_);
+  EXPECT_EQ(vft_ <= vft2_, vstd_ <= vstd2_);
+  EXPECT_EQ(vft_ > vft2_, vstd_ > vstd2_);
+  EXPECT_EQ(vft_ >= vft2_, vstd_ >= vstd2_);
+  
+  // right vector is long, value is same
+  // vstd_[2] == 0
+  vstd2_[2] = 0;
+  vft2_[2] = 0;
+  vstd2_.push_back(100);
+  vft2_.push_back(100);
+  EXPECT_FALSE(vft_ == vft2_);
+  EXPECT_TRUE(vft_ != vft2_);
+  EXPECT_TRUE(vft_ < vft2_);
+  EXPECT_TRUE(vft_ <= vft2_);
+  EXPECT_FALSE(vft_ > vft2_);
+  EXPECT_FALSE(vft_ >= vft2_);
+  EXPECT_EQ(vft_ == vft2_, vstd_ == vstd2_);
+  EXPECT_EQ(vft_ != vft2_, vstd_ != vstd2_);
+  EXPECT_EQ(vft_ < vft2_, vstd_ < vstd2_);
+  EXPECT_EQ(vft_ <= vft2_, vstd_ <= vstd2_);
+  EXPECT_EQ(vft_ > vft2_, vstd_ > vstd2_);
+  EXPECT_EQ(vft_ >= vft2_, vstd_ >= vstd2_);
+}
+
 TEST_F(VectorTest, int_nonmenber_swap) {
   std::vector<int> vstd_reverse;
   vstd_reverse.push_back(4242);
