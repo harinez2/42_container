@@ -57,7 +57,7 @@ class rb_tree {
     z->left = nil_;
     z->right = nil_;
     z->color = RED;
-    insert_fixup_(z);
+    rb_insert_fixup_(z);
   }
 
   void rb_delete(node* z) {
@@ -66,28 +66,72 @@ class rb_tree {
     int y_original_color = y->color;
     if (z->left == nil_) {
       x = z->right;
-      transplant_(z, z->right);
+      rb_transplant_(z, z->right);
     } else if (z->right == nil_) {
       x = z->left;
-      transplant_(z, z->left);
+      rb_transplant_(z, z->left);
     } else {
       y = tree_minimum_(z->right);
       y_original_color = y->color;
       if (y->parent == z) {
         x->parent = y;
       } else {
-        transplant_(y, y->right);
+        rb_transplant_(y, y->right);
         y->right = z->right;
         y->right->parent = y;
       }
-      transplant_(z, y);
+      rb_transplant_(z, y);
       y->left = z->left;
       y->left->parent = y;
       y->color = z->color;
     }
     if (y_original_color == BLACK) {
-      delete_fixup_(x);
+      rb_delete_fixup_(x);
     }
+  }
+
+  void inorder_tree_walk(node* x) {
+    if (x != nil_) {
+      inorder_tree_walk(x->left);
+      std::cout << x->key << std::endl;
+      inorder_tree_walk(x->right);
+    }
+  }
+
+  template <typename U>
+  node* iterative_tree_search(node* x, U key) {
+    while (x != nil_ && key != x->key) {
+      if (key < x->ley) {
+        x = x->left;
+      } else {
+        x = x->right;
+      }
+    }
+    return x;
+  }
+
+  node* tree_successor(node* x) {
+    node* y;
+    if (x->right != nil_)
+      return tree_minimum_(x->right);
+    y = x->parent;
+    while (y != nil_ && x == y->right) {
+      x = y;
+      y = y->parent;
+    }
+    return y;
+  }
+
+  node* tree_predecessor(node* x) {
+    node* y;
+    if (x->left != nil_)
+      return tree_minimum_(x->left);
+    y = x->parent;
+    while (y != nil_ && x == y->left) {
+      x = y;
+      y = y->parent;
+    }
+    return y;
   }
 
  private:
@@ -141,7 +185,7 @@ class rb_tree {
     x->parent = y;
   }
 
-  void insert_fixup_(node* z) {
+  void rb_insert_fixup_(node* z) {
     node* y;
     while (z->parent->color == RED) {
       if (z->parent == z->parent->parent->left) {
@@ -178,7 +222,7 @@ class rb_tree {
   }
 
   // place v node on u
-  void transplant_(node* u, node* v) {
+  void rb_transplant_(node* u, node* v) {
     if (u->parent == nil_) {
       root_ = v;
     } else if (u == u->parent->left) {
@@ -189,13 +233,76 @@ class rb_tree {
     v->parent = u->parent;
   }
 
-  void tree_minimum_(node* z) {
-
+  node* tree_minimum_(node* x) {
+    while (x->left != nil_) {
+      x = x->left;
+    }
+    return x;
   }
 
-  void delete_fixup_(node* x) {
-
+  node* tree_maximum_(node* x) {
+    while (x->right != nil_) {
+      x = x->right;
+    }
+    return x;
   }
+
+  void rb_delete_fixup_(node* x) {
+    node* w;
+    while (x != root_ && x->color == RED) {
+      if (x == x->parent->left) {
+        w = x->parent->right;
+        if (w->color == RED) {
+          w->color = BLACK;
+          x->parent->color = RED;
+          left_rotate_(x->parent);
+          w = x->parent->right;
+        }
+        if (w->left->color == BLACK && w->right->color == BLACK) {
+          w->color = RED;
+          x = x->parent;
+        } else {
+          if (w->right->color == BLACK) {
+            w->left->color = BLACK;
+            w->color = RED;
+            right_rotate_(w);
+            w = x->p->right;
+          }
+          w->color = x->parent->color;
+          x->parent->color = BLACK;
+          w->right->color = BLACK;
+          left_rotate_(x->parent);
+          x = root_;
+        }
+      } else {
+        w = x->parent->left;
+        if (w->color == RED) {
+          w->color = BLACK;
+          x->parent->color = RED;
+          right_rotate_(x->parent);
+          w = x->parent->left;
+        }
+        if (w->right->color == BLACK && w->left->color == BLACK) {
+          w->color = RED;
+          x = x->parent;
+        } else {
+          if (w->left->color == BLACK) {
+            w->right->color = BLACK;
+            w->color = RED;
+            left_rotate_(w);
+            w = x->p->left;
+          }
+          w->color = x->parent->color;
+          x->parent->color = BLACK;
+          w->left->color = BLACK;
+          right_rotate_(x->parent);
+          x = root_;
+        }
+      }
+    }
+    x->color = BLACK;
+  }
+
 };
 
 } // namespace ft
