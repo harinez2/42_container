@@ -27,7 +27,7 @@ class rb_tree {
 
   // constructor
   rb_tree() {
-    nil_ = create_new_node_(T());
+    nil_ = create_new_node_(value_type());
     nil_->color = BLACK;
     root_ = nil_;
   }
@@ -38,29 +38,8 @@ class rb_tree {
     delete nil_;
   }
 
-  void rb_insert(node* z) {
-    node* y = nil_;
-    node* x = root_;
-    while (x != nil_) {
-      y = x;
-      if (z->key < x->key) {
-        x = x->left;
-      } else {
-        x = x->right;
-      }
-    }
-    z->parent = y;
-    if (y == nil_) {
-      root_ = z;
-    } else if (z->key < y->key) {
-      y->left = z;
-    } else {
-      y->right = z;
-    }
-    z->left = nil_;
-    z->right = nil_;
-    z->color = RED;
-    rb_insert_fixup_(z);
+  void insert(value_type n) {
+    rb_insert_(create_new_node_(n));
   }
 
   void rb_delete(node* z) {
@@ -93,8 +72,11 @@ class rb_tree {
     }
   }
 
-  void showAllTree() {
+  void show_all_list() {
     inorder_tree_walk_(root_);
+  }
+  void show_all_tree() {
+    inorder_tree_walk_tree_(root_, 0);
   }
 
   template <typename U>
@@ -184,6 +166,31 @@ class rb_tree {
     x->parent = y;
   }
 
+  void rb_insert_(node* z) {
+    node* y = nil_;
+    node* x = root_;
+    while (x != nil_) {
+      y = x;
+      if (z->key < x->key) {
+        x = x->left;
+      } else {
+        x = x->right;
+      }
+    }
+    z->parent = y;
+    if (y == nil_) {
+      root_ = z;
+    } else if (z->key < y->key) {
+      y->left = z;
+    } else {
+      y->right = z;
+    }
+    z->left = nil_;
+    z->right = nil_;
+    z->color = RED;
+    rb_insert_fixup_(z);
+  }
+
   void rb_insert_fixup_(node* z) {
     node* y;
     while (z->parent->color == RED) {
@@ -194,13 +201,15 @@ class rb_tree {
           y->color = BLACK;
           z->parent->parent->color = RED;
           z = z->parent->parent;
-        } else if (z == z->parent->right) {
-          z = z->parent;
-          left_rotate_(z);
+        } else {
+          if (z == z->parent->right) {
+            z = z->parent;
+            left_rotate_(z);
+          }
+          z->parent->color = BLACK;
+          z->parent->parent->color = RED;
+          right_rotate_(z->parent->parent);
         }
-        z->parent->color = BLACK;
-        z->parent->parent->color = RED;
-        right_rotate_(z->parent->parent);
       } else {
         y = z->parent->parent->left;
         if (y->color == RED) {
@@ -208,13 +217,15 @@ class rb_tree {
           y->color = BLACK;
           z->parent->parent->color = RED;
           z = z->parent->parent;
-        } else if (z == z->parent->left) {
-          z = z->parent;
-          right_rotate_(z);
+        } else {
+          if (z == z->parent->left) {
+            z = z->parent;
+            right_rotate_(z);
+          }
+          z->parent->color = BLACK;
+          z->parent->parent->color = RED;
+          left_rotate_(z->parent->parent);
         }
-        z->parent->color = BLACK;
-        z->parent->parent->color = RED;
-        left_rotate_(z->parent->parent);
       }
     }
     root_->color = BLACK;
@@ -307,6 +318,18 @@ class rb_tree {
       inorder_tree_walk_(x->left);
       std::cout << x->key << std::endl;
       inorder_tree_walk_(x->right);
+    }
+  }
+  void inorder_tree_walk_tree_(node* x, int depth) {
+    if (x != nil_) {
+      inorder_tree_walk_tree_(x->left, depth + 1);
+      for (int i = 0; i < depth; ++i)
+        std::cout << "  ";
+      if (x->color == RED)
+        std::cout << x->key << "r" << std::endl;
+      else
+        std::cout << x->key << "b" << std::endl;
+      inorder_tree_walk_tree_(x->right, depth + 1);
     }
   }
 
