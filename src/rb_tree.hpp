@@ -1,8 +1,6 @@
 #ifndef RB_TREE_HPP
 #define RB_TREE_HPP
 
-#include "type_traits.hpp"
-
 #define NILNODE     0
 #define RED         1
 #define BLACK       2
@@ -29,16 +27,16 @@ class rb_tree {
 
   // constructor
   rb_tree() {
-    if (ft::is_integral<value_type>::value)
-      nil_ = create_new_node_(0);
-    else
-      nil_ = create_new_node_(NULL);
+    nil_ = create_new_node_(T());
     nil_->color = BLACK;
     root_ = nil_;
   }
 
   // destructor
-  ~rb_tree() {}
+  ~rb_tree() {
+    delete_tree_(root_);
+    delete nil_;
+  }
 
   void rb_insert(node* z) {
     node* y = nil_;
@@ -309,6 +307,14 @@ class rb_tree {
       inorder_tree_walk_(x->left);
       std::cout << x->key << std::endl;
       inorder_tree_walk_(x->right);
+    }
+  }
+
+  void delete_tree_(node* x) {
+    if (x != nil_) {
+      delete_tree_(x->left);
+      delete_tree_(x->right);
+      delete x;
     }
   }
 };
