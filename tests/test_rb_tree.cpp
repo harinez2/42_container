@@ -1,4 +1,4 @@
-#include "../src/rb_tree.hpp"
+#include "../includes/rb_tree.hpp"
 
 class RbTreeTest : public ::testing::Test {
  public:

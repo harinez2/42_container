@@ -1,4 +1,4 @@
-#include "../src/type_traits.hpp"
+#include "../includes/type_traits.hpp"
 
 class IsIntegralTest : public ::testing::Test {
  public:

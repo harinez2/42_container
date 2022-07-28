@@ -1,4 +1,4 @@
-#include "../src/algorithm.hpp"
+#include "../includes/algorithm.hpp"
 
 #include <algorithm>
 #include <vector>
