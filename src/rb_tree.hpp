@@ -1,6 +1,8 @@
 #ifndef RB_TREE_HPP
 #define RB_TREE_HPP
 
+#include "type_traits.hpp"
+
 #define NILNODE     0
 #define RED         1
 #define BLACK       2
@@ -27,8 +29,11 @@ class rb_tree {
 
   // constructor
   rb_tree() {
-    nil_ = create_new_node_(0);
-    nil_->color = NILNODE;
+    if (ft::is_integral<value_type>::value)
+      nil_ = create_new_node_(0);
+    else
+      nil_ = create_new_node_(NULL);
+    nil_->color = BLACK;
     root_ = nil_;
   }
 
@@ -90,12 +95,8 @@ class rb_tree {
     }
   }
 
-  void inorder_tree_walk(node* x) {
-    if (x != nil_) {
-      inorder_tree_walk(x->left);
-      std::cout << x->key << std::endl;
-      inorder_tree_walk(x->right);
-    }
+  void showAllTree() {
+    inorder_tree_walk_(root_);
   }
 
   template <typename U>
@@ -303,6 +304,13 @@ class rb_tree {
     x->color = BLACK;
   }
 
+  void inorder_tree_walk_(node* x) {
+    if (x != nil_) {
+      inorder_tree_walk_(x->left);
+      std::cout << x->key << std::endl;
+      inorder_tree_walk_(x->right);
+    }
+  }
 };
 
 } // namespace ft
