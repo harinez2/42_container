@@ -1,9 +1,9 @@
 NAME		= mycontainer
-SRCDIR		= ./src
+SRCDIR		= ./srcs
 SRCS		= $(shell find $(SRCDIR) -name "*.cpp" -type f | xargs)
 OBJS		= $(SRCS:.cpp=.o)
 DEPENDS		= $(OBJS:.o=.d)
-INCLUDES	= $(SRCDIR)
+INCLUDES	= ./includes
 CXX			= clang++
 CXXFLAGS	= -Wall -Wextra -Werror -std=c++98 -pedantic-errors -MMD -MP
 
