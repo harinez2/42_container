@@ -36,7 +36,7 @@ debug: re
 gtestdir		= ./gtest
 gtest_release	= googletest-release-1.11.0
 gtest			= $(gtestdir)/gtest $(gtestdir)/$(gtest_release)
-mytestdir		= ./test
+mytestdir		= ./tests
 
 $(gtest):
 	mkdir -p $(gtestdir)
