@@ -1324,13 +1324,13 @@ TEST_F(VectorTest, str_constructor_empty) {
   compare_with_std_vector(vft, vstd);
 }
 
-// TEST_F(VectorTest, constructor_with_same_value_int) {
-//   ft::vector<std::string> vft(100, "hello");
-//   std::vector<std::string> vstd(100, "hello");
+TEST_F(VectorTest, constructor_with_same_value_int) {
+  ft::vector<std::string> vft(100, "hello");
+  std::vector<std::string> vstd(100, "hello");
 
-//   EXPECT_EQ(vft.size(), 100);
-//   EXPECT_EQ(vft[0], "hello");
-//   EXPECT_EQ(vft[99], "hello");
-//   EXPECT_FALSE(vft.empty());
-//   compare_with_std_vector(vft, vstd);
-// }
+  EXPECT_EQ(vft.size(), 100);
+  EXPECT_EQ(vft[0], "hello");
+  EXPECT_EQ(vft[99], "hello");
+  EXPECT_FALSE(vft.empty());
+  compare_with_std_vector(vft, vstd);
+}
