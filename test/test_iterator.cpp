@@ -4,7 +4,6 @@
 #include <bits/stl_iterator_base_types.h>
 #include <bits/stl_iterator.h>
 #include <algorithm>
-#include <array>
 
 class NormalIteratorTest : public ::testing::Test {
  public:
@@ -171,8 +170,6 @@ class ReverseIteratorTest : public ::testing::Test {
   }
  protected:
   std::vector<int> v;
-  // std::array<int, 5> l = {10, 20, 30, 40, 50};
-  // std::vector<float> vf = {10, 20, 30, 40, 50};
 };
 
 //------------------------------------------------------
@@ -324,44 +321,44 @@ TEST_F(ReverseIteratorTest, comparison_operators) {
   EXPECT_EQ(ft_it_right - ft_it_vec, 2);
 }
 
-// TEST_F(ReverseIteratorTest, comparison_operators_differenttype) {
-//   std::reverse_iterator<std::vector<int>::iterator> gnu_it_vec(v.end());
-//   std::reverse_iterator<std::array<int, 5>::iterator> gnu_it_same(l.end());
-//   std::reverse_iterator<std::array<int, 5>::iterator> gnu_it_right(l.end());
-//   gnu_it_right++;
-//   gnu_it_right++;
-//   EXPECT_TRUE(gnu_it_vec == gnu_it_same);
-  // EXPECT_FALSE(gnu_it_vec == gnu_it_right);
-  // EXPECT_FALSE(gnu_it_vec != gnu_it_same);
-  // EXPECT_TRUE(gnu_it_vec != gnu_it_right);
-  // EXPECT_FALSE(gnu_it_vec < gnu_it_same);
-  // EXPECT_TRUE(gnu_it_vec < gnu_it_right);
-  // EXPECT_FALSE(gnu_it_vec > gnu_it_same);
-  // EXPECT_FALSE(gnu_it_vec > gnu_it_right);
-  // EXPECT_TRUE(gnu_it_vec <= gnu_it_same);
-  // EXPECT_TRUE(gnu_it_vec <= gnu_it_right);
-  // EXPECT_TRUE(gnu_it_vec >= gnu_it_same);
-  // EXPECT_FALSE(gnu_it_vec >= gnu_it_right);
-  // EXPECT_EQ(*(gnu_it_right + 2), 10);
-  // EXPECT_EQ(gnu_it_right - gnu_it_vec, 2);
-  
-  // ft::reverse_iterator<std::vector<int>::iterator> ft_it_vec(v.end());
-  // ft::reverse_iterator<std::vector<float>::iterator> ft_it_same(vf.end());
-  // ft::reverse_iterator<std::vector<float>::iterator> ft_it_right(vf.end());
-  // ft_it_right++;
-  // ft_it_right++;
-  // EXPECT_TRUE(ft_it_vec == ft_it_same);
-  // EXPECT_FALSE(ft_it_vec == ft_it_right);
-  // EXPECT_FALSE(ft_it_vec != ft_it_same);
-  // EXPECT_TRUE(ft_it_vec != ft_it_right);
-  // EXPECT_FALSE(ft_it_vec < ft_it_same);
-  // EXPECT_TRUE(ft_it_vec < ft_it_right);
-  // EXPECT_FALSE(ft_it_vec > ft_it_same);
-  // EXPECT_FALSE(ft_it_vec > ft_it_right);
-  // EXPECT_TRUE(ft_it_vec <= ft_it_same);
-  // EXPECT_TRUE(ft_it_vec <= ft_it_right);
-  // EXPECT_TRUE(ft_it_vec >= ft_it_same);
-  // EXPECT_FALSE(ft_it_vec >= ft_it_right);
-  // EXPECT_EQ(*(ft_it_right + 2), 10);
-  // EXPECT_EQ(ft_it_right - ft_it_vec, 2);
-// }
+TEST_F(ReverseIteratorTest, comparison_operators_differenttype) {
+  std::reverse_iterator<std::vector<int>::const_iterator> gnu_it_const(v.end());
+  std::reverse_iterator<std::vector<int>::iterator> gnu_it_same(v.end());
+  std::reverse_iterator<std::vector<int>::iterator> gnu_it_right(v.end());
+  ++gnu_it_right;
+  ++gnu_it_right;
+  EXPECT_TRUE(gnu_it_const == gnu_it_same);
+  EXPECT_FALSE(gnu_it_const == gnu_it_right);
+  EXPECT_FALSE(gnu_it_const != gnu_it_same);
+  EXPECT_TRUE(gnu_it_const != gnu_it_right);
+  EXPECT_FALSE(gnu_it_const < gnu_it_same);
+  EXPECT_TRUE(gnu_it_const < gnu_it_right);
+  EXPECT_FALSE(gnu_it_const > gnu_it_same);
+  EXPECT_FALSE(gnu_it_const > gnu_it_right);
+  EXPECT_TRUE(gnu_it_const <= gnu_it_same);
+  EXPECT_TRUE(gnu_it_const <= gnu_it_right);
+  EXPECT_TRUE(gnu_it_const >= gnu_it_same);
+  EXPECT_FALSE(gnu_it_const >= gnu_it_right);
+  EXPECT_EQ(*(gnu_it_right + 2), 10);
+  EXPECT_EQ(gnu_it_right - gnu_it_const, 2);
+
+  ft::reverse_iterator<std::vector<int>::const_iterator> ft_it_const(v.end());
+  ft::reverse_iterator<std::vector<int>::iterator> ft_it_same(v.end());
+  ft::reverse_iterator<std::vector<int>::iterator> ft_it_right(v.end());
+  ++ft_it_right;
+  ++ft_it_right;
+  EXPECT_TRUE(ft_it_const == ft_it_same);
+  EXPECT_FALSE(ft_it_const == ft_it_right);
+  EXPECT_FALSE(ft_it_const != ft_it_same);
+  EXPECT_TRUE(ft_it_const != ft_it_right);
+  EXPECT_FALSE(ft_it_const < ft_it_same);
+  EXPECT_TRUE(ft_it_const < ft_it_right);
+  EXPECT_FALSE(ft_it_const > ft_it_same);
+  EXPECT_FALSE(ft_it_const > ft_it_right);
+  EXPECT_TRUE(ft_it_const <= ft_it_same);
+  EXPECT_TRUE(ft_it_const <= ft_it_right);
+  EXPECT_TRUE(ft_it_const >= ft_it_same);
+  EXPECT_FALSE(ft_it_const >= ft_it_right);
+  EXPECT_EQ(*(ft_it_right + 2), 10);
+  EXPECT_EQ(ft_it_right - ft_it_const, 2);  
+}
