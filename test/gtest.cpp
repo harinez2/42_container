@@ -11,4 +11,4 @@
 #include "test_rb_tree.cpp"           // rb_tree
 
 // #include "test_vector.cpp"
-// #include "test_map.cpp"
+#include "test_map.cpp"

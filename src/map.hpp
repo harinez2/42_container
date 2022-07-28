@@ -1,6 +1,8 @@
 #ifndef MAP_HPP
 #define MAP_HPP
 
+#include "rb_tree.hpp"
+
 #include <memory>
 #include <functional>
 
@@ -10,12 +12,12 @@ template <
       class Key,
       class T,
       class Compare = std::less<Key>,
-      class Allocator = std::allocator<std::pair<const Key, T> >
+      class Allocator = std::allocator<ft::pair<const Key, T> >
 >
 class map {
  public:
   typedef Key                                    key_type;
-  typedef std::pair<const Key, T>                value_type;
+  typedef ft::pair<const Key, T>                 value_type;
   typedef T                                      mapped_type;
   typedef Compare                                key_compare;
   typedef xx                                     value_compare;
@@ -24,18 +26,22 @@ class map {
   typedef const value_type&                      const_reference;
   typedef xx                                     iterator;
   typedef xx                                     const_iterator;
-  typedef size_t                                 size_type;
-  typedef ptrdiff_t                              difference_type;
+  typedef std::size_t                            size_type;
+  typedef std::ptrdiff_t                         difference_type;
   typedef typename Allocator::pointer            pointer;
   typedef typename Allocator::const_pointer      const_pointer;
-  typedef std::reverse_iterator<iterator>        reverse_iterator;
-  typedef std::reverse_iterator<const_iterator>  const_reverse_iterator;
+  typedef ft::reverse_iterator<iterator>         reverse_iterator;
+  typedef ft::reverse_iterator<const_iterator>   const_reverse_iterator;
 
-  // constructor
+  // constructor (1)
   map(const Compare& comp = Compare(), const Allocator& alloc = Allocator()) {}
+
+  // constructor (2)
   template <class InputIterator>
   map(InputIterator first, InputIterator last,
     const Compare& comp = Compare(), const Allocator& alloc = Allocator()) {}
+
+  // constructor (3)
   map(const map& x) {}
 
   // operator=
@@ -90,6 +96,8 @@ class map {
   key_compare key_comp() const {}
   value_compare value_comp() const {}
 
+ private:
+  ft::rb_tree<mapped_type> t;
 
 };
 
