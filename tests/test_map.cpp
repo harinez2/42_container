@@ -24,6 +24,8 @@ class MapTest : public ::testing::Test {
  protected:
   ft::map<std::string, int> mft_;
   std::map<std::string, int> mstd_;
+  // ft::map<std::string, int> mft_;
+  // std::map<std::string, int> mstd_;
 };
 
 //------------------------------------------------------
