@@ -38,57 +38,23 @@ class rb_tree {
     delete nil_;
   }
 
-  void insert(value_type n) {
+  void insert_node(value_type n) {
     rb_insert_(create_new_node_(n));
   }
 
-  void rb_delete(node* z) {
-    node* y = z;
-    node* x;
-    int y_original_color = y->color;
-    if (z->left == nil_) {
-      x = z->right;
-      rb_transplant_(z, z->right);
-    } else if (z->right == nil_) {
-      x = z->left;
-      rb_transplant_(z, z->left);
-    } else {
-      y = tree_minimum_(z->right);
-      y_original_color = y->color;
-      if (y->parent == z) {
-        x->parent = y;
-      } else {
-        rb_transplant_(y, y->right);
-        y->right = z->right;
-        y->right->parent = y;
-      }
-      rb_transplant_(z, y);
-      y->left = z->left;
-      y->left->parent = y;
-      y->color = z->color;
-    }
-    if (y_original_color == BLACK) {
-      rb_delete_fixup_(x);
-    }
+  void delete_node(value_type n) {
+    node* x = search_node_(n);
+    if (x != nil_)
+      rb_delete_(x);
   }
 
   void show_all_list() {
     inorder_tree_walk_(root_);
   }
   void show_all_tree() {
+    std::cout << "/------------------------" << std::endl;
     inorder_tree_walk_tree_(root_, 0);
-  }
-
-  template <typename U>
-  node* iterative_tree_search(node* x, U key) {
-    while (x != nil_ && key != x->key) {
-      if (key < x->ley) {
-        x = x->left;
-      } else {
-        x = x->right;
-      }
-    }
-    return x;
+    std::cout << "\\------------------------" << std::endl;
   }
 
   node* tree_successor(node* x) {
@@ -231,6 +197,18 @@ class rb_tree {
     root_->color = BLACK;
   }
 
+  node* search_node_(value_type key) {
+    node* x = root_;
+    while (x != nil_ && key != x->key) {
+      if (key < x->key) {
+        x = x->left;
+      } else {
+        x = x->right;
+      }
+    }
+    return x;
+  }
+
   // place v node on u
   void rb_transplant_(node* u, node* v) {
     if (u->parent == nil_) {
@@ -257,6 +235,38 @@ class rb_tree {
     return x;
   }
 
+  void rb_delete_(node* z) {
+    node* y = z;
+    node* x;
+    int y_original_color = y->color;
+    if (z->left == nil_) {
+      x = z->right;
+      rb_transplant_(z, z->right);
+    } else if (z->right == nil_) {
+      x = z->left;
+      rb_transplant_(z, z->left);
+    } else {
+      y = tree_minimum_(z->right);
+      y_original_color = y->color;
+      x = y->right;
+      if (y->parent == z) {
+        x->parent = y;
+      } else {
+        rb_transplant_(y, y->right);
+        y->right = z->right;
+        y->right->parent = y;
+      }
+      rb_transplant_(z, y);
+      y->left = z->left;
+      y->left->parent = y;
+      y->color = z->color;
+    }
+    if (y_original_color == BLACK) {
+      rb_delete_fixup_(x);
+    }
+    delete z;
+  }
+
   void rb_delete_fixup_(node* x) {
     node* w;
     while (x != root_ && x->color == RED) {
@@ -276,7 +286,7 @@ class rb_tree {
             w->left->color = BLACK;
             w->color = RED;
             right_rotate_(w);
-            w = x->p->right;
+            w = x->parent->right;
           }
           w->color = x->parent->color;
           x->parent->color = BLACK;
@@ -300,7 +310,7 @@ class rb_tree {
             w->right->color = BLACK;
             w->color = RED;
             left_rotate_(w);
-            w = x->p->left;
+            w = x->parent->left;
           }
           w->color = x->parent->color;
           x->parent->color = BLACK;
@@ -320,6 +330,7 @@ class rb_tree {
       inorder_tree_walk_(x->right);
     }
   }
+
   void inorder_tree_walk_tree_(node* x, int depth) {
     if (x != nil_) {
       inorder_tree_walk_tree_(x->left, depth + 1);
